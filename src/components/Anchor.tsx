@@ -1,5 +1,5 @@
 type AnchorProps = {
-  text: string;
+  text?: string;
 }
 
 const Anchor = ({ text = "Pablo Andrey Chacon Luna" }: AnchorProps) => {
