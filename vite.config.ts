@@ -14,17 +14,11 @@ export default defineConfig({
     lib: {
       entry: resolve(__dirname, 'src/index.ts'),
       name: 'LunaComponentsLibrary',
-      formats: ['es', 'umd'],
-      fileName: (format) => `luna-components-library.${format}.js`,
+      formats: ['es'],
+      fileName: () => `luna-components-library.js`,
     },
     rollupOptions: {
       external: ['react', 'react-dom'],
-      output: {
-        globals: {
-          react: 'React',
-          'react-dom': 'ReactDOM',
-        },
-      },
     },
     sourcemap: true,
   },

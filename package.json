@@ -2,8 +2,8 @@
   "name": "luna-components-library",
   "version": "1.0.1",
   "description": "A React component library with TypeScript support",
-  "main": "dist/luna-components-library.umd.js",
-  "module": "dist/luna-components-library.es.js",
+  "main": "dist/luna-components-library.js",
+  "module": "dist/luna-components-library.js",
   "types": "dist/index.d.ts",
   "files": [
     "dist"
