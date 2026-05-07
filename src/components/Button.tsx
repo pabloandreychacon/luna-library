@@ -15,7 +15,8 @@ const Button = ({
   children,
   variant = 'primary',
   size = 'sm',
-  onClick = () => window.open('https://andreychaconresumereact.netlify.app/', '_blank'),
+  onClick = () =>
+    void 0,
   disabled = false,
   className = '',
 }: ButtonProps) => {

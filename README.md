@@ -7,6 +7,7 @@ A modern React component library built with TypeScript and Vite, designed for re
 - 🚀 **Built with Vite** - Fast development and optimized builds
 - 📝 **TypeScript Support** - Full type safety and IntelliSense
 - 🎨 **Modern Components** - Clean, accessible, and customizable UI components
+- 🎯 **Tailwind CSS Styled** - Components use Tailwind CSS utility classes for styling
 - 📦 **Tree-shakable** - Only bundle what you use
 - 🔧 **Multiple Formats** - ES modules and UMD bundles
 - 📚 **Type Declarations** - Complete TypeScript definitions included
@@ -19,6 +20,25 @@ npm install luna-components-library
 yarn add luna-components-library
 # or
 pnpm add luna-components-library
+```
+
+**⚠️ Important:** This library uses **Tailwind CSS** for styling. Make sure you have Tailwind CSS configured in your project:
+
+```bash
+npm install tailwindcss
+npx tailwindcss init -p
+```
+
+Then add the library's components to your `tailwind.config.js`:
+
+```js
+module.exports = {
+  content: [
+    "./src/**/*.{js,jsx,ts,tsx}",
+    "./node_modules/luna-components-library/dist/**/*.{js,ts,jsx,tsx}"
+  ],
+  // ... rest of your config
+}
 ```
 
 ## 🚀 Quick Start
@@ -204,6 +224,9 @@ The library is configured with:
 - `typescript` - TypeScript compiler
 - `vite-plugin-dts` - TypeScript declaration generation
 - `rimraf` - Cross-platform file removal
+
+### Styling
+This library is built with **Tailwind CSS** utility classes. Components use predefined Tailwind classes for consistent styling and are fully customizable through the `className` prop.
 
 ## 🤝 Contributing
 
