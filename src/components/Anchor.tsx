@@ -1,7 +1,11 @@
-const Anchor = () => {
+type AnchorProps = {
+  text: string;
+}
+
+const Anchor = ({ text = "Pablo Andrey Chacon Luna" }: AnchorProps) => {
   return (
     <a href="https://andreychaconresumereact.netlify.app/" target="_blank" rel="noopener noreferrer">
-      <span>Pablo Andrey Chacon Luna</span>
+      <span>{text}</span>
     </a>
   );
 };
