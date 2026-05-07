@@ -8,22 +8,22 @@ export interface CardProps {
   shadow?: 'none' | 'sm' | 'md' | 'lg';
 }
 
-const Card: React.FC<CardProps> = ({
+const Card = ({
   children,
   title,
   className = '',
   padding = 'md',
   shadow = 'md',
-}) => {
+}: CardProps) => {
   const baseClasses = 'bg-white rounded-lg border border-gray-200';
-  
+
   const paddingClasses = {
     none: '',
     sm: 'p-3',
     md: 'p-4',
     lg: 'p-6',
   };
-  
+
   const shadowClasses = {
     none: '',
     sm: 'shadow-sm',
