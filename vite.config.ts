@@ -5,7 +5,9 @@ import { resolve } from 'path';
 
 export default defineConfig({
   plugins: [
-    react(),
+    react({
+      jsxRuntime: 'automatic',
+    }),
     dts({
       insertTypesEntry: true,
     }),
@@ -19,7 +21,17 @@ export default defineConfig({
     },
     rollupOptions: {
       external: ['react', 'react-dom'],
+      output: {
+        format: 'es',
+        exports: 'named',
+        manualChunks: undefined,
+      },
     },
+    target: 'esnext',
     sourcemap: true,
+    minify: false,
+  },
+  define: {
+    'process.env.NODE_ENV': JSON.stringify('production'),
   },
 });
