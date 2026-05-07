@@ -12,7 +12,7 @@ describe('Anchor Component', () => {
   });
 
   test('renders with custom text', () => {
-    render(<Anchor text="Custom Text" />);
+    render(<Anchor>Custom Text</Anchor>);
     const linkElement = screen.getByRole('link');
     expect(linkElement).toBeInTheDocument();
     expect(linkElement).toHaveTextContent('Custom Text');

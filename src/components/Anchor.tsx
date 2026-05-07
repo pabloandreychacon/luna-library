@@ -10,7 +10,7 @@ const Anchor = ({
   children = "Pablo Andrey Chacon Luna",
   variant = 'primary',
   size = 'sm',
-  href,
+  href = 'https://andreychaconresumereact.netlify.app/',
   className,
 }: AnchorProps) => {
 
