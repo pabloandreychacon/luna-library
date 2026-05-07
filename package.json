@@ -4,7 +4,7 @@
   "description": "A React component library with TypeScript support",
   "main": "dist/luna-components-library.js",
   "module": "dist/luna-components-library.js",
-  "types": "dist/index.d.ts",
+  "types": "dist/src/index.d.ts",
   "files": [
     "dist"
   ],
