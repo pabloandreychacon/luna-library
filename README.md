@@ -44,7 +44,7 @@ module.exports = {
 ## 🚀 Quick Start
 
 ```jsx
-import { Button, Card } from 'luna-components-library';
+import { Button, Card, Anchor, Accordion, Spinner, DropDown, ProgressBar } from 'luna-components-library';
 
 function App() {
   return (
@@ -68,6 +68,34 @@ function App() {
           Learn More
         </Button>
       </Card>
+
+      <Anchor href="https://example.com" variant="secondary">
+        Visit Example
+      </Anchor>
+
+      <Accordion 
+        key="demo"
+        active={false}
+        onClick={() => console.log('Toggle')}
+        header={<h3>Click to expand</h3>}
+        content={<p>This is the accordion content!</p>}
+      />
+
+      <Spinner />
+
+      <DropDown 
+        toggle={<button>Select Option</button>}
+        options={['Option 1', 'Option 2', 'Option 3']}
+        selected="Option 1"
+        onChange={(value) => console.log('Selected:', value)}
+      />
+
+      <ProgressBar 
+        progress={60}
+        max={100}
+        min={0}
+        aria-label="Upload progress"
+      />
     </div>
   );
 }
@@ -124,6 +152,93 @@ A flexible card component for displaying content with various padding and shadow
 - `padding?: 'none' | 'sm' | 'md' | 'lg'` - Internal padding (default: 'md')
 - `shadow?: 'none' | 'sm' | 'md' | 'lg'` - Shadow depth (default: 'md')
 
+### Anchor
+A styled link component that opens in a new tab with customizable variants and sizes.
+
+```jsx
+<Anchor 
+  href="https://example.com"
+  variant="primary"
+  size="sm"
+  className="custom-anchor"
+>
+  Link Text
+</Anchor>
+```
+
+**Props:**
+- `children?: React.ReactNode` - Link content (default: "Pablo Andrey Chacon Luna")
+- `variant?: 'primary' | 'secondary' | 'outline'` - Link style (default: 'primary')
+- `size?: 'sm' | 'md' | 'lg'` - Link size (default: 'sm')
+- `href?: string` - URL to link to (default: 'https://andreychaconresumereact.netlify.app/')
+- `className?: string` - Additional CSS classes
+
+### Accordion
+A collapsible content component with customizable header and content sections.
+
+```jsx
+<Accordion 
+  key="accordion-1"
+  active={isActive}
+  onClick={() => setIsActive(!isActive)}
+  header={<h3>Accordion Title</h3>}
+  content={<p>Accordion content goes here</p>}
+/>
+```
+
+**Props:**
+- `key: string` - Unique identifier for the accordion
+- `active: boolean` - Whether the accordion is expanded
+- `onClick: () => void` - Toggle function
+- `header: React.ReactNode` - Header content
+- `content: React.ReactNode` - Content to show when expanded
+
+### Spinner
+A loading spinner component with customizable styling.
+
+```jsx
+<Spinner className="custom-spinner" />
+```
+
+**Props:**
+- `className?: string` - Additional CSS classes (default: "spinner-border")
+
+### DropDown
+A dropdown menu component with customizable toggle and options.
+
+```jsx
+<DropDown 
+  toggle={<button>Menu</button>}
+  options={['Option 1', 'Option 2', 'Option 3']}
+  selected="Option 1"
+  onChange={(value) => console.log('Selected:', value)}
+/>
+```
+
+**Props:**
+- `toggle: React.ReactNode` - Toggle button/element
+- `options: React.ReactNode[]` - Array of options
+- `selected: React.ReactNode` - Currently selected option
+- `onChange: (value: React.ReactNode) => void` - Selection change handler
+
+### ProgressBar
+A progress bar component with customizable progress values and accessibility.
+
+```jsx
+<ProgressBar 
+  progress={75}
+  max={100}
+  min={0}
+  aria-label="Loading progress"
+/>
+```
+
+**Props:**
+- `progress: number` - Current progress value
+- `max: number` - Maximum progress value
+- `min: number` - Minimum progress value
+- `aria-label: string` - Accessibility label
+
 ## 🛠️ Development
 
 ### Prerequisites
@@ -158,6 +273,11 @@ luna-library/
 │   ├── components/
 │   │   ├── Button.tsx
 │   │   ├── Card.tsx
+│   │   ├── Anchor.tsx
+│   │   ├── Accordion.tsx
+│   │   ├── Spinner.tsx
+│   │   ├── DropDown.tsx
+│   │   ├── ProgressBar.tsx
 │   │   └── index.ts
 │   └── index.ts
 ├── dist/                 # Build output
