@@ -7,6 +7,8 @@ export interface AnchorProps {
   containerClassName?: string;
   variantClassName?: string;
   sizeClassName?: string;
+  target?: string;
+  rel?: string;
 }
 
 const Anchor = ({
@@ -17,7 +19,9 @@ const Anchor = ({
   className,
   containerClassName = 'font-medium rounded-lg transition-colors focus:outline-none focus:ring-2',
   variantClassName = 'bg-blue-600 text-white hover:bg-blue-700',
-  sizeClassName = 'px-3 py-1.5 text-sm'
+  sizeClassName = 'px-3 py-1.5 text-sm',
+  target = '_blank',
+  rel = 'noopener noreferrer'
 }: AnchorProps) => {
 
   const baseClasses = containerClassName;
@@ -38,11 +42,13 @@ const Anchor = ({
     ${baseClasses}
     ${variantClasses[variant]}
     ${sizeClasses[size]}
+    ${variantClassName}
+    ${sizeClassName}
     ${className}
   `.trim();
 
   return (
-    <a href={href} target="_blank" rel="noopener noreferrer" className={classes}>
+    <a href={href} target={target} rel={rel} className={classes}>
       {children}
     </a>
   );
