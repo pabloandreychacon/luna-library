@@ -7,9 +7,23 @@ type DropDownProps = {
   selected: React.ReactNode;
   onChange: (value: React.ReactNode) => void;
   className?: string;
+  containerClassName?: string;
+  dropdownClassName?: string;
+  optionsContainerClassName?: string;
+  optionClassName?: string;
 };
 
-const DropDown = ({ toggle, options, selected, onChange, className = '' }: DropDownProps) => {
+const DropDown = ({
+  toggle,
+  options,
+  selected,
+  onChange,
+  className = '',
+  containerClassName = 'relative inline-block text-left',
+  dropdownClassName = 'absolute z-50 mt-2 w-48 rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none',
+  optionsContainerClassName = 'py-1 flex flex-col',
+  optionClassName = 'block w-full px-4 py-2 text-left text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900 focus:bg-gray-100 focus:text-gray-900'
+}: DropDownProps) => {
   const [isOpen, setIsOpen] = useState(false);
 
   const handleToggle = () => {
@@ -22,19 +36,19 @@ const DropDown = ({ toggle, options, selected, onChange, className = '' }: DropD
   };
 
   return (
-    <div className={`relative inline-block text-left ${className}`}>
+    <div className={`${containerClassName} ${className}`}>
       <div onClick={handleToggle} className="cursor-pointer">
         {toggle}
       </div>
 
       {isOpen && (
-        <div className="absolute z-10 mt-2 w-48 rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
-          <div className="py-1 flex flex-col">
+        <div className={dropdownClassName}>
+          <div className={optionsContainerClassName}>
             {options.map((option, index) => (
               <button
                 key={index}
                 onClick={() => handleOptionClick(option)}
-                className="block w-full px-4 py-2 text-left text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900 focus:bg-gray-100 focus:text-gray-900"
+                className={optionClassName}
               >
                 {option}
               </button>
