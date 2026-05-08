@@ -1,6 +1,13 @@
 import React, { useState } from 'react';
 import { createRoot } from 'react-dom/client';
-import { Button, Card, Anchor, Accordion, Spinner, DropDown, ProgressBar } from './components';
+import Button from './components/Button';
+import Card from './components/Card';
+import Anchor from './components/Anchor';
+import Accordion from './components/Accordion';
+import Spinner from './components/Spinner';
+import DropDown from './components/DropDown';
+import ProgressBar from './components/ProgressBar';
+import Typed from './components/Typed';
 
 const DemoApp = () => {
   const [accordionActive, setAccordionActive] = useState(false);
@@ -317,6 +324,96 @@ const DemoApp = () => {
               </Card>
             </div>
           </section>
+
+          {/* Dark Theme Example */}
+          <section className="mt-12">
+            <h2 className="text-2xl font-semibold text-gray-800 mb-6">🌙 Dark Theme Example</h2>
+            <div className="bg-gray-900 rounded-lg shadow-md p-6">
+              <h3 className="text-white text-lg font-medium mb-4">ProgressBar on Dark Background</h3>
+              <div className="space-y-4">
+                <div>
+                  <p className="text-gray-300 text-sm mb-2">Default ProgressBar (not visible):</p>
+                  <ProgressBar progress={60} max={100} min={0} aria-label="Default on dark" />
+                </div>
+                <div>
+                  <p className="text-gray-300 text-sm mb-2">Light variant:</p>
+                  <ProgressBar progress={60} max={100} min={0} aria-label="Light variant" variant="light" />
+                </div>
+                <div>
+                  <p className="text-gray-300 text-sm mb-2">Dark variant:</p>
+                  <ProgressBar progress={60} max={100} min={0} aria-label="Dark variant" variant="dark" />
+                </div>
+                <div>
+                  <p className="text-gray-300 text-sm mb-2">Custom styling (recommended):</p>
+                  <ProgressBar
+                    progress={60}
+                    max={100}
+                    min={0}
+                    aria-label="Custom styling"
+                    className={{ backgroundColor: '#374151', color: '#ffffff' }}
+                  />
+                </div>
+              </div>
+            </div>
+          </section>
+
+          {/* Typed Component Section */}
+          <section>
+            <h2 className="text-2xl font-semibold text-gray-800 mb-6">⌨️ Typed Component</h2>
+            <div className="bg-white rounded-lg shadow-md p-6">
+              <div className="space-y-6">
+                <div>
+                  <h3 className="text-lg font-medium text-gray-700 mb-2">Basic Typing Animation</h3>
+                  <p className="text-gray-600 mb-4">
+                    <Typed
+                      strings={["I'm a Freelancer", "I'm a Developer", "I'm a Designer"]}
+                      typeSpeed={100}
+                      backSpeed={50}
+                      loop={true}
+                    />
+                  </p>
+                </div>
+
+                <div>
+                  <h3 className="text-lg font-medium text-gray-700 mb-2">Custom Speed</h3>
+                  <p className="text-gray-600 mb-4">
+                    <Typed
+                      strings={["Fast typing", "Medium typing", "Slow typing"]}
+                      typeSpeed={50}
+                      backSpeed={30}
+                      backDelay={1000}
+                      loop={true}
+                    />
+                  </p>
+                </div>
+
+                <div>
+                  <h3 className="text-lg font-medium text-gray-700 mb-2">No Cursor</h3>
+                  <p className="text-gray-600 mb-4">
+                    <Typed
+                      strings={["Clean typing animation"]}
+                      typeSpeed={80}
+                      showCursor={false}
+                      loop={false}
+                    />
+                  </p>
+                </div>
+
+                <div>
+                  <h3 className="text-lg font-medium text-gray-700 mb-2">With Start Delay</h3>
+                  <p className="text-gray-600 mb-4">
+                    <Typed
+                      strings={["Starting in 2 seconds..."]}
+                      startDelay={2000}
+                      typeSpeed={60}
+                      loop={false}
+                    />
+                  </p>
+                </div>
+              </div>
+            </div>
+          </section>
+
         </div>
 
         <footer className="mt-16 text-center text-gray-600">
@@ -331,6 +428,8 @@ const DemoApp = () => {
     </div>
   );
 };
+
+export default DemoApp;
 
 // Render the demo app
 const container = document.getElementById('root');
