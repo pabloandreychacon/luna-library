@@ -85,8 +85,12 @@ function App() {
 
       <DropDown 
         toggle={<button>Select Option</button>}
-        options={['Option 1', 'Option 2', 'Option 3']}
-        selected="Option 1"
+        options={[
+          { value: 'option1', label: 'Option 1' },
+          { value: 'option2', label: 'Option 2' },
+          { value: 'option3', label: 'Option 3' }
+        ]}
+        selected="option1"
         onChange={(value) => console.log('Selected:', value)}
       />
 
@@ -209,17 +213,29 @@ A dropdown menu component with customizable toggle and options.
 ```jsx
 <DropDown 
   toggle={<button>Menu</button>}
-  options={['Option 1', 'Option 2', 'Option 3']}
-  selected="Option 1"
+  options={[
+    { value: 'option1', label: 'Option 1' },
+    { value: 'option2', label: 'Option 2' },
+    { value: 'option3', label: 'Option 3' }
+  ]}
+  selected="option1"
   onChange={(value) => console.log('Selected:', value)}
 />
 ```
 
 **Props:**
 - `toggle: React.ReactNode` - Toggle button/element
-- `options: React.ReactNode[]` - Array of options
-- `selected: React.ReactNode` - Currently selected option
-- `onChange: (value: React.ReactNode) => void` - Selection change handler
+- `options: DropDownOption[]` - Array of option objects with `value` and `label` properties
+- `selected: string | number` - Currently selected option value
+- `onChange: (value: string | number) => void` - Selection change handler
+
+**DropDownOption Interface:**
+```typescript
+interface DropDownOption {
+  value: string | number;
+  label: React.ReactNode;
+}
+```
 
 ### ProgressBar
 A progress bar component with customizable progress values and accessibility.
@@ -367,5 +383,6 @@ Created and maintained by [Pablo Andrey Chacon](https://andreychaconresumereact.
 ## 🔗 Links
 
 - [NPM Package](https://www.npmjs.com/package/luna-components-library)
-- [GitHub Repository](https://github.com/your-username/luna-components-library)
+- [Live Demo](https://luna-components-demo.netlify.app)
+- [GitHub Repository](https://github.com/pabloandreychacon/luna-components-library)
 - [Author's Portfolio](https://andreychaconresumereact.netlify.app)
