@@ -1,9 +1,14 @@
 {/* must have toggle, options, selected, onChange */ }
 import React, { useState } from 'react';
 
+type DropDownOption = {
+  value: string;
+  label: React.ReactNode;
+};
+
 type DropDownProps = {
   toggle: React.ReactNode;
-  options: React.ReactNode[];
+  options: React.ReactNode[] | DropDownOption[];
   selected: React.ReactNode;
   onChange: (value: React.ReactNode) => void;
   className?: string;
@@ -44,15 +49,21 @@ const DropDown = ({
       {isOpen && (
         <div className={dropdownClassName}>
           <div className={optionsContainerClassName}>
-            {options.map((option, index) => (
-              <button
-                key={index}
-                onClick={() => handleOptionClick(option)}
-                className={optionClassName}
-              >
-                {option}
-              </button>
-            ))}
+            {options.map((option, index) => {
+              const isOptionObject = typeof option === 'object' && option !== null && 'value' in option;
+              const optionValue = isOptionObject ? (option as DropDownOption).value : option;
+              const optionLabel = isOptionObject ? (option as DropDownOption).label : option;
+
+              return (
+                <button
+                  key={index}
+                  onClick={() => handleOptionClick(optionValue)}
+                  className={optionClassName}
+                >
+                  {optionLabel}
+                </button>
+              );
+            })}
           </div>
         </div>
       )}
