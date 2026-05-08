@@ -6,9 +6,10 @@ type DropDownProps = {
   options: React.ReactNode[];
   selected: React.ReactNode;
   onChange: (value: React.ReactNode) => void;
+  className?: string;
 };
 
-const DropDown = ({ toggle, options, selected, onChange }: DropDownProps) => {
+const DropDown = ({ toggle, options, selected, onChange, className = '' }: DropDownProps) => {
   const [isOpen, setIsOpen] = useState(false);
 
   const handleToggle = () => {
@@ -21,14 +22,14 @@ const DropDown = ({ toggle, options, selected, onChange }: DropDownProps) => {
   };
 
   return (
-    <div className="relative inline-block text-left">
+    <div className={`relative inline-block text-left ${className}`}>
       <div onClick={handleToggle} className="cursor-pointer">
         {toggle}
       </div>
 
       {isOpen && (
         <div className="absolute z-10 mt-2 w-48 rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
-          <div className="py-1">
+          <div className="py-1 flex flex-col">
             {options.map((option, index) => (
               <button
                 key={index}
