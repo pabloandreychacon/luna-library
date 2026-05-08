@@ -362,7 +362,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ## 🙏 Author
 
-Created and maintained by [Pablo Andre Chacon](https://andreychaconresumereact.netlify.app)
+Created and maintained by [Pablo Andrey Chacon](https://andreychaconresumereact.netlify.app)
 
 ## 🔗 Links
 
