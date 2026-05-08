@@ -9,7 +9,12 @@ type TypedProps = {
   loop?: boolean;
   showCursor?: boolean;
   className?: string;
-  style?: CSSProperties;
+  style?: TypedStyle;
+};
+
+type TypedStyle = CSSProperties & {
+  animation?: string;
+  animationDelay?: string;
 };
 
 const Typed = ({
@@ -21,12 +26,13 @@ const Typed = ({
   loop = true,
   showCursor = true,
   className = '',
-  style,
+  style = {},
 }: TypedProps) => {
   const [currentStringIndex, setCurrentStringIndex] = useState(0);
   const [currentText, setCurrentText] = useState('');
   const [isDeleting, setIsDeleting] = useState(false);
   const [isPaused, setIsPaused] = useState(false);
+  const [cursorOpacity, setCursorOpacity] = useState(1);
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -39,13 +45,13 @@ const Typed = ({
   useEffect(() => {
     if (isPaused) return;
 
-    const currentString = strings[currentStringIndex];
+    const currentString = strings[currentStringIndex] || '';
 
     const timer = setTimeout(() => {
       if (!isDeleting) {
         // Typing
         if (currentText.length < currentString.length) {
-          setCurrentText(currentString + currentString[currentText.length]);
+          setCurrentText(currentText + currentString[currentText.length]);
         } else {
           // Finished typing, wait before deleting
           if (loop) {
@@ -73,15 +79,31 @@ const Typed = ({
     return () => clearTimeout(timer);
   }, [currentText, isDeleting, currentStringIndex, strings, typeSpeed, backSpeed, backDelay, loop, isPaused]);
 
+  // Cursor fade effect
+  useEffect(() => {
+    const fadeTimer = setInterval(() => {
+      setCursorOpacity(prev => {
+        if (prev === 1) return 0;
+        return 1;
+      });
+    }, 750);
+
+    return () => clearInterval(fadeTimer);
+  }, []);
+
   return (
-    <span className={`inline-block ${className}`} style={style}>
+    <span className={`inline-block ${className}`} >
       <span className="typed">{currentText}</span>
       {showCursor && (
         <span
-          className="typed-cursor ml-1 inline-block w-0.5 h-5 bg-current animate-pulse"
+          className="typed-cursor ml-1 inline-block w-0.5 h-5 bg-current"
           aria-hidden="true"
+          style={{
+            ...style,
+            opacity: cursorOpacity
+          }}
         >
-          |
+
         </span>
       )}
     </span>
