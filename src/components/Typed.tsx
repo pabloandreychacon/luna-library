@@ -9,6 +9,9 @@ type TypedProps = {
   loop?: boolean;
   showCursor?: boolean;
   className?: string;
+  containerClassName?: string;
+  typedClassName?: string;
+  cursorClassName?: string;
   style?: TypedStyle;
 };
 
@@ -26,6 +29,9 @@ const Typed = ({
   loop = true,
   showCursor = true,
   className = '',
+  containerClassName = 'inline-block',
+  typedClassName = 'typed',
+  cursorClassName = 'typed-cursor ml-1 inline-block w-0.5 h-5 bg-current',
   style = {},
 }: TypedProps) => {
   const [currentStringIndex, setCurrentStringIndex] = useState(0);
@@ -92,11 +98,11 @@ const Typed = ({
   }, []);
 
   return (
-    <span className={`inline-block ${className}`} >
-      <span className="typed">{currentText}</span>
+    <span className={`${containerClassName} ${className}`} >
+      <span className={typedClassName}>{currentText}</span>
       {showCursor && (
         <span
-          className="typed-cursor ml-1 inline-block w-0.5 h-5 bg-current"
+          className={cursorClassName}
           aria-hidden="true"
           style={{
             ...style,

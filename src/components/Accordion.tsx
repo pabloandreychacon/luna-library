@@ -10,14 +10,18 @@ interface AccordionProps {
   onClick: () => void;
   header: React.ReactNode;
   content: React.ReactNode;
+  className?: string;
+  containerClassName?: string;
+  headerClassName?: string;
+  contentClassName?: string;
 }
 
-const Accordion = ({ key, active, onClick, header, content }: AccordionProps) => {
+const Accordion = ({ key, active, onClick, header, content, className = '', containerClassName = 'border border-gray-200 rounded-lg overflow-hidden', headerClassName = 'w-full px-4 py-3 text-left bg-gray-50 hover:bg-gray-100 focus:bg-gray-100 focus:outline-none transition-colors duration-200 flex justify-between items-center', contentClassName = 'transition-all duration-300 ease-in-out' }: AccordionProps) => {
   return (
-    <div className="border border-gray-200 rounded-lg overflow-hidden">
+    <div className={`${containerClassName} ${className}`}>
       <button
         onClick={onClick}
-        className="w-full px-4 py-3 text-left bg-gray-50 hover:bg-gray-100 focus:bg-gray-100 focus:outline-none transition-colors duration-200 flex justify-between items-center"
+        className={headerClassName}
         aria-expanded={active}
       >
         {header}
@@ -38,10 +42,10 @@ const Accordion = ({ key, active, onClick, header, content }: AccordionProps) =>
       </button>
 
       <div
-        className={`transition-all duration-300 ease-in-out ${active ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0'
+        className={`${contentClassName} ${active ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0'
           } overflow-hidden`}
       >
-        <div className="p-4 bg-white border-t border-gray-200">
+        <div className={`p-4 bg-white border-t border-gray-200 ${contentClassName}`}>
           {content}
         </div>
       </div>

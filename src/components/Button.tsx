@@ -7,6 +7,9 @@ export interface ButtonProps {
   onClick?: () => void;
   disabled?: boolean;
   className?: string;
+  containerClassName?: string;
+  variantClassName?: string;
+  sizeClassName?: string;
 }
 
 {/* onCLick default should open window.open('https://andreychaconresumereact.netlify.app/', '_blank') */ }
@@ -19,8 +22,11 @@ const Button = ({
     void 0,
   disabled = false,
   className = '',
+  containerClassName = 'font-medium rounded-lg transition-colors focus:outline-none focus:ring-2',
+  variantClassName = 'bg-blue-600 text-white hover:bg-blue-700 focus:ring-blue-500',
+  sizeClassName = 'px-3 py-1.5 text-sm'
 }: ButtonProps) => {
-  const baseClasses = 'font-medium rounded-lg transition-colors focus:outline-none focus:ring-2';
+  const baseClasses = containerClassName;
 
   const variantClasses = {
     primary: 'bg-blue-600 text-white hover:bg-blue-700 focus:ring-blue-500',

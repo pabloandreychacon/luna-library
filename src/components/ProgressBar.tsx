@@ -13,10 +13,12 @@ type ProgressBarProps = {
 type ProgressBarPropsWithClassName = ProgressBarProps & {
   className?: CSSProperties;
   style?: CSSProperties;
+  containerClassName?: string;
+  barClassName?: string;
   variant?: 'primary' | 'success' | 'warning' | 'danger' | 'dark' | 'light';
 };
 
-const ProgressBar = ({ progress, max, min, 'aria-label': ariaLabel, className, style, variant = 'primary' }: ProgressBarPropsWithClassName) => {
+const ProgressBar = ({ progress, max, min, 'aria-label': ariaLabel, className, style, containerClassName = 'w-full bg-gray-200 rounded-full h-4 overflow-hidden', barClassName = 'h-full rounded-full transition-all duration-300 flex items-center justify-center text-xs font-medium', variant = 'primary' }: ProgressBarPropsWithClassName) => {
   const variantClasses = {
     primary: {
       bg: 'bg-blue-600',
@@ -51,12 +53,13 @@ const ProgressBar = ({ progress, max, min, 'aria-label': ariaLabel, className, s
   };
 
   const currentVariant = variantClasses[variant];
+  const barClasses = `${currentVariant.bg} ${barClassName} ${currentVariant.text}`;
 
   return (
-    <div className={`w-full ${currentVariant.containerBg} rounded-full h-4 overflow-hidden`}>
+    <div className={containerClassName}>
       <div
         role="progressbar"
-        className={`${currentVariant.bg} h-full rounded-full transition-all duration-300 flex items-center justify-center ${currentVariant.text} text-xs font-medium`}
+        className={barClasses}
         aria-valuenow={progress}
         aria-valuemin={min}
         aria-valuemax={max}
