@@ -1,5 +1,5 @@
 {/* must have toggle, options, selected, onChange */ }
-import React from 'react';
+import React, { useState } from 'react';
 
 type DropDownProps = {
   toggle: React.ReactNode;
@@ -9,27 +9,38 @@ type DropDownProps = {
 };
 
 const DropDown = ({ toggle, options, selected, onChange }: DropDownProps) => {
-  return (
-    <div className="show dropdown">
-      <button type="button" id="dropdown-basic" aria-expanded="true" className="dropdown-toggle show btn btn-success">
-        {selected}
-      </button>
-      <div
-        x-placement="bottom-start"
-        aria-labelledby="dropdown-basic"
-        className="dropdown-menu show"
-        data-popper-reference-hidden="false"
-        data-popper-escaped="false"
-        data-popper-placement="bottom-start"
-        style={{ position: 'absolute', inset: '0px auto auto 0px', transform: 'translate3d(0px, 39.3333px, 0px)' }}
-      >
-        {options.map((option, index) => (
-          <a key={index} href="#/action-1" data-rr-ui-dropdown-item="" className="dropdown-item" onClick={() => onChange(option)}>
-            {option}
-          </a>
-        ))}
+  const [isOpen, setIsOpen] = useState(false);
 
+  const handleToggle = () => {
+    setIsOpen(!isOpen);
+  };
+
+  const handleOptionClick = (option: React.ReactNode) => {
+    onChange(option);
+    setIsOpen(false);
+  };
+
+  return (
+    <div className="relative inline-block text-left">
+      <div onClick={handleToggle} className="cursor-pointer">
+        {toggle}
       </div>
+
+      {isOpen && (
+        <div className="absolute z-10 mt-2 w-48 rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
+          <div className="py-1">
+            {options.map((option, index) => (
+              <button
+                key={index}
+                onClick={() => handleOptionClick(option)}
+                className="block w-full px-4 py-2 text-left text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900 focus:bg-gray-100 focus:text-gray-900"
+              >
+                {option}
+              </button>
+            ))}
+          </div>
+        </div>
+      )}
     </div>
   );
 };

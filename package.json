@@ -12,7 +12,10 @@
     "clean": "rimraf dist",
     "build": "npm run clean && vite build",
     "prepublishOnly": "npm run build",
-    "test": "jest"
+    "test": "jest",
+    "dev": "vite --config vite.demo.config.ts",
+    "preview": "vite preview --config vite.demo.config.ts",
+    "build-demo": "vite build --config vite.demo.config.ts"
   },
   "keywords": [
     "react",
