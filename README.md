@@ -382,7 +382,7 @@ Created and maintained by [Pablo Andrey Chacon](https://andreychaconresumereact.
 
 ## 🔗 Links
 
-- [NPM Package](https://www.npmjs.com/package/luna-library)
+- [NPM Package](https://www.npmjs.com/package/luna-components-library)
 - [Live Demo](https://luna-components-demo.netlify.app)
-- [GitHub Repository](https://github.com/pabloandreychacon/luna-components-library)
+- [GitHub Repository](https://github.com/pabloandreychacon/luna-library)
 - [Author's Portfolio](https://andreychaconresumereact.netlify.app/portfolio)
