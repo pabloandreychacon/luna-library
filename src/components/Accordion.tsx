@@ -5,7 +5,6 @@ import React from 'react';
  * must have key, active, onClick, header, content body
  */
 interface AccordionProps {
-  key: string;
   active: boolean;
   onClick: () => void;
   header: React.ReactNode;
@@ -16,7 +15,7 @@ interface AccordionProps {
   contentClassName?: string;
 }
 
-const Accordion = ({ key, active, onClick, header, content, className = '', containerClassName = 'border border-gray-200 rounded-lg overflow-hidden', headerClassName = 'w-full px-4 py-3 text-left bg-gray-50 hover:bg-gray-100 focus:bg-gray-100 focus:outline-none transition-colors duration-200 flex justify-between items-center', contentClassName = 'transition-all duration-300 ease-in-out' }: AccordionProps) => {
+const Accordion = ({ active, onClick, header, content, className = '', containerClassName = 'border border-gray-200 rounded-lg overflow-hidden', headerClassName = 'w-full px-4 py-3 text-left bg-gray-50 hover:bg-gray-100 focus:bg-gray-100 focus:outline-none transition-colors duration-200 flex justify-between items-center', contentClassName = 'transition-all duration-300 ease-in-out' }: AccordionProps) => {
   return (
     <div className={`${containerClassName} ${className}`}>
       <button

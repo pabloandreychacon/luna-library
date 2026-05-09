@@ -8,11 +8,14 @@ import Spinner from './components/Spinner';
 import DropDown from './components/DropDown';
 import ProgressBar from './components/ProgressBar';
 import Typed from './components/Typed';
+import Preloader from './components/Preloader';
 
 const DemoApp = () => {
   const [accordionActive, setAccordionActive] = useState(false);
   const [selectedOption, setSelectedOption] = useState('Option 1');
   const [progress, setProgress] = useState(50);
+  const [showDefaultPreloader, setShowDefaultPreloader] = useState(false);
+  const [showCustomPreloader, setShowCustomPreloader] = useState(false);
 
   const options = ['Option 1', 'Option 2', 'Option 3', 'Option 4'];
 
@@ -409,6 +412,53 @@ const DemoApp = () => {
                       loop={false}
                     />
                   </p>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          {/* Preloader Section */}
+          <section>
+            <h2 className="text-2xl font-semibold text-gray-800 mb-6">⏳ Preloader Component</h2>
+            <div className="bg-white rounded-lg shadow-md p-6">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div>
+                  <h3 className="text-sm font-medium text-gray-700 mb-3">Controlled Preloader</h3>
+                  <div className="">
+                    <Button
+                      variant="outline"
+                      onClick={() => setShowDefaultPreloader(true)}
+                      disabled={showDefaultPreloader}
+                    >
+                      Show Preloader (2 seconds)
+                    </Button>
+                    <Preloader
+                      isLoading={showDefaultPreloader}
+                      duration={2000}
+                      onComplete={() => setShowDefaultPreloader(false)}
+                    />
+                  </div>
+                </div>
+                <div>
+                  <h3 className="text-sm font-medium text-gray-700 mb-3">Custom Colors</h3>
+                  <div className="">
+                    <Button
+                      variant="outline"
+                      onClick={() => setShowCustomPreloader(true)}
+                      disabled={showCustomPreloader}
+                    >
+                      Show Custom Preloader
+                    </Button>
+                    <Preloader
+                      isLoading={showCustomPreloader}
+                      backgroundColor="#1a1a1a"
+                      accentColor="#00ff88"
+                      size={90}
+                      duration={2000}
+                      onComplete={() => setShowCustomPreloader(false)}
+                      borderWidth={3}
+                    />
+                  </div>
                 </div>
               </div>
             </div>

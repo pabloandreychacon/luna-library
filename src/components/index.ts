@@ -7,3 +7,4 @@ export { default as Spinner } from './Spinner';
 export { default as DropDown } from './DropDown';
 export { default as ProgressBar } from './ProgressBar';
 export { default as Typed } from './Typed';
+export { default as Preloader } from './Preloader';
