@@ -756,7 +756,7 @@ const DemoApp = () => {
             <h2 className="text-2xl font-semibold text-gray-800 mb-6">💬 WhatsApp Component</h2>
             <div className="bg-white rounded-lg shadow-md p-6">
               <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                <div>
+                {/* <div>
                   <h3 className="text-sm font-medium text-gray-700 mb-3">Basic WhatsApp</h3>
                   <p className="text-gray-600 mb-4">
                     Default position (bottom-right), small size, with tooltip.
@@ -766,7 +766,7 @@ const DemoApp = () => {
                     message="Hola! Me gustaría obtener más información."
                     size="sm"
                   />
-                </div>
+                </div> */}
                 <div>
                   <h3 className="text-sm font-medium text-gray-700 mb-3">Custom Position & Tooltip</h3>
                   <p className="text-gray-600 mb-4">
@@ -780,7 +780,7 @@ const DemoApp = () => {
                     tooltipText="Chatea con nosotros"
                   />
                 </div>
-                <div>
+                {/* <div>
                   <h3 className="text-sm font-medium text-gray-700 mb-3">Large Size, No Tooltip</h3>
                   <p className="text-gray-600 mb-4">
                     Bottom-center position, large size, tooltip disabled.
@@ -792,7 +792,7 @@ const DemoApp = () => {
                     position="bottom-center"
                     showTooltip={false}
                   />
-                </div>
+                </div> */}
               </div>
             </div>
           </section>
