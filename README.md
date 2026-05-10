@@ -56,6 +56,7 @@ function App() {
         variant="primary" 
         size="lg"
         onClick={() => console.log('Clicked!')}
+        className="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded-lg transition-colors duration-200"
       >
         Click me
       </Button>
@@ -64,15 +65,19 @@ function App() {
         title="Example Card" 
         padding="md" 
         shadow="lg"
-        className="max-w-md"
+        className="max-w-md bg-white border border-gray-200 rounded-lg shadow-lg"
       >
-        <p>This is a card component from Luna Components Library.</p>
-        <Button variant="outline" size="sm">
+        <p className="text-gray-700">This is a card component from Luna Components Library.</p>
+        <Button variant="outline" size="sm" className="mt-2 border border-gray-300 hover:border-gray-400">
           Learn More
         </Button>
       </Card>
 
-      <Anchor href="https://example.com" variant="secondary">
+      <Anchor 
+        href="https://example.com" 
+        variant="secondary"
+        className="text-gray-600 hover:text-gray-800 underline transition-colors duration-200"
+      >
         Visit Example
       </Anchor>
 
@@ -80,14 +85,23 @@ function App() {
         key="demo"
         active={false}
         onClick={() => console.log('Toggle')}
-        header={<h3>Click to expand</h3>}
-        content={<p>This is the accordion content!</p>}
+        header={<h3 className="font-semibold text-gray-800">Click to expand</h3>}
+        content={<p className="text-gray-600">This is accordion content!</p>}
+        className="border border-gray-200 rounded-lg overflow-hidden"
       />
 
-      <Spinner />
+      <Spinner 
+        size="md" 
+        type="circle"
+        className="text-blue-600"
+      />
 
       <DropDown 
-        toggle={<button>Select Option</button>}
+        toggle={
+          <button className="bg-gray-100 hover:bg-gray-200 border border-gray-300 rounded px-3 py-2 text-sm">
+            Select Option
+          </button>
+        }
         options={[
           { value: 'option1', label: 'Option 1' },
           { value: 'option2', label: 'Option 2' },
@@ -101,15 +115,16 @@ function App() {
         show={true}
         onHide={() => console.log('Modal closed')}
         title="Modal Title"
+        className="bg-white rounded-lg shadow-xl"
       >
-        <p>This is a modal component from Luna Components Library.</p>
+        <p className="text-gray-700">This is a modal component from Luna Components Library.</p>
       </Modal>
 
       <ScrollTop 
         threshold={200}
         position="bottom-right"
         size="md"
-        className="bg-blue-600 hover:bg-blue-700"
+        className="bg-blue-600 hover:bg-blue-700 text-white rounded-full shadow-lg"
       />
     </div>
   );
@@ -129,7 +144,7 @@ A versatile button component with multiple variants and sizes.
   size="md"
   onClick={handleClick}
   disabled={false}
-  className="custom-class"
+  className="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded-lg transition-colors duration-200"
 >
   Button Text
 </Button>
@@ -162,9 +177,9 @@ A flexible card component for displaying content with various padding and shadow
   title="Card Title"
   padding="md"
   shadow="lg"
-  className="custom-card"
+  className="bg-white border border-gray-200 rounded-lg shadow-lg"
 >
-  <p>Card content goes here</p>
+  <p className="text-gray-700">Card content goes here</p>
 </Card>
 ```
 
@@ -189,7 +204,7 @@ A styled link component that opens in a new tab with customizable variants and s
   href="https://example.com"
   variant="primary"
   size="sm"
-  className="custom-anchor"
+  className="text-blue-600 hover:text-blue-800 underline transition-colors duration-200"
 >
   Link Text
 </Anchor>
@@ -216,8 +231,12 @@ A collapsible content component with customizable header and content sections.
   key="accordion-1"
   active={isActive}
   onClick={() => setIsActive(!isActive)}
-  header={<h3>Accordion Title</h3>}
-  content={<p>Accordion content goes here</p>}
+  header={<h3 className="font-semibold text-gray-800">Accordion Title</h3>}
+  content={<p className="text-gray-600">Accordion content goes here</p>}
+  className="border border-gray-200 rounded-lg overflow-hidden"
+  containerClassName="border border-gray-200 rounded-lg overflow-hidden"
+  headerClassName="w-full px-4 py-3 text-left bg-gray-50 hover:bg-gray-100 focus:bg-gray-100 focus:outline-none transition-colors duration-200 flex justify-between items-center"
+  contentClassName="transition-all duration-300 ease-in-out"
 />
 ```
 
@@ -227,22 +246,23 @@ A collapsible content component with customizable header and content sections.
 - `onClick: () => void` - Toggle function
 - `header: React.ReactNode` - Header content
 - `content: React.ReactNode` - Content to show when expanded
+- `className?: string` - Additional CSS classes for accordion
+- `containerClassName?: string` - CSS classes for accordion container element
+- `headerClassName?: string` - CSS classes for accordion header element
+- `contentClassName?: string` - CSS classes for accordion content element
 
 ### Spinner
 A loading spinner component with customizable types and animations.
 
 ```jsx
-<Spinner size="md" type="circle" className="custom-spinner" />
-```
-
-**Props:**
-- `className?: string` - Additional CSS classes
-- `containerClassName?: string` - CSS classes for the container element
-- `dotClassName?: string` - CSS classes for dot elements
-- `barClassName?: string` - CSS classes for bar elements
-- `size?: SpinnerSize` - Spinner size (default: 'md')
-- `type?: SpinnerType` - Spinner animation type (default: 'circle')
-
+<Spinner 
+  size="md" 
+  type="circle" 
+  className="text-blue-600"
+  containerClassName="flex justify-center"
+  dotClassName="w-2 h-2 bg-blue-600 rounded-full"
+  barClassName="w-1 h-4 bg-blue-600 rounded-full"
+/>
 **Types:**
 ```typescript
 type SpinnerSize = 'sm' | 'md' | 'lg';
@@ -254,7 +274,11 @@ A dropdown menu component with customizable toggle and options.
 
 ```jsx
 <DropDown 
-  toggle={<button>Menu</button>}
+  toggle={
+    <button className="bg-gray-100 hover:bg-gray-200 border border-gray-300 rounded px-3 py-2 text-sm">
+      Menu
+    </button>
+  }
   options={[
     { value: 'option1', label: 'Option 1' },
     { value: 'option2', label: 'Option 2' },
@@ -262,6 +286,10 @@ A dropdown menu component with customizable toggle and options.
   ]}
   selected="option1"
   onChange={(value) => console.log('Selected:', value)}
+  className="relative inline-block text-left"
+  dropdownClassName="absolute top-full left-0 mt-1 w-full bg-white border border-gray-300 rounded shadow-lg z-10"
+  optionsContainerClassName="py-1"
+  optionClassName="block px-3 py-2 hover:bg-gray-100 cursor-pointer text-sm"
 />
 ```
 
@@ -270,6 +298,11 @@ A dropdown menu component with customizable toggle and options.
 - `options: DropDownOption[]` - Array of option objects with `value` and `label` properties
 - `selected: string | number` - Currently selected option value
 - `onChange: (value: string | number) => void` - Selection change handler
+- `className?: string` - Additional CSS classes for container
+- `containerClassName?: string` - CSS classes for dropdown container element
+- `dropdownClassName?: string` - CSS classes for dropdown menu element
+- `optionsContainerClassName?: string` - CSS classes for options container element
+- `optionClassName?: string` - CSS classes for individual option elements
 
 **DropDownOption Interface:**
 ```typescript
@@ -288,6 +321,8 @@ A progress bar component with customizable progress values and accessibility.
   max={100}
   min={0}
   aria-label="Loading progress"
+  className="bg-gray-200 rounded-full h-2"
+  barClassName="bg-blue-600 h-full rounded-full transition-all duration-300"
 />
 ```
 
@@ -314,10 +349,12 @@ A fullscreen overlay preloader component with customizable spinner and auto-hide
 <Preloader 
   isLoading={isLoading}
   duration={2000}
-  backgroundColor="#1a1a1a"
+  backgroundColor="rgba(0,0,0,0.8)"
   accentColor="#00ff88"
   size={90}
   borderWidth={6}
+  className="fixed inset-0 z-50"
+  spinnerClassName="border-4 border-gray-300 border-t-green-400"
   onComplete={() => setIsLoading(false)}
 />
 ```
@@ -365,7 +402,7 @@ A floating scroll-to-top button that appears when the user scrolls down the page
   threshold={200}
   position="bottom-right"
   size="md"
-  className="bg-blue-600 hover:bg-blue-700"
+  className="bg-blue-600 hover:bg-blue-700 text-white rounded-full shadow-lg"
 />
 ```
 
@@ -397,6 +434,8 @@ If you are using this library in a project that also uses Bootstrap (or another 
 - `onVisibilityChange?: (isVisible: boolean) => void` - Callback when visibility changes
 - `targetElement?: string` - Element ID or selector to check visibility for showing the button
 - `scrollPercentage?: number` - Percentage of page scroll to show the button (0-100)
+- `buttonClassName?: string` - CSS classes for the button element
+- `containerClassName?: string` - CSS classes for the container element
 
 **Position Options:**
 - `bottom-right` - Fixed bottom right
@@ -474,7 +513,9 @@ A typing animation component that types and deletes text in sequence.
   typeSpeed={50}
   backSpeed={30}
   loop={true}
-  className="typed-text"
+  className="text-blue-600 font-mono text-lg"
+  containerClassName="inline-block"
+  typedClassName="border-r-2 border-blue-600"
 />
 ```
 
@@ -509,7 +550,7 @@ A WhatsApp button component for quick contact integration.
   message="Hello! I need help."
   position="bottom-right"
   size="md"
-  className="custom-whatsapp"
+  className="bg-green-500 hover:bg-green-600 text-white rounded-full shadow-lg"
 />
 ```
 
@@ -542,14 +583,19 @@ A flexible modal component for displaying dialogs, forms, and overlays.
   title="Modal Title"
   size="lg"
   centered
+  className="bg-white rounded-lg shadow-xl"
+  contentClassName="p-6"
+  headerClassName="border-b border-gray-200 px-6 py-4"
 >
-  <p>Modal content goes here.</p>
-  <Modal.Footer>
-    <Button variant="secondary" onClick={() => setShowModal(false)}>
+  <p className="text-gray-700">Modal content goes here.</p>
+  <div className="mt-4 flex gap-2">
+    <Button variant="secondary" onClick={() => setShowModal(false)} className="border-gray-300">
       Close
     </Button>
-    <Button onClick={handleSave}>Save Changes</Button>
-  </Modal.Footer>
+    <Button onClick={handleSave} className="bg-blue-600 hover:bg-blue-700">
+      Save Changes
+    </Button>
+  </div>
 </Modal>
 ```
 
@@ -656,24 +702,28 @@ const MyComponent = () => {
           value={formData.name}
           onChange={(e) => setFormData(prev => ({ ...prev, name: e.target.value }))}
           placeholder="Name"
-          className="w-full p-2 border rounded mb-2"
+          className="w-full p-2 border border-gray-300 rounded-lg mb-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
         />
         <input
           value={formData.email}
           onChange={(e) => setFormData(prev => ({ ...prev, email: e.target.value }))}
           placeholder="Email"
-          className="w-full p-2 border rounded mb-2"
+          className="w-full p-2 border border-gray-300 rounded-lg mb-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
         />
         <textarea
           value={formData.message}
           onChange={(e) => setFormData(prev => ({ ...prev, message: e.target.value }))}
           placeholder="Message"
-          className="w-full p-2 border rounded mb-2"
+          className="w-full p-2 border border-gray-300 rounded-lg mb-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
           rows={3}
         />
         <div className="flex gap-2">
-          <Button variant="secondary" onClick={() => setShowModal(false)}>Cancel</Button>
-          <Button onClick={() => handleSubmit(formData)}>Save</Button>
+          <Button variant="secondary" onClick={() => setShowModal(false)} className="border-gray-300 hover:border-gray-400">
+            Cancel
+          </Button>
+          <Button onClick={() => handleSubmit(formData)} className="bg-blue-600 hover:bg-blue-700">
+            Save
+          </Button>
         </div>
       </form>
     </Modal>
