@@ -1,10 +1,11 @@
 import React from 'react';
 
 // Button variants and sizes
-type ButtonVariant = 'primary' | 'secondary' | 'outline';
-type ButtonSize = 'sm' | 'md' | 'lg';
+export type ButtonVariant = 'primary' | 'secondary' | 'outline';
+export type ButtonSize = 'sm' | 'md' | 'lg';
+export type AllButtonProps = React.ComponentPropsWithoutRef<'button'>;
 
-export interface ButtonProps {
+export type ButtonProps = {
   children: React.ReactNode;
   variant?: ButtonVariant;
   size?: ButtonSize;
@@ -14,6 +15,7 @@ export interface ButtonProps {
   containerClassName?: string;
   variantClassName?: string;
   sizeClassName?: string;
+  style?: React.CSSProperties;
 }
 
 {/* onCLick default should open window.open('https://andreychaconresumereact.netlify.app/', '_blank') */ }
@@ -28,8 +30,10 @@ const Button = ({
   className = '',
   containerClassName = 'font-medium rounded-lg transition-colors focus:outline-none focus:ring-2',
   variantClassName = 'bg-blue-600 text-white hover:bg-blue-700 focus:ring-blue-500',
-  sizeClassName = 'px-3 py-1.5 text-sm'
-}: ButtonProps) => {
+  sizeClassName = 'px-3 py-1.5 text-sm',
+  style,
+  ...props
+}: AllButtonProps & ButtonProps) => {
   const baseClasses = containerClassName;
 
   const variantClasses = {
@@ -57,6 +61,8 @@ const Button = ({
       className={classes}
       onClick={onClick}
       disabled={disabled}
+      style={style}
+      {...props}
     >
       {children}
     </button>

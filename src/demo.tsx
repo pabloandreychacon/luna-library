@@ -667,6 +667,9 @@ const DemoApp = () => {
           </p>
         </footer>
       </div>
+      <Button variant="primary" onClick={() => console.log('Button clicked')}>
+        Click me
+      </Button>
     </div>
   );
 };

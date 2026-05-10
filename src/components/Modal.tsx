@@ -42,6 +42,8 @@ export interface ModalProps {
   footer?: React.ReactNode;
   /** Whether to show close button in header */
   closeButton?: boolean;
+  /** Custom inline styles */
+  style?: React.CSSProperties;
 }
 
 const Modal = ({
@@ -63,7 +65,8 @@ const Modal = ({
   header,
   children,
   footer,
-  closeButton = true
+  closeButton = true,
+  style
 }: ModalProps) => {
   const modalRef = useRef<HTMLDivElement>(null);
   const previousActiveElement = useRef<HTMLElement | null>(null);
@@ -147,6 +150,7 @@ const Modal = ({
       role="dialog"
       aria-modal="true"
       aria-labelledby={title ? 'modal-title' : undefined}
+      style={style}
     >
       {/* Backdrop */}
       {backdrop && (

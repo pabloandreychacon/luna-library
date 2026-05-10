@@ -157,6 +157,8 @@ A versatile button component with multiple variants and sizes.
 - `onClick?: () => void` - Click handler
 - `disabled?: boolean` - Disable button (default: false)
 - `className?: string` - Additional CSS classes
+- `style?: React.CSSProperties` - Custom inline styles
+- `...props`: any - Additional HTML button attributes (spreads all native button props)
 
 **Types:**
 ```typescript
@@ -189,6 +191,8 @@ A flexible card component for displaying content with various padding and shadow
 - `className?: string` - Additional CSS classes
 - `padding?: CardPadding` - Internal padding (default: 'md')
 - `shadow?: CardShadow` - Shadow depth (default: 'md')
+- `style?: React.CSSProperties` - Custom inline styles
+- `...props`: any - Additional HTML div attributes (spreads all native div props)
 
 **Types:**
 ```typescript
@@ -216,6 +220,8 @@ A styled link component that opens in a new tab with customizable variants and s
 - `size?: AnchorSize` - Link size (default: 'sm')
 - `href?: string` - URL to link to (default: 'https://andreychaconresumereact.netlify.app/')
 - `className?: string` - Additional CSS classes
+- `style?: React.CSSProperties` - Custom inline styles
+- `...props`: any - Additional HTML a attributes (spreads all native a props)
 
 **Types:**
 ```typescript
@@ -237,6 +243,7 @@ A collapsible content component with customizable header and content sections.
   containerClassName="border border-gray-200 rounded-lg overflow-hidden"
   headerClassName="w-full px-4 py-3 text-left bg-gray-50 hover:bg-gray-100 focus:bg-gray-100 focus:outline-none transition-colors duration-200 flex justify-between items-center"
   contentClassName="transition-all duration-300 ease-in-out"
+  {...React.ComponentPropsWithoutRef<'div'>}
 />
 ```
 
@@ -250,6 +257,8 @@ A collapsible content component with customizable header and content sections.
 - `containerClassName?: string` - CSS classes for accordion container element
 - `headerClassName?: string` - CSS classes for accordion header element
 - `contentClassName?: string` - CSS classes for accordion content element
+- `style?: React.CSSProperties` - Custom inline styles
+- `...props`: any - Additional HTML div attributes (spreads all native div props)
 
 ### Spinner
 A loading spinner component with customizable types and animations.
@@ -262,7 +271,17 @@ A loading spinner component with customizable types and animations.
   containerClassName="flex justify-center"
   dotClassName="w-2 h-2 bg-blue-600 rounded-full"
   barClassName="w-1 h-4 bg-blue-600 rounded-full"
+style={{ borderRadius: '50%' }}
 />
+**Props:**
+- `className?: string` - Additional CSS classes
+- `containerClassName?: string` - CSS classes for container element
+- `dotClassName?: string` - CSS classes for dot elements
+- `barClassName?: string` - CSS classes for bar elements
+- `size?: SpinnerSize` - Spinner size (default: 'md')
+- `type?: SpinnerType` - Spinner animation type (default: 'circle')
+- `style?: React.CSSProperties` - Custom inline styles
+
 **Types:**
 ```typescript
 type SpinnerSize = 'sm' | 'md' | 'lg';
@@ -303,6 +322,7 @@ A dropdown menu component with customizable toggle and options.
 - `dropdownClassName?: string` - CSS classes for dropdown menu element
 - `optionsContainerClassName?: string` - CSS classes for options container element
 - `optionClassName?: string` - CSS classes for individual option elements
+- `style?: React.CSSProperties` - Custom inline styles
 
 **DropDownOption Interface:**
 ```typescript
@@ -370,6 +390,7 @@ A fullscreen overlay preloader component with customizable spinner and auto-hide
 - `spinnerClassName?: string` - Additional CSS classes for the spinner
 - `zIndex?: number` - Z-index of the overlay (default: 999999)
 - `onComplete?: () => void` - Callback when preloader finishes
+- `style?: React.CSSProperties` - Custom inline styles
 
 **Usage Modes:**
 - **Controlled:** Use `isLoading` prop to control visibility externally
@@ -619,6 +640,7 @@ A flexible modal component for displaying dialogs, forms, and overlays.
 - `headerClassName?: string` - CSS classes for the modal header
 - `bodyClassName?: string` - CSS classes for the modal body
 - `footerClassName?: string` - CSS classes for the modal footer
+- `style?: React.CSSProperties` - Custom inline styles
 
 **Types:**
 ```typescript

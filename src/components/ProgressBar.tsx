@@ -1,10 +1,10 @@
 import React from 'react';
 
 // Progress bar color variants
-type ProgressBarVariant = 'primary' | 'success' | 'warning' | 'danger' | 'dark' | 'light';
+export type ProgressBarVariant = 'primary' | 'success' | 'warning' | 'danger' | 'dark' | 'light';
 
 // Core progress bar props
-interface ProgressBarProps {
+export type ProgressBarProps = {
   progress: number;
   max: number;
   min: number;
@@ -12,7 +12,7 @@ interface ProgressBarProps {
 }
 
 // Extended props with styling options
-type ProgressBarPropsWithClassName = ProgressBarProps & {
+export type ProgressBarPropsWithClassName = ProgressBarProps & {
   className?: React.CSSProperties;
   style?: React.CSSProperties;
   containerClassName?: string;
@@ -20,7 +20,17 @@ type ProgressBarPropsWithClassName = ProgressBarProps & {
   variant?: ProgressBarVariant;
 };
 
-const ProgressBar = ({ progress, max, min, 'aria-label': ariaLabel, className, style, containerClassName = 'w-full bg-gray-200 rounded-full h-4 overflow-hidden', barClassName = 'h-full rounded-full transition-all duration-300 flex items-center justify-center text-xs font-medium', variant = 'primary' }: ProgressBarPropsWithClassName) => {
+const ProgressBar = ({
+  progress,
+  max,
+  min,
+  'aria-label': ariaLabel,
+  className,
+  style,
+  containerClassName = 'w-full bg-gray-200 rounded-full h-4 overflow-hidden',
+  barClassName = 'h-full rounded-full transition-all duration-300 flex items-center justify-center text-xs font-medium',
+  variant = 'primary'
+}: ProgressBarPropsWithClassName) => {
   const variantClasses = {
     primary: {
       bg: 'bg-blue-600',
@@ -58,14 +68,14 @@ const ProgressBar = ({ progress, max, min, 'aria-label': ariaLabel, className, s
   const barClasses = `${currentVariant.bg} ${barClassName} ${currentVariant.text}`;
 
   return (
-    <div className={containerClassName}>
+    <div className={containerClassName} style={style}>
       <div
         role="progressbar"
         className={barClasses}
         aria-valuenow={progress}
         aria-valuemin={min}
         aria-valuemax={max}
-        style={{ width: `${progress}%`, ...className, ...style }}
+        style={{ width: `${progress}%`, ...className }}
       >
         {progress > 10 && `${progress}%`}
       </div>

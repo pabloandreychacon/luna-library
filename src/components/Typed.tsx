@@ -99,14 +99,13 @@ const Typed = ({
   }, []);
 
   return (
-    <span className={`${containerClassName} ${className}`} >
+    <span className={`${containerClassName} ${className}`} style={style}>
       <span className={typedClassName}>{currentText}</span>
       {showCursor && (
         <span
           className={cursorClassName}
           aria-hidden="true"
           style={{
-            ...style,
             opacity: cursorOpacity
           }}
         >

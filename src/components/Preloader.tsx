@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 
-export interface PreloaderProps {
+export type PreloaderProps = {
   /** Loading state - if true, preloader is shown */
   isLoading?: boolean;
   /** Duration in milliseconds before auto-hide */
@@ -21,6 +21,8 @@ export interface PreloaderProps {
   zIndex?: number;
   /** Callback when preloader finishes */
   onComplete?: () => void;
+  /** Custom inline styles */
+  style?: React.CSSProperties;
 }
 
 const Preloader = ({
@@ -33,7 +35,8 @@ const Preloader = ({
   className = '',
   spinnerClassName = '',
   zIndex = 999999,
-  onComplete
+  onComplete,
+  style
 }: PreloaderProps) => {
   const [internalLoading, setInternalLoading] = useState(true);
 
@@ -90,7 +93,7 @@ const Preloader = ({
     <>
       <div
         className={`preloader-overlay ${className}`}
-        style={preloaderStyle}
+        style={{ ...preloaderStyle, ...style }}
       >
         <div
           className={`preloader-spinner ${spinnerClassName}`}

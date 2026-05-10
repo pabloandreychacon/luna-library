@@ -1,10 +1,11 @@
 import React from 'react';
 
 // Anchor link variants and sizes
-type AnchorVariant = 'none' | 'primary' | 'secondary' | 'outline';
-type AnchorSize = 'sm' | 'md' | 'lg';
+export type AnchorVariant = 'none' | 'primary' | 'secondary' | 'outline';
+export type AnchorSize = 'sm' | 'md' | 'lg';
+export type AllAnchorProps = React.ComponentPropsWithoutRef<'a'>;
 
-export interface AnchorProps {
+export type AnchorProps = {
   children?: React.ReactNode;
   variant?: AnchorVariant;
   size?: AnchorSize;
@@ -15,7 +16,8 @@ export interface AnchorProps {
   sizeClassName?: string;
   target?: string;
   rel?: string;
-}
+  style?: React.CSSProperties;
+};
 
 const Anchor = ({
   children = "Pablo Andrey Chacon Luna",
@@ -27,8 +29,10 @@ const Anchor = ({
   variantClassName = 'bg-blue-600 text-white hover:bg-blue-700',
   sizeClassName = 'px-3 py-1.5 text-sm',
   target = '_blank',
-  rel = 'noopener noreferrer'
-}: AnchorProps) => {
+  rel = 'noopener noreferrer',
+  style,
+  ...props
+}: AnchorProps & AllAnchorProps) => {
 
   const baseClasses = containerClassName;
 
@@ -55,7 +59,7 @@ const Anchor = ({
   `.trim();
 
   return (
-    <a href={href} target={target} rel={rel} className={classes}>
+    <a href={href} target={target} rel={rel} className={classes} style={style} {...props}>
       {children}
     </a>
   );

@@ -1,10 +1,10 @@
 import React from 'react';
 
 // Card padding and shadow variants
-type CardPadding = 'none' | 'sm' | 'md' | 'lg';
-type CardShadow = 'none' | 'sm' | 'md' | 'lg';
+export type CardPadding = 'none' | 'sm' | 'md' | 'lg';
+export type CardShadow = 'none' | 'sm' | 'md' | 'lg';
 
-export interface CardProps {
+export type CardProps = {
   children: React.ReactNode;
   title?: string;
   className?: string;
@@ -12,6 +12,7 @@ export interface CardProps {
   titleClassName?: string;
   padding?: CardPadding;
   shadow?: CardShadow;
+  style?: React.CSSProperties;
 }
 
 const Card = ({
@@ -22,6 +23,7 @@ const Card = ({
   titleClassName = 'text-lg font-semibold text-gray-900',
   padding = 'md',
   shadow = 'md',
+  style,
 }: CardProps) => {
   const paddingClasses = {
     none: '',
@@ -45,7 +47,7 @@ const Card = ({
   `.trim();
 
   return (
-    <div className={classes}>
+    <div className={classes} style={style}>
       {title && (
         <div className="mb-4">
           <h3 className={titleClassName}>{title}</h3>

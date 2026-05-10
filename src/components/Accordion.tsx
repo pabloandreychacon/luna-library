@@ -2,7 +2,7 @@
 import React from 'react';
 
 // Accordion component for collapsible content
-interface AccordionProps {
+export type AccordionProps = {
   active: boolean;
   onClick: () => void;
   header: React.ReactNode;
@@ -11,6 +11,7 @@ interface AccordionProps {
   containerClassName?: string;
   headerClassName?: string;
   contentClassName?: string;
+  style?: React.CSSProperties;
 }
 
 const Accordion = ({ active,
@@ -20,10 +21,11 @@ const Accordion = ({ active,
   className = '',
   containerClassName = 'border border-gray-200 rounded-lg overflow-hidden',
   headerClassName = 'w-full px-4 py-3 text-left bg-gray-50 hover:bg-gray-100 focus:bg-gray-100 focus:outline-none transition-colors duration-200 flex justify-between items-center',
-  contentClassName = 'transition-all duration-300 ease-in-out'
+  contentClassName = 'transition-all duration-300 ease-in-out',
+  style
 }: AccordionProps) => {
   return (
-    <div className={`${containerClassName} ${className}`}>
+    <div className={`${containerClassName} ${className}`} style={style}>
       <button
         onClick={onClick}
         className={headerClassName}

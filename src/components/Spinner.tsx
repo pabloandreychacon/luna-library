@@ -1,15 +1,16 @@
 import React from 'react';
 
-type SpinnerSize = 'sm' | 'md' | 'lg';
-type SpinnerType = 'circle' | 'dots' | 'pulse' | 'bars';
+export type SpinnerSize = 'sm' | 'md' | 'lg';
+export type SpinnerType = 'circle' | 'dots' | 'pulse' | 'bars';
 
-export interface SpinnerProps {
+export type SpinnerProps = {
   className?: string;
   containerClassName?: string;
   dotClassName?: string;
   barClassName?: string;
   size?: SpinnerSize;
   type?: SpinnerType;
+  style?: React.CSSProperties;
 };
 
 const Spinner = ({
@@ -18,7 +19,8 @@ const Spinner = ({
   dotClassName = 'bg-blue-600 rounded-full animate-bounce',
   barClassName = 'bg-blue-600 animate-pulse',
   size = 'md',
-  type = 'circle'
+  type = 'circle',
+  style
 }: SpinnerProps) => {
   const sizeClasses = {
     sm: 'w-4 h-4',
@@ -75,6 +77,7 @@ const Spinner = ({
     <div
       role="status"
       className={`inline-block animate-spin rounded-full border-2 border-gray-300 border-t-blue-600 ${sizeClasses[size]} ${className || ''}`}
+      style={style}
     >
       <span className="sr-only">Loading...</span>
     </div>

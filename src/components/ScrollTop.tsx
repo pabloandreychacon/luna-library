@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useRef } from 'react';
 
-export interface ScrollTopProps {
+export type ScrollTopProps = {
   /** Scroll position threshold to show the button (in pixels) */
   threshold?: number;
   /** Custom className for the button */
@@ -28,6 +28,7 @@ export interface ScrollTopProps {
   /** Percentage of page scroll to show the button (0-100) */
   scrollPercentage?: number;
 }
+}
 
 const ScrollTop = ({
   threshold = 100,
@@ -42,7 +43,8 @@ const ScrollTop = ({
   onClick,
   onVisibilityChange,
   targetElement,
-  scrollPercentage
+  scrollPercentage,
+}: ScrollTopProps) => {
 }: ScrollTopProps) => {
   const [isVisible, setIsVisible] = useState(showInitially);
 
