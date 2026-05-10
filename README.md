@@ -47,7 +47,7 @@ To ensure Tailwind CSS successfully generates and includes the necessary utility
 ## 🚀 Quick Start
 
 ```jsx
-import { Button, Card, Anchor, Accordion, Spinner, DropDown, ProgressBar, Preloader, ScrollTop, Modal } from 'luna-components-library';
+import { Button, Card, Anchor, Accordion, Spinner, DropDown, ProgressBar, Preloader, ScrollTop, Modal, Input } from 'luna-components-library';
 
 function App() {
   return (
@@ -126,6 +126,13 @@ function App() {
         size="md"
         className="bg-blue-600 hover:bg-blue-700 text-white rounded-full shadow-lg"
       />
+
+      <Input 
+        inputSize="md"
+        variant="primary"
+        placeholder="Enter your text here"
+        className="border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
+      />
     </div>
   );
 }
@@ -162,7 +169,7 @@ A versatile button component with multiple variants and sizes.
 
 **Types:**
 ```typescript
-type ButtonVariant = 'primary' | 'secondary' | 'outline';
+type ButtonVariant = 'primary' | 'secondary' | 'outline' | 'success' | 'danger' | 'warning' | 'info' | 'dark' | 'light' | 'link';
 type ButtonSize = 'sm' | 'md' | 'lg';
 ```
 
@@ -170,6 +177,13 @@ type ButtonSize = 'sm' | 'md' | 'lg';
 - `primary` - Blue background button
 - `secondary` - Gray background button  
 - `outline` - Transparent with border
+- `success` - Green background button
+- `danger` - Red background button
+- `warning` - Yellow background button
+- `info` - Cyan background button
+- `dark` - Dark gray background button
+- `light` - Light gray background button
+- `link` - Blue text link with hover effects
 
 ### Card
 A flexible card component for displaying content with various padding and shadow options.
@@ -753,6 +767,63 @@ const MyComponent = () => {
 };
 ```
 
+### Input
+A versatile input component with multiple variants, sizes, and types.
+
+```jsx
+<Input 
+  inputSize="md"
+  variant="primary"
+  type="text"
+  placeholder="Enter your text here"
+  value={inputValue}
+  onChange={(value) => setInputValue(value)}
+  className="border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
+/>
+```
+
+**Props:**
+- `children?: React.ReactNode` - Label content for the input
+- `variant?: InputVariant` - Input style variant (default: 'none')
+- `inputSize?: InputSize` - Input size (default: 'md')
+- `type?: InputType` - HTML input type (default: 'text')
+- `placeholder?: string` - Placeholder text
+- `value?: string` - Input value
+- `onChange?: (value: string) => void` - Change handler
+- `onFocus?: () => void` - Focus handler
+- `onBlur?: () => void` - Blur handler
+- `disabled?: boolean` - Disable input (default: false)
+- `required?: boolean` - Required field (default: false)
+- `readOnly?: boolean` - Read-only input (default: false)
+- `className?: string` - Additional CSS classes
+- `containerClassName?: string` - CSS classes for container element
+- `inputClassName?: string` - CSS classes for input element
+- `variantClassName?: string` - CSS classes for variant styling
+- `sizeClassName?: string` - CSS classes for size styling
+- `style?: React.CSSProperties` - Custom inline styles
+- `...props`: any - Additional HTML input attributes (spreads all native input props)
+
+**Types:**
+```typescript
+type InputVariant = 'none' | 'primary' | 'secondary' | 'outline' | 'danger' | 'success';
+type InputSize = 'sm' | 'md' | 'lg' | 'xl';
+type InputType = 'text' | 'email' | 'password' | 'number' | 'tel' | 'url' | 'search' | 'date' | 'time' | 'datetime-local' | 'month' | 'week' | 'color' | 'file' | 'hidden' | 'image' | 'range' | 'reset' | 'submit';
+```
+
+**Variants:**
+- `none` - Default styling with border
+- `primary` - Blue background with white text
+- `secondary` - Gray background with white text
+- `outline` - Border only with gray text
+- `danger` - Red background with white text
+- `success` - Green background with white text
+
+**Size Options:**
+- `sm` - Small padding and text
+- `md` - Medium padding and text
+- `lg` - Large padding and text
+- `xl` - Extra large padding and text
+
 ## 🛠️ Development
 
 ### Prerequisites
@@ -795,6 +866,7 @@ luna-library/
 │   │   ├── Preloader.tsx
 │   │   ├── ScrollTop.tsx
 │   │   ├── WhatsApp.tsx
+│   │   ├── Input.tsx
 │   │   └── index.ts
 │   └── index.ts
 ├── dist/                 # Build output

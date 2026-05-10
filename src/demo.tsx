@@ -9,6 +9,7 @@ import Accordion from './components/Accordion';
 import Spinner from './components/Spinner';
 import DropDown from './components/DropDown';
 import ProgressBar from './components/ProgressBar';
+import Input from './components/Input';
 import Typed from './components/Typed';
 import Preloader from './components/Preloader';
 import ScrollTop from './components/ScrollTop';
@@ -20,6 +21,7 @@ const DemoApp = () => {
   const [accordionActive, setAccordionActive] = useState(false);
   const [selectedOption, setSelectedOption] = useState('Option 1');
   const [progress, setProgress] = useState(50);
+  const [inputValue, setInputValue] = useState('');
   const [showDefaultPreloader, setShowDefaultPreloader] = useState(false);
   const [showCustomPreloader, setShowCustomPreloader] = useState(false);
   const [showModal, setShowModal] = useState<'basic' | 'large-centered' | 'static' | null>(null);
@@ -45,33 +47,228 @@ const DemoApp = () => {
         </header>
 
         <div className="space-y-12">
+          {/* Input Section */}
+          <section>
+            <h2 className="text-2xl font-semibold text-gray-800 mb-6">📝 Input Component</h2>
+            <div className="bg-white rounded-lg shadow-md p-6">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div>
+                  <h3 className="text-sm font-medium text-gray-700 mb-3">Basic Inputs</h3>
+                  <div className="space-y-4">
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-1">Default Input</label>
+                      <Input
+                        inputSize="sm"
+                        placeholder="Small input"
+                        value={inputValue}
+                        onChange={(value) => setInputValue(value)}
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-1">Medium Input</label>
+                      <Input
+                        inputSize="md"
+                        placeholder="Medium input"
+                        value={inputValue}
+                        onChange={(value) => setInputValue(value)}
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-1">Large Input</label>
+                      <Input
+                        inputSize="lg"
+                        placeholder="Large input"
+                        value={inputValue}
+                        onChange={(value) => setInputValue(value)}
+                      />
+                    </div>
+                  </div>
+                </div>
+                <div>
+                  <h3 className="text-sm font-medium text-gray-700 mb-3">Variant Inputs</h3>
+                  <div className="space-y-4">
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-1">Primary Variant</label>
+                      <Input
+                        inputSize="md"
+                        variant="primary"
+                        placeholder="Primary input"
+                        value={inputValue}
+                        onChange={(value) => setInputValue(value)}
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-1">Secondary Variant</label>
+                      <Input
+                        inputSize="md"
+                        variant="secondary"
+                        placeholder="Secondary input"
+                        value={inputValue}
+                        onChange={(value) => setInputValue(value)}
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-1">Success Variant</label>
+                      <Input
+                        inputSize="md"
+                        variant="success"
+                        placeholder="Success input"
+                        value={inputValue}
+                        onChange={(value) => setInputValue(value)}
+                      />
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div className="mt-6">
+                <h3 className="text-sm font-medium text-gray-700 mb-3">States & Types</h3>
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-1">Disabled</label>
+                    <Input
+                      inputSize="md"
+                      disabled
+                      placeholder="Disabled input"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-1">Read Only</label>
+                    <Input
+                      inputSize="md"
+                      readOnly
+                      value="Read only value"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-1">Password</label>
+                    <Input
+                      inputSize="md"
+                      type="password"
+                      placeholder="Password"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-1">Email</label>
+                    <Input
+                      inputSize="md"
+                      type="email"
+                      placeholder="email@example.com"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-1">Number</label>
+                    <Input
+                      inputSize="md"
+                      type="number"
+                      placeholder="12345"
+                      value={inputValue}
+                      onChange={(value) => setInputValue(value)}
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-1">Telephone</label>
+                    <Input
+                      inputSize="md"
+                      type="tel"
+                      placeholder="+1 (555) 123-4567"
+                      value={inputValue}
+                      onChange={(value) => setInputValue(value)}
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-1">Range</label>
+                    <Input
+                      inputSize="md"
+                      type="range"
+                      min="0"
+                      max="100"
+                      value="50"
+                      onChange={(value) => console.log('Range value:', value)}
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-1">Date</label>
+                    <Input
+                      inputSize="md"
+                      type="date"
+                      onChange={(value) => console.log('Date:', value)}
+                    />
+                  </div>
+                </div>
+              </div>
+              <div className="mt-6">
+                <h3 className="text-sm font-medium text-gray-700 mb-3">With Label</h3>
+                <div className="space-y-4">
+                  <Input
+                    inputSize="md"
+                    variant="outline"
+                    placeholder="Enter your name"
+                    value={inputValue}
+                    onChange={(value) => setInputValue(value)}
+                  >
+                    Full Name
+                  </Input>
+                  <Input
+                    inputSize="md"
+                    variant="outline"
+                    type="email"
+                    placeholder="your.email@example.com"
+                  >
+                    Email Address
+                  </Input>
+                </div>
+              </div>
+            </div>
+          </section>
+
           {/* Button Section */}
           <section>
             <h2 className="text-2xl font-semibold text-gray-800 mb-6">🔘 Button Component</h2>
             <div className="bg-white rounded-lg shadow-md p-6">
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 <div>
-                  <h3 className="text-sm font-medium text-gray-700 mb-3">Primary Variants</h3>
+                  <h3 className="text-sm font-medium text-gray-700 mb-3">Primary & Secondary</h3>
                   <div className="space-y-2">
                     <Button variant="primary" size="sm">Small Primary</Button>
                     <Button variant="primary" size="md">Medium Primary</Button>
                     <Button variant="primary" size="lg">Large Primary</Button>
+                    <Button variant="secondary" size="md">Secondary</Button>
                   </div>
                 </div>
                 <div>
-                  <h3 className="text-sm font-medium text-gray-700 mb-3">Secondary Variants</h3>
+                  <h3 className="text-sm font-medium text-gray-700 mb-3">Success & Danger</h3>
                   <div className="space-y-2">
-                    <Button variant="secondary" size="sm">Small Secondary</Button>
-                    <Button variant="secondary" size="md">Medium Secondary</Button>
-                    <Button variant="secondary" size="lg">Large Secondary</Button>
+                    <Button variant="success" size="sm">Small Success</Button>
+                    <Button variant="success" size="md">Medium Success</Button>
+                    <Button variant="success" size="lg">Large Success</Button>
+                    <Button variant="danger" size="md">Danger</Button>
                   </div>
                 </div>
                 <div>
-                  <h3 className="text-sm font-medium text-gray-700 mb-3">Outline Variants</h3>
+                  <h3 className="text-sm font-medium text-gray-700 mb-3">Warning & Info</h3>
+                  <div className="space-y-2">
+                    <Button variant="warning" size="sm">Small Warning</Button>
+                    <Button variant="warning" size="md">Medium Warning</Button>
+                    <Button variant="warning" size="lg">Large Warning</Button>
+                    <Button variant="info" size="md">Info</Button>
+                  </div>
+                </div>
+                <div>
+                  <h3 className="text-sm font-medium text-gray-700 mb-3">Dark & Light</h3>
+                  <div className="space-y-2">
+                    <Button variant="dark" size="sm">Small Dark</Button>
+                    <Button variant="dark" size="md">Medium Dark</Button>
+                    <Button variant="dark" size="lg">Large Dark</Button>
+                    <Button variant="light" size="md">Light</Button>
+                  </div>
+                </div>
+                <div>
+                  <h3 className="text-sm font-medium text-gray-700 mb-3">Outline & Link</h3>
                   <div className="space-y-2">
                     <Button variant="outline" size="sm">Small Outline</Button>
                     <Button variant="outline" size="md">Medium Outline</Button>
                     <Button variant="outline" size="lg">Large Outline</Button>
+                    <Button variant="link" size="md">Link Button</Button>
                   </div>
                 </div>
               </div>

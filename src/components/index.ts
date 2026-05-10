@@ -11,3 +11,4 @@ export { default as Preloader } from './Preloader';
 export { default as ScrollTop } from './ScrollTop';
 export { default as WhatsApp } from './WhatsApp';
 export { default as Modal } from './Modal';
+export { default as Input } from './Input';
