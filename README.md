@@ -47,7 +47,7 @@ To ensure Tailwind CSS successfully generates and includes the necessary utility
 ## 🚀 Quick Start
 
 ```jsx
-import { Button, Card, Anchor, Accordion, Spinner, DropDown, ProgressBar, Preloader, ScrollTop } from 'luna-components-library';
+import { Button, Card, Anchor, Accordion, Spinner, DropDown, ProgressBar, Preloader, ScrollTop, Modal } from 'luna-components-library';
 
 function App() {
   return (
@@ -97,18 +97,13 @@ function App() {
         onChange={(value) => console.log('Selected:', value)}
       />
 
-      <ProgressBar 
-        progress={60}
-        max={100}
-        min={0}
-        aria-label="Upload progress"
-      />
-
-      <Preloader 
-        isLoading={isLoading}
-        duration={2000}
-        onComplete={() => setIsLoading(false)}
-      />
+      <Modal 
+        show={true}
+        onHide={() => console.log('Modal closed')}
+        title="Modal Title"
+      >
+        <p>This is a modal component from Luna Components Library.</p>
+      </Modal>
 
       <ScrollTop 
         threshold={200}
@@ -535,6 +530,155 @@ A WhatsApp button component for quick contact integration.
 ```typescript
 type WhatsAppPosition = 'bottom-right' | 'bottom-left' | 'bottom-center' | 'top-right' | 'top-left' | 'top-center';
 type WhatsAppSize = 'sm' | 'md' | 'lg';
+```
+
+### Modal
+A flexible modal component for displaying dialogs, forms, and overlays.
+
+```jsx
+<Modal 
+  show={showModal}
+  onHide={() => setShowModal(false)}
+  title="Modal Title"
+  size="lg"
+  centered
+>
+  <p>Modal content goes here.</p>
+  <Modal.Footer>
+    <Button variant="secondary" onClick={() => setShowModal(false)}>
+      Close
+    </Button>
+    <Button onClick={handleSave}>Save Changes</Button>
+  </Modal.Footer>
+</Modal>
+```
+
+**Props:**
+- `show: boolean` - Whether the modal is visible
+- `onHide: () => void` - Callback when modal is closed
+- `size?: ModalSize` - Modal size (default: 'md')
+- `centered?: boolean` - Whether to center the modal vertically (default: false)
+- `backdrop?: boolean | 'static'` - Backdrop overlay behavior (default: true)
+- `backdropClose?: boolean` - Whether clicking backdrop closes modal (default: true)
+- `keyboard?: boolean` - Whether ESC key closes modal (default: true)
+- `animation?: boolean` - Whether to show animations (default: true)
+- `title?: React.ReactNode` - Modal title
+- `header?: React.ReactNode` - Custom header content
+- `children: React.ReactNode` - Modal body content
+- `footer?: React.ReactNode` - Custom footer content
+- `closeButton?: boolean` - Whether to show close button (default: true)
+- `className?: string` - Additional CSS classes for the modal
+- `dialogClassName?: string` - CSS classes for the modal dialog
+- `contentClassName?: string` - CSS classes for the modal content
+- `headerClassName?: string` - CSS classes for the modal header
+- `bodyClassName?: string` - CSS classes for the modal body
+- `footerClassName?: string` - CSS classes for the modal footer
+
+**Types:**
+```typescript
+type ModalSize = 'sm' | 'md' | 'lg' | 'xl';
+```
+
+**Examples:**
+```jsx
+// Basic modal
+<Modal show={show} onHide={handleClose}>
+  <p>Simple modal content</p>
+</Modal>
+
+// Large centered modal with custom footer
+<Modal 
+  show={show} 
+  onHide={handleClose}
+  size="lg"
+  centered
+  title="Confirm Action"
+>
+  <p>Are you sure you want to proceed?</p>
+  <div className="mt-4">
+    <Button variant="secondary" onClick={handleClose}>Cancel</Button>
+    <Button onClick={handleConfirm}>Confirm</Button>
+  </div>
+</Modal>
+
+// Static backdrop (can't close by clicking outside)
+<Modal 
+  show={show} 
+  onHide={handleClose}
+  backdrop="static"
+  backdropClose={false}
+>
+  <p>This modal requires explicit action to close.</p>
+</Modal>
+
+// Custom styled modal
+<Modal 
+  show={show} 
+  onHide={handleClose}
+  contentClassName="bg-dark text-white"
+  headerClassName="bg-secondary"
+>
+  <p>Dark themed modal</p>
+</Modal>
+
+// Modal with data flow (parent to child and child to parent)
+interface FormData {
+  name: string;
+  email: string;
+  message: string;
+}
+
+const MyComponent = () => {
+  const [showModal, setShowModal] = useState(false);
+  const [formData, setFormData] = useState<FormData>({
+    name: '',
+    email: '',
+    message: ''
+  });
+
+  // Pass data to modal
+  const openEditModal = (data: FormData) => {
+    setFormData(data);
+    setShowModal(true);
+  };
+
+  // Receive data from modal
+  const handleSubmit = (data: FormData) => {
+    console.log('Data from modal:', data);
+    // Process data (API call, etc.)
+    setShowModal(false);
+  };
+
+  return (
+    <Modal show={showModal} onHide={() => setShowModal(false)} title="Edit Data">
+      <form onSubmit={(e) => { e.preventDefault(); handleSubmit(formData); }}>
+        <input
+          value={formData.name}
+          onChange={(e) => setFormData(prev => ({ ...prev, name: e.target.value }))}
+          placeholder="Name"
+          className="w-full p-2 border rounded mb-2"
+        />
+        <input
+          value={formData.email}
+          onChange={(e) => setFormData(prev => ({ ...prev, email: e.target.value }))}
+          placeholder="Email"
+          className="w-full p-2 border rounded mb-2"
+        />
+        <textarea
+          value={formData.message}
+          onChange={(e) => setFormData(prev => ({ ...prev, message: e.target.value }))}
+          placeholder="Message"
+          className="w-full p-2 border rounded mb-2"
+          rows={3}
+        />
+        <div className="flex gap-2">
+          <Button variant="secondary" onClick={() => setShowModal(false)}>Cancel</Button>
+          <Button onClick={() => handleSubmit(formData)}>Save</Button>
+        </div>
+      </form>
+    </Modal>
+  );
+};
 ```
 
 ## 🛠️ Development

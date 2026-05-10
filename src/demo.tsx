@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import { createRoot } from 'react-dom/client';
+
+// Import CSS for demo
 import Button from './components/Button';
 import Card from './components/Card';
 import Anchor from './components/Anchor';
@@ -11,6 +13,8 @@ import Typed from './components/Typed';
 import Preloader from './components/Preloader';
 import ScrollTop from './components/ScrollTop';
 import WhatsApp from './components/WhatsApp';
+import Modal from './components/Modal';
+import ModalDataExample from './examples/ModalDataExample';
 
 const DemoApp = () => {
   const [accordionActive, setAccordionActive] = useState(false);
@@ -18,6 +22,7 @@ const DemoApp = () => {
   const [progress, setProgress] = useState(50);
   const [showDefaultPreloader, setShowDefaultPreloader] = useState(false);
   const [showCustomPreloader, setShowCustomPreloader] = useState(false);
+  const [showModal, setShowModal] = useState<'basic' | 'large-centered' | 'static' | null>(null);
 
   const options = ['Option 1', 'Option 2', 'Option 3', 'Option 4'];
 
@@ -549,6 +554,48 @@ const DemoApp = () => {
               </div>
             </div>
           </section>
+
+          {/* Modal Section */}
+          <section>
+            <h2 className="text-2xl font-semibold text-gray-800 mb-6">🪟 Modal Component</h2>
+            <div className="bg-white rounded-lg shadow-md p-6">
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div>
+                  <h3 className="text-sm font-medium text-gray-700 mb-3">Basic Modal</h3>
+                  <p className="text-gray-600 mb-4">
+                    Simple modal with title and content.
+                  </p>
+                  <Button onClick={() => setShowModal('basic')}>
+                    Open Basic Modal
+                  </Button>
+                </div>
+                <div>
+                  <h3 className="text-sm font-medium text-gray-700 mb-3">Large & Centered Modal</h3>
+                  <p className="text-gray-600 mb-4">
+                    Large modal centered vertically with custom footer.
+                  </p>
+                  <Button
+                    variant="secondary"
+                    onClick={() => setShowModal('large-centered')}
+                  >
+                    Open Large Modal
+                  </Button>
+                </div>
+                <div>
+                  <h3 className="text-sm font-medium text-gray-700 mb-3">Static Backdrop</h3>
+                  <p className="text-gray-600 mb-4">
+                    Modal with static backdrop (can't close by clicking outside).
+                  </p>
+                  <Button
+                    variant="outline"
+                    onClick={() => setShowModal('static')}
+                  >
+                    Open Static Modal
+                  </Button>
+                </div>
+              </div>
+            </div>
+          </section>
         </div>
         <ScrollTop
           size="lg"
@@ -558,6 +605,59 @@ const DemoApp = () => {
         >
           <span className="text-white font-bold">Top</span>
         </ScrollTop>
+
+        {/* Modals */}
+        <Modal
+          show={showModal === 'basic'}
+          onHide={() => setShowModal(null)}
+          title="Basic Modal"
+        >
+          <p>This is a basic modal with a title and simple content.</p>
+          <p>You can close it by clicking the X button, pressing ESC, or clicking outside.</p>
+        </Modal>
+
+        <Modal
+          show={showModal === 'large-centered'}
+          onHide={() => setShowModal(null)}
+          title="Large & Centered Modal"
+          size="lg"
+          centered
+        >
+          <p>This is a large modal that is centered vertically on the screen.</p>
+          <p>It has more space for content and can be used for forms or detailed information.</p>
+          <div className="mt-4 flex gap-2">
+            <Button variant="secondary" onClick={() => setShowModal(null)}>
+              Cancel
+            </Button>
+            <Button onClick={() => setShowModal(null)}>
+              Save Changes
+            </Button>
+          </div>
+        </Modal>
+
+        <Modal
+          show={showModal === 'static'}
+          onHide={() => setShowModal(null)}
+          title="Static Backdrop Modal"
+          backdrop="static"
+          backdropClose={false}
+        >
+          <p>This modal has a static backdrop.</p>
+          <p>You can only close it by clicking the X button or pressing ESC.</p>
+          <p className="text-muted">Clicking outside won't close this modal.</p>
+        </Modal>
+
+        {/* Modal with Data Example */}
+        <section>
+          <h2 className="text-2xl font-semibold text-gray-800 mb-6">📝 Modal with Data Example</h2>
+          <div className="bg-white rounded-lg shadow-md p-6">
+            <p className="text-gray-600 mb-4">
+              Example of modal with data flow between parent and child components.
+            </p>
+            <ModalDataExample />
+          </div>
+        </section>
+
         <footer id="demo-footer" className="mt-16 text-center text-gray-600">
           <p className="mb-2">
             🌙 Luna Components Library - Visual Demo
