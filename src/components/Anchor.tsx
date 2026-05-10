@@ -25,7 +25,7 @@ const Anchor = ({
   size = 'sm',
   href = 'https://andreychaconresumereact.netlify.app/',
   className,
-  containerClassName = 'font-medium rounded-lg transition-colors focus:outline-none focus:ring-2',
+  containerClassName = variant === 'none' ? 'font-medium transition-colors focus:outline-none' : 'font-medium rounded-lg transition-colors focus:outline-none focus:ring-2',
   variantClassName = 'bg-blue-600 text-white hover:bg-blue-700',
   sizeClassName = 'px-3 py-1.5 text-sm',
   target = '_blank',

@@ -360,14 +360,35 @@ const DemoApp = () => {
                 </div>
               </div>
               <div className="mt-6">
-                <h3 className="text-sm font-medium text-gray-700 mb-3">Custom Content</h3>
-                <div className="flex gap-4">
-                  <Anchor href="https://github.com" variant="primary">
-                    🚀 Visit GitHub
-                  </Anchor>
-                  <Anchor href="https://google.com" variant="outline">
-                    🔍 Google Search
-                  </Anchor>
+                <h3 className="text-sm font-medium text-gray-700 mb-3">Custom Content & Pure Link</h3>
+                <div className="space-y-4">
+                  <div className="flex gap-4">
+                    <Anchor href="https://github.com" variant="primary">
+                      🚀 Visit GitHub
+                    </Anchor>
+                    <Anchor href="https://google.com" variant="outline">
+                      🔍 Google Search
+                    </Anchor>
+                  </div>
+                  <div className="space-y-2">
+                    <p className="text-sm text-gray-600 mb-2">Pure link examples (no button styling):</p>
+                    <div className="flex gap-4">
+                      <Anchor
+                        href="https://www.wikipedia.org"
+                        variant="none"
+                        className="!text-blue-600 hover:!text-blue-800 !bg-transparent hover:!bg-transparent !px-2 !py-1"
+                      >
+                        Wikipedia
+                      </Anchor>
+                      <Anchor
+                        href="https://developer.mozilla.org"
+                        variant="none"
+                        className="!text-gray-600 hover:!text-gray-900 !underline !bg-transparent hover:!bg-transparent"
+                      >
+                        MDN Web Docs
+                      </Anchor>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
