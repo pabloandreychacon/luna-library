@@ -28,7 +28,6 @@ export type ScrollTopProps = {
   /** Percentage of page scroll to show the button (0-100) */
   scrollPercentage?: number;
 }
-}
 
 const ScrollTop = ({
   threshold = 100,
@@ -44,7 +43,6 @@ const ScrollTop = ({
   onVisibilityChange,
   targetElement,
   scrollPercentage,
-}: ScrollTopProps) => {
 }: ScrollTopProps) => {
   const [isVisible, setIsVisible] = useState(showInitially);
 
