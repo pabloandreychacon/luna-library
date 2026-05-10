@@ -1,5 +1,11 @@
 import React, { useState, useEffect, CSSProperties } from 'react';
 
+// Typing animation configuration
+type TypedStyle = CSSProperties & {
+  animation?: string;
+  animationDelay?: string;
+};
+
 type TypedProps = {
   strings: string[];
   typeSpeed?: number;
@@ -13,11 +19,6 @@ type TypedProps = {
   typedClassName?: string;
   cursorClassName?: string;
   style?: TypedStyle;
-};
-
-type TypedStyle = CSSProperties & {
-  animation?: string;
-  animationDelay?: string;
 };
 
 const Typed = ({

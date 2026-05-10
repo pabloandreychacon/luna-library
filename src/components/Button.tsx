@@ -1,9 +1,13 @@
 import React from 'react';
 
+// Button variants and sizes
+type ButtonVariant = 'primary' | 'secondary' | 'outline';
+type ButtonSize = 'sm' | 'md' | 'lg';
+
 export interface ButtonProps {
   children: React.ReactNode;
-  variant?: 'primary' | 'secondary' | 'outline';
-  size?: 'sm' | 'md' | 'lg';
+  variant?: ButtonVariant;
+  size?: ButtonSize;
   onClick?: () => void;
   disabled?: boolean;
   className?: string;

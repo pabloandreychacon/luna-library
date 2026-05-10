@@ -29,7 +29,7 @@ export interface ScrollTopProps {
   scrollPercentage?: number;
 }
 
-const ScrollTop: React.FC<ScrollTopProps> = ({
+const ScrollTop = ({
   threshold = 100,
   className = '',
   children,
@@ -43,7 +43,7 @@ const ScrollTop: React.FC<ScrollTopProps> = ({
   onVisibilityChange,
   targetElement,
   scrollPercentage
-}) => {
+}: ScrollTopProps) => {
   const [isVisible, setIsVisible] = useState(showInitially);
 
   useEffect(() => {

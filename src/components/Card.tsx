@@ -1,13 +1,17 @@
 import React from 'react';
 
+// Card padding and shadow variants
+type CardPadding = 'none' | 'sm' | 'md' | 'lg';
+type CardShadow = 'none' | 'sm' | 'md' | 'lg';
+
 export interface CardProps {
   children: React.ReactNode;
   title?: string;
   className?: string;
   containerClassName?: string;
   titleClassName?: string;
-  padding?: 'none' | 'sm' | 'md' | 'lg';
-  shadow?: 'none' | 'sm' | 'md' | 'lg';
+  padding?: CardPadding;
+  shadow?: CardShadow;
 }
 
 const Card = ({

@@ -23,7 +23,7 @@ export interface PreloaderProps {
   onComplete?: () => void;
 }
 
-const Preloader: React.FC<PreloaderProps> = ({
+const Preloader = ({
   isLoading: externalLoading,
   duration = 1000,
   backgroundColor,
@@ -34,7 +34,7 @@ const Preloader: React.FC<PreloaderProps> = ({
   spinnerClassName = '',
   zIndex = 999999,
   onComplete
-}) => {
+}: PreloaderProps) => {
   const [internalLoading, setInternalLoading] = useState(true);
 
   // Use external loading state if provided, otherwise use internal state

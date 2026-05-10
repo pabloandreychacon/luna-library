@@ -1,21 +1,23 @@
-{/* must have progress, max, min, aria-label */ }
 import React from 'react';
-import { CSSProperties } from 'react';
 
-type ProgressBarProps = {
+// Progress bar color variants
+type ProgressBarVariant = 'primary' | 'success' | 'warning' | 'danger' | 'dark' | 'light';
+
+// Core progress bar props
+interface ProgressBarProps {
   progress: number;
   max: number;
   min: number;
   'aria-label': string;
-};
+}
 
-{/* need a class for the progress bar class name: progress-bar */ }
+// Extended props with styling options
 type ProgressBarPropsWithClassName = ProgressBarProps & {
-  className?: CSSProperties;
-  style?: CSSProperties;
+  className?: React.CSSProperties;
+  style?: React.CSSProperties;
   containerClassName?: string;
   barClassName?: string;
-  variant?: 'primary' | 'success' | 'warning' | 'danger' | 'dark' | 'light';
+  variant?: ProgressBarVariant;
 };
 
 const ProgressBar = ({ progress, max, min, 'aria-label': ariaLabel, className, style, containerClassName = 'w-full bg-gray-200 rounded-full h-4 overflow-hidden', barClassName = 'h-full rounded-full transition-all duration-300 flex items-center justify-center text-xs font-medium', variant = 'primary' }: ProgressBarPropsWithClassName) => {

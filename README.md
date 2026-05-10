@@ -41,6 +41,9 @@ module.exports = {
 }
 ```
 
+**💡 Tailwind CSS Best Practices with Luna Library:**
+To ensure Tailwind CSS successfully generates and includes the necessary utility classes in your target project's build, it is highly recommended to explicitly provide all necessary styling and positioning classes via the `className` prop for each component you use. By manually specifying these classes (e.g., `className="bg-blue-600 text-white p-4"`), you guarantee that Tailwind's scanner in your main project detects them and includes them in your final CSS file without relying exclusively on the node_modules parser.
+
 ## 🚀 Quick Start
 
 ```jsx
@@ -120,6 +123,8 @@ function App() {
 
 ## 🧩 Components
 
+All components use TypeScript with specific types for better type safety and IntelliSense. The library follows a minimal documentation approach with descriptive type names instead of extensive JSDoc comments.
+
 ### Button
 A versatile button component with multiple variants and sizes.
 
@@ -137,11 +142,17 @@ A versatile button component with multiple variants and sizes.
 
 **Props:**
 - `children`: React.ReactNode - Button content
-- `variant?: 'primary' | 'secondary' | 'outline'` - Button style (default: 'primary')
-- `size?: 'sm' | 'md' | 'lg'` - Button size (default: 'md')
+- `variant?: ButtonVariant` - Button style (default: 'primary')
+- `size?: ButtonSize` - Button size (default: 'md')
 - `onClick?: () => void` - Click handler
 - `disabled?: boolean` - Disable button (default: false)
 - `className?: string` - Additional CSS classes
+
+**Types:**
+```typescript
+type ButtonVariant = 'primary' | 'secondary' | 'outline';
+type ButtonSize = 'sm' | 'md' | 'lg';
+```
 
 **Variants:**
 - `primary` - Blue background button
@@ -166,8 +177,14 @@ A flexible card component for displaying content with various padding and shadow
 - `children`: React.ReactNode - Card content
 - `title?: string` - Card title (optional)
 - `className?: string` - Additional CSS classes
-- `padding?: 'none' | 'sm' | 'md' | 'lg'` - Internal padding (default: 'md')
-- `shadow?: 'none' | 'sm' | 'md' | 'lg'` - Shadow depth (default: 'md')
+- `padding?: CardPadding` - Internal padding (default: 'md')
+- `shadow?: CardShadow` - Shadow depth (default: 'md')
+
+**Types:**
+```typescript
+type CardPadding = 'none' | 'sm' | 'md' | 'lg';
+type CardShadow = 'none' | 'sm' | 'md' | 'lg';
+```
 
 ### Anchor
 A styled link component that opens in a new tab with customizable variants and sizes.
@@ -185,10 +202,16 @@ A styled link component that opens in a new tab with customizable variants and s
 
 **Props:**
 - `children?: React.ReactNode` - Link content (default: "Pablo Andrey Chacon Luna")
-- `variant?: 'primary' | 'secondary' | 'outline'` - Link style (default: 'primary')
-- `size?: 'sm' | 'md' | 'lg'` - Link size (default: 'sm')
+- `variant?: AnchorVariant` - Link style (default: 'primary')
+- `size?: AnchorSize` - Link size (default: 'sm')
 - `href?: string` - URL to link to (default: 'https://andreychaconresumereact.netlify.app/')
 - `className?: string` - Additional CSS classes
+
+**Types:**
+```typescript
+type AnchorVariant = 'none' | 'primary' | 'secondary' | 'outline';
+type AnchorSize = 'sm' | 'md' | 'lg';
+```
 
 ### Accordion
 A collapsible content component with customizable header and content sections.
@@ -211,14 +234,25 @@ A collapsible content component with customizable header and content sections.
 - `content: React.ReactNode` - Content to show when expanded
 
 ### Spinner
-A loading spinner component with customizable styling.
+A loading spinner component with customizable types and animations.
 
 ```jsx
-<Spinner className="custom-spinner" />
+<Spinner size="md" type="circle" className="custom-spinner" />
 ```
 
 **Props:**
-- `className?: string` - Additional CSS classes (default: "spinner-border")
+- `className?: string` - Additional CSS classes
+- `containerClassName?: string` - CSS classes for the container element
+- `dotClassName?: string` - CSS classes for dot elements
+- `barClassName?: string` - CSS classes for bar elements
+- `size?: SpinnerSize` - Spinner size (default: 'md')
+- `type?: SpinnerType` - Spinner animation type (default: 'circle')
+
+**Types:**
+```typescript
+type SpinnerSize = 'sm' | 'md' | 'lg';
+type SpinnerType = 'circle' | 'dots' | 'pulse' | 'bars';
+```
 
 ### DropDown
 A dropdown menu component with customizable toggle and options.
@@ -267,6 +301,16 @@ A progress bar component with customizable progress values and accessibility.
 - `max: number` - Maximum progress value
 - `min: number` - Minimum progress value
 - `aria-label: string` - Accessibility label
+- `className?: React.CSSProperties` - Custom CSS properties for styling
+- `style?: React.CSSProperties` - Additional inline styles
+- `containerClassName?: string` - CSS classes for the container element
+- `barClassName?: string` - CSS classes for the progress bar element
+- `variant?: ProgressBarVariant` - Color variant (default: 'primary')
+
+**Types:**
+```typescript
+type ProgressBarVariant = 'primary' | 'success' | 'warning' | 'danger' | 'dark' | 'light';
+```
 
 ### Preloader
 A fullscreen overlay preloader component with customizable spinner and auto-hide functionality.
@@ -328,6 +372,20 @@ A floating scroll-to-top button that appears when the user scrolls down the page
   size="md"
   className="bg-blue-600 hover:bg-blue-700"
 />
+```
+
+**💡 Tip for Bootstrap / Existing CSS Frameworks:**
+If you are using this library in a project that also uses Bootstrap (or another framework), you may need to explicitly declare all Tailwind positioning and styling classes and mark them with `!` (important) to ensure they have priority over Bootstrap's default styles (which can override border-radius or positioning). For example:
+
+```jsx
+<ScrollTop
+  size="sm"
+  scrollPercentage={5}
+  className="!bg-indigo-600 hover:!bg-indigo-700 !text-white !rounded-full !z-[9999] !w-10 !h-10 flex items-center justify-center !right-8 !bottom-8 !fixed"
+  position="bottom-right"
+>
+  <i className="bi bi-arrow-up"></i>
+</ScrollTop>
 ```
 
 **Props:**
@@ -412,6 +470,73 @@ A floating scroll-to-top button that appears when the user scrolls down the page
 </ScrollTop>
 ```
 
+### Typed
+A typing animation component that types and deletes text in sequence.
+
+```jsx
+<Typed 
+  strings={['Hello', 'World', 'React']}
+  typeSpeed={50}
+  backSpeed={30}
+  loop={true}
+  className="typed-text"
+/>
+```
+
+**Props:**
+- `strings: string[]` - Array of strings to type in sequence
+- `typeSpeed?: number` - Speed of typing in milliseconds per character (default: 50)
+- `backSpeed?: number` - Speed of backspacing in milliseconds per character (default: 30)
+- `backDelay?: number` - Delay before backspacing starts in milliseconds (default: 500)
+- `startDelay?: number` - Delay before typing starts in milliseconds (default: 0)
+- `loop?: boolean` - Whether to loop through strings indefinitely (default: true)
+- `showCursor?: boolean` - Whether to show a blinking cursor (default: true)
+- `className?: string` - Additional CSS classes for the component
+- `containerClassName?: string` - CSS classes for the container element
+- `typedClassName?: string` - CSS classes for the typed text
+- `cursorClassName?: string` - CSS classes for the cursor
+- `style?: TypedStyle` - Custom CSS properties for styling
+
+**Types:**
+```typescript
+type TypedStyle = CSSProperties & {
+  animation?: string;
+  animationDelay?: string;
+};
+```
+
+### WhatsApp
+A WhatsApp button component for quick contact integration.
+
+```jsx
+<WhatsApp 
+  phone="1234567890"
+  message="Hello! I need help."
+  position="bottom-right"
+  size="md"
+  className="custom-whatsapp"
+/>
+```
+
+**Props:**
+- `phone?: string` - Phone number for WhatsApp (with country code, without + or spaces)
+- `message?: string` - Default message to send (default: "¡Hola! Me gustaría obtener más información.")
+- `position?: WhatsAppPosition` - Position of the button (default: 'bottom-right')
+- `size?: WhatsAppSize` - Size of the button (default: 'md')
+- `showTooltip?: boolean` - Show tooltip on hover (default: true)
+- `tooltipText?: string` - Tooltip text
+- `className?: string` - Additional CSS classes for the button
+- `style?: React.CSSProperties` - Custom styles
+- `onClick?: () => void` - Callback when button is clicked
+- `zIndex?: number` - Z-index for the button
+- `openInNewTab?: boolean` - Whether to open in new tab (default: true)
+
+**Types:**
+```typescript
+type WhatsAppPosition = 'bottom-right' | 'bottom-left' | 'bottom-center' | 'top-right' | 'top-left' | 'top-center';
+type WhatsAppSize = 'sm' | 'md' | 'lg';
+```
+
 ## 🛠️ Development
 
 ### Prerequisites
@@ -453,6 +578,7 @@ luna-library/
 │   │   ├── ProgressBar.tsx
 │   │   ├── Preloader.tsx
 │   │   ├── ScrollTop.tsx
+│   │   ├── WhatsApp.tsx
 │   │   └── index.ts
 │   └── index.ts
 ├── dist/                 # Build output

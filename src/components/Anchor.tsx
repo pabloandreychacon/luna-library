@@ -1,7 +1,13 @@
+import React from 'react';
+
+// Anchor link variants and sizes
+type AnchorVariant = 'none' | 'primary' | 'secondary' | 'outline';
+type AnchorSize = 'sm' | 'md' | 'lg';
+
 export interface AnchorProps {
   children?: React.ReactNode;
-  variant?: 'none' | 'primary' | 'secondary' | 'outline';
-  size?: 'sm' | 'md' | 'lg';
+  variant?: AnchorVariant;
+  size?: AnchorSize;
   href?: string;
   className?: string;
   containerClassName?: string;

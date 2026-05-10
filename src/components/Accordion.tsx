@@ -1,9 +1,7 @@
 
 import React from 'react';
 
-/**
- * must have key, active, onClick, header, content body
- */
+// Accordion component for collapsible content
 interface AccordionProps {
   active: boolean;
   onClick: () => void;

@@ -10,6 +10,7 @@ import ProgressBar from './components/ProgressBar';
 import Typed from './components/Typed';
 import Preloader from './components/Preloader';
 import ScrollTop from './components/ScrollTop';
+import WhatsApp from './components/WhatsApp';
 
 const DemoApp = () => {
   const [accordionActive, setAccordionActive] = useState(false);
@@ -473,7 +474,7 @@ const DemoApp = () => {
                 <div>
                   <h3 className="text-sm font-medium text-gray-700 mb-3">Default ScrollTop</h3>
                   <p className="text-gray-600 mb-4">
-                    Scroll down to see the button appear. Default position: bottom-right, targetElement={'#default-scrolltop-target'}.
+                    Scroll down to see button appear. Default position: bottom-right, targetElement={'#default-scrolltop-target'}.
                   </p>
                   <div className="h-64 overflow-y-auto border border-gray-200 rounded p-4 bg-gray-50">
                     <div id="default-scrolltop-target" className="space-y-4">
@@ -500,82 +501,73 @@ const DemoApp = () => {
                   </div>
                 </div>
               </div>
+            </div>
+          </section>
 
-              <div className="mt-6 grid grid-cols-1 md:grid-cols-3 gap-6">
-                <div className="text-center">
-                  <h3 className="text-sm font-medium text-gray-700 mb-3">Top Position</h3>
+          {/* WhatsApp Section */}
+          <section>
+            <h2 className="text-2xl font-semibold text-gray-800 mb-6">💬 WhatsApp Component</h2>
+            <div className="bg-white rounded-lg shadow-md p-6">
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div>
+                  <h3 className="text-sm font-medium text-gray-700 mb-3">Basic WhatsApp</h3>
                   <p className="text-gray-600 mb-4">
-                    Scroll down to see the button appear at the top. Default position: top-right, targetElement={'#top-position-target'}, size is set to sm, color is set to green.
+                    Default position (bottom-right), small size, with tooltip.
                   </p>
-                  <div className="h-48 overflow-y-auto border border-gray-200 rounded p-4 bg-gray-50">
-                    <div id="top-position-target" className="space-y-2">
-                      <p>Scroll down...</p>
-
-                    </div>
-                    <ScrollTop
-                      position="top-right"
-                      size="sm"
-                      targetElement="#top-position-target"
-                      className="bg-green-600 hover:bg-green-700"
-                    />
-                  </div>
+                  <WhatsApp
+                    phone="1234567890"
+                    message="Hola! Me gustaría obtener más información."
+                    size="sm"
+                  />
                 </div>
-                <div className="text-center">
-                  <h3 className="text-sm font-medium text-gray-700 mb-3">Center Position</h3>
+                <div>
+                  <h3 className="text-sm font-medium text-gray-700 mb-3">Custom Position & Tooltip</h3>
                   <p className="text-gray-600 mb-4">
-                    Scroll down to see the button appear at the center. Position is set to top-center, targetElement is set to '#center-position-target', size is set to sm, color is set to blue.
+                    Bottom-left position, medium size, custom tooltip text.
                   </p>
-                  <div className="h-48 overflow-y-auto border border-gray-200 rounded p-4 bg-gray-50">
-                    <div id="center-position-target" className="space-y-2">
-                      <p>Scroll down...</p>
-
-                    </div>
-                    <ScrollTop
-                      position="top-center"
-                      size="sm"
-                      targetElement="#center-position-target"
-                      className="bg-blue-600 hover:bg-blue-700"
-                    />
-                  </div>
+                  <WhatsApp
+                    phone="+1234567890"
+                    message="¿En qué pueden ayudarme?"
+                    size="md"
+                    position="bottom-left"
+                    tooltipText="Chatea con nosotros"
+                  />
                 </div>
-                <div className="text-center">
-                  <h3 className="text-sm font-medium text-gray-700 mb-3">Percentage-based</h3>
+                <div>
+                  <h3 className="text-sm font-medium text-gray-700 mb-3">Large Size, No Tooltip</h3>
                   <p className="text-gray-600 mb-4">
-                    Scroll down to see the button appear at the center. Position is set to bottom-center, scrollPercentage is set to 99, color is set to indigo, size is set to lg, text is set to "Top".
+                    Bottom-center position, large size, tooltip disabled.
                   </p>
-                  <div className="h-48 overflow-y-auto border border-gray-200 rounded p-4 bg-gray-50">
-                    <div id="center-position-target" className="space-y-2">
-                      <div className="space-y-2">
-                        <p>Scroll down...</p>
-                      </div>
-                      <ScrollTop
-                        size="lg"
-                        scrollPercentage={99}
-                        className="bg-indigo-600 hover:bg-indigo-700"
-                        position="bottom-center"
-                      >
-                        <span className="text-white font-bold">Top</span>
-                      </ScrollTop>
-                    </div>
-                  </div>
+                  <WhatsApp
+                    phone="9876543210"
+                    message="Necesito asistencia técnica"
+                    size="lg"
+                    position="bottom-center"
+                    showTooltip={false}
+                  />
                 </div>
               </div>
             </div>
           </section>
-
         </div>
-
-
-      </div >
-      <footer id="demo-footer" className="mt-16 text-center text-gray-600">
-        <p className="mb-2">
-          🌙 Luna Components Library - Visual Demo
-        </p>
-        <p className="text-sm">
-          Test all components before publishing to ensure they work correctly.
-        </p>
-      </footer>
-    </div >
+        <ScrollTop
+          size="lg"
+          scrollPercentage={99}
+          className="bg-indigo-600 hover:bg-indigo-700"
+          position="bottom-center"
+        >
+          <span className="text-white font-bold">Top</span>
+        </ScrollTop>
+        <footer id="demo-footer" className="mt-16 text-center text-gray-600">
+          <p className="mb-2">
+            🌙 Luna Components Library - Visual Demo
+          </p>
+          <p className="text-sm">
+            Test all components before publishing to ensure they work correctly.
+          </p>
+        </footer>
+      </div>
+    </div>
   );
 };
 

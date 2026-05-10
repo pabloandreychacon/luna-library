@@ -9,3 +9,4 @@ export { default as ProgressBar } from './ProgressBar';
 export { default as Typed } from './Typed';
 export { default as Preloader } from './Preloader';
 export { default as ScrollTop } from './ScrollTop';
+export { default as WhatsApp } from './WhatsApp';

@@ -1,21 +1,24 @@
 import React from 'react';
 
+type SpinnerSize = 'sm' | 'md' | 'lg';
+type SpinnerType = 'circle' | 'dots' | 'pulse' | 'bars';
+
 export interface SpinnerProps {
   className?: string;
   containerClassName?: string;
   dotClassName?: string;
   barClassName?: string;
-  size?: 'sm' | 'md' | 'lg';
-  type?: 'circle' | 'dots' | 'pulse' | 'bars';
+  size?: SpinnerSize;
+  type?: SpinnerType;
 };
 
-const Spinner = ({ 
-  className, 
+const Spinner = ({
+  className,
   containerClassName = 'flex gap-1',
   dotClassName = 'bg-blue-600 rounded-full animate-bounce',
   barClassName = 'bg-blue-600 animate-pulse',
-  size = 'md', 
-  type = 'circle' 
+  size = 'md',
+  type = 'circle'
 }: SpinnerProps) => {
   const sizeClasses = {
     sm: 'w-4 h-4',

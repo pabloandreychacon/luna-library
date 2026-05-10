@@ -1,4 +1,4 @@
-{/* must have toggle, options, selected, onChange */ }
+{/* Dropdown component for selecting options */ }
 import React, { useState } from 'react';
 
 type DropDownOption = {
