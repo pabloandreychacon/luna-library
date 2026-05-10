@@ -26,6 +26,9 @@ export type InputProps = {
   variantClassName?: string;
   sizeClassName?: string;
   style?: React.CSSProperties;
+  id?: string;
+  'aria-label'?: string;
+  'aria-labelledby'?: string;
 };
 
 const Input = ({
@@ -47,6 +50,9 @@ const Input = ({
   variantClassName = '',
   sizeClassName = '',
   style,
+  id,
+  'aria-label': ariaLabel,
+  'aria-labelledby': ariaLabelledby,
   ...props
 }: InputProps & AllInputProps) => {
   const baseClasses = containerClassName;
@@ -81,11 +87,15 @@ const Input = ({
   return (
     <div className={classes} style={style}>
       {children && (
-        <label className="block text-sm font-medium text-gray-700 mb-1">
+        <label
+          htmlFor={id}
+          className="block text-sm font-medium text-gray-700 mb-1"
+        >
           {children}
         </label>
       )}
       <input
+        id={id}
         type={type}
         placeholder={placeholder}
         value={value}
@@ -95,6 +105,8 @@ const Input = ({
         disabled={disabled}
         required={required}
         readOnly={readOnly}
+        aria-label={ariaLabel}
+        aria-labelledby={ariaLabelledby}
         className={`
           ${inputClassName}
           ${variantClasses[variant]}

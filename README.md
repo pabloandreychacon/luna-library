@@ -801,6 +801,9 @@ A versatile input component with multiple variants, sizes, and types.
 - `variantClassName?: string` - CSS classes for variant styling
 - `sizeClassName?: string` - CSS classes for size styling
 - `style?: React.CSSProperties` - Custom inline styles
+- `id?: string` - HTML id attribute for label association
+- `aria-label?: string` - ARIA label for accessibility
+- `aria-labelledby?: string` - ARIA labelledby for accessibility
 - `...props`: any - Additional HTML input attributes (spreads all native input props)
 
 **Types:**

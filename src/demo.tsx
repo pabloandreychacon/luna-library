@@ -22,6 +22,7 @@ const DemoApp = () => {
   const [selectedOption, setSelectedOption] = useState('Option 1');
   const [progress, setProgress] = useState(50);
   const [inputValue, setInputValue] = useState('');
+  const [rangeValue, setRangeValue] = useState('50');
   const [showDefaultPreloader, setShowDefaultPreloader] = useState(false);
   const [showCustomPreloader, setShowCustomPreloader] = useState(false);
   const [showModal, setShowModal] = useState<'basic' | 'large-centered' | 'static' | null>(null);
@@ -176,14 +177,15 @@ const DemoApp = () => {
                     />
                   </div>
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">Range</label>
+                    <label className="block text-sm font-medium text-gray-700 mb-1">Range: {rangeValue}</label>
                     <Input
+                      id="range"
                       inputSize="md"
                       type="range"
                       min="0"
                       max="100"
-                      value="50"
-                      onChange={(value) => console.log('Range value:', value)}
+                      value={rangeValue}
+                      onChange={(value) => setRangeValue(value)}
                     />
                   </div>
                   <div>
@@ -197,9 +199,10 @@ const DemoApp = () => {
                 </div>
               </div>
               <div className="mt-6">
-                <h3 className="text-sm font-medium text-gray-700 mb-3">With Label</h3>
+                <h3 className="text-sm font-medium text-gray-700 mb-3">With Label & Accessibility</h3>
                 <div className="space-y-4">
                   <Input
+                    id="fullName"
                     inputSize="md"
                     variant="outline"
                     placeholder="Enter your name"
@@ -209,13 +212,34 @@ const DemoApp = () => {
                     Full Name
                   </Input>
                   <Input
+                    id="email"
                     inputSize="md"
                     variant="outline"
                     type="email"
                     placeholder="your.email@example.com"
+                    aria-label="Email address for contact"
                   >
                     Email Address
                   </Input>
+                  <Input
+                    id="search"
+                    inputSize="md"
+                    variant="primary"
+                    type="search"
+                    placeholder="Search..."
+                    aria-label="Search products"
+                  />
+                  <Input
+                    id="phone"
+                    inputSize="md"
+                    variant="secondary"
+                    type="tel"
+                    placeholder="+1 (555) 123-4567"
+                    aria-labelledby="phoneLabel"
+                  />
+                  <div id="phoneLabel" className="text-sm font-medium text-gray-700 mb-1">
+                    Phone Number (External Label)
+                  </div>
                 </div>
               </div>
             </div>
