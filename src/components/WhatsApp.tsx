@@ -15,6 +15,8 @@ export interface WhatsAppProps {
   tooltipText?: string;
   /** Custom className for the button */
   className?: string;
+  /** Custom className for the tooltip */
+  tooltipClassName?: string;
   /** Custom styles */
   style?: React.CSSProperties;
   /** Callback when button is clicked */
@@ -33,6 +35,7 @@ const WhatsApp = ({
   showTooltip = true,
   tooltipText = '¿En qué podemos ayudarte?',
   className = '',
+  tooltipClassName = '',
   style,
   onClick,
   zIndex = 50,
@@ -127,6 +130,7 @@ const WhatsApp = ({
             transition-opacity duration-300
             ${isHovered ? 'opacity-100' : 'opacity-0'}
             ${position.includes('right') ? 'right-20' : position.includes('left') ? 'left-20' : 'left-1/2 transform -translate-x-1/2'}
+            ${tooltipClassName}
           `}
           style={{
             [position.includes('bottom') ? 'bottom' : 'top']: position.includes('bottom') ? '5.5rem' : '5.5rem'
