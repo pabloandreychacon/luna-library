@@ -1,6 +1,6 @@
 export interface AnchorProps {
   children?: React.ReactNode;
-  variant?: 'primary' | 'secondary' | 'outline';
+  variant?: 'none' | 'primary' | 'secondary' | 'outline';
   size?: 'sm' | 'md' | 'lg';
   href?: string;
   className?: string;
@@ -13,7 +13,7 @@ export interface AnchorProps {
 
 const Anchor = ({
   children = "Pablo Andrey Chacon Luna",
-  variant = 'primary',
+  variant = 'none',
   size = 'sm',
   href = 'https://andreychaconresumereact.netlify.app/',
   className,
@@ -27,6 +27,7 @@ const Anchor = ({
   const baseClasses = containerClassName;
 
   const variantClasses = {
+    none: '',
     primary: 'bg-blue-600 text-white hover:bg-blue-700',
     secondary: 'bg-gray-600 text-white hover:bg-gray-700',
     outline: 'border border-gray-300 text-gray-700 hover:bg-gray-50',

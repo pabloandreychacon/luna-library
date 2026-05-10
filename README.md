@@ -44,7 +44,7 @@ module.exports = {
 ## 🚀 Quick Start
 
 ```jsx
-import { Button, Card, Anchor, Accordion, Spinner, DropDown, ProgressBar } from 'luna-components-library';
+import { Button, Card, Anchor, Accordion, Spinner, DropDown, ProgressBar, Preloader, ScrollTop } from 'luna-components-library';
 
 function App() {
   return (
@@ -99,6 +99,19 @@ function App() {
         max={100}
         min={0}
         aria-label="Upload progress"
+      />
+
+      <Preloader 
+        isLoading={isLoading}
+        duration={2000}
+        onComplete={() => setIsLoading(false)}
+      />
+
+      <ScrollTop 
+        threshold={200}
+        position="bottom-right"
+        size="md"
+        className="bg-blue-600 hover:bg-blue-700"
       />
     </div>
   );
@@ -255,6 +268,150 @@ A progress bar component with customizable progress values and accessibility.
 - `min: number` - Minimum progress value
 - `aria-label: string` - Accessibility label
 
+### Preloader
+A fullscreen overlay preloader component with customizable spinner and auto-hide functionality.
+
+```jsx
+<Preloader 
+  isLoading={isLoading}
+  duration={2000}
+  backgroundColor="#1a1a1a"
+  accentColor="#00ff88"
+  size={90}
+  borderWidth={6}
+  onComplete={() => setIsLoading(false)}
+/>
+```
+
+**Props:**
+- `isLoading?: boolean` - Whether the preloader should be visible (if not provided, uses internal state)
+- `duration?: number` - Duration in milliseconds before auto-hide (default: 1000)
+- `backgroundColor?: string` - Background color of the overlay (default: CSS variable)
+- `accentColor?: string` - Color of the spinner (default: CSS variable)
+- `size?: number` - Size of the spinner in pixels (default: 60)
+- `borderWidth?: number` - Border width of the spinner (default: 6)
+- `className?: string` - Additional CSS classes for the overlay
+- `spinnerClassName?: string` - Additional CSS classes for the spinner
+- `zIndex?: number` - Z-index of the overlay (default: 999999)
+- `onComplete?: () => void` - Callback when preloader finishes
+
+**Usage Modes:**
+- **Controlled:** Use `isLoading` prop to control visibility externally
+- **Auto-hide:** Omit `isLoading` prop to auto-hide after `duration`
+
+**Examples:**
+```jsx
+// Controlled mode
+const [loading, setLoading] = useState(false);
+<Preloader isLoading={loading} onComplete={() => setLoading(false)} />
+
+// Auto-hide mode
+<Preloader duration={3000} />
+
+// Custom styling
+<Preloader 
+  isLoading={true}
+  backgroundColor="rgba(0,0,0,0.8)"
+  accentColor="#ff6b6b"
+  size={120}
+  borderWidth={8}
+/>
+```
+
+### ScrollTop
+A floating scroll-to-top button that appears when the user scrolls down the page.
+
+```jsx
+<ScrollTop 
+  threshold={200}
+  position="bottom-right"
+  size="md"
+  className="bg-blue-600 hover:bg-blue-700"
+/>
+```
+
+**Props:**
+- `threshold?: number` - Scroll position threshold to show the button in pixels (default: 100)
+- `className?: string` - Additional CSS classes for the button
+- `children?: React.ReactNode` - Custom icon/content for the button (default: arrow up)
+- `position?: 'bottom-right' | 'bottom-left' | 'bottom-center' | 'top-right' | 'top-left' | 'top-center'` - Button position (default: 'bottom-right')
+- `size?: 'sm' | 'md' | 'lg'` - Button size (default: 'md')
+- `shape?: 'circle' | 'square' | 'rounded'` - Button shape (default: 'circle')
+- `showInitially?: boolean` - Whether to show the button initially (default: false)
+- `scrollBehavior?: 'auto' | 'smooth'` - Scroll behavior (default: 'smooth')
+- `style?: React.CSSProperties` - Custom styles
+- `onClick?: () => void` - Callback when button is clicked
+- `onVisibilityChange?: (isVisible: boolean) => void` - Callback when visibility changes
+- `targetElement?: string` - Element ID or selector to check visibility for showing the button
+- `scrollPercentage?: number` - Percentage of page scroll to show the button (0-100)
+
+**Position Options:**
+- `bottom-right` - Fixed bottom right
+- `bottom-left` - Fixed bottom left
+- `bottom-center` - Fixed bottom center
+- `top-right` - Fixed top right
+- `top-left` - Fixed top left
+- `top-center` - Fixed top center
+
+**Size Options:**
+- `sm` - Small (32x32px)
+- `md` - Medium (48x48px)
+- `lg` - Large (64x64px)
+
+**Shape Options:**
+- `circle` - Fully rounded
+- `square` - Square corners
+- `rounded` - Slightly rounded
+
+**Examples:**
+```jsx
+// Default usage with target element
+<ScrollTop targetElement="#default-target" />
+
+// Custom position and size
+<ScrollTop 
+  position="bottom-left"
+  size="lg"
+  targetElement="#custom-target"
+  className="bg-purple-600 hover:bg-purple-700"
+/>
+
+// Top position with small size
+<ScrollTop 
+  position="top-right"
+  size="sm"
+  targetElement="#top-target"
+  className="bg-green-600 hover:bg-green-700"
+/>
+
+// Center position with custom color
+<ScrollTop 
+  position="top-center"
+  size="sm"
+  targetElement="#center-target"
+  className="bg-blue-600 hover:bg-blue-700"
+/>
+
+// Percentage-based triggering
+<ScrollTop 
+  position="bottom-center"
+  size="lg"
+  scrollPercentage={99}
+  className="bg-indigo-600 hover:bg-indigo-700"
+>
+  <span className="text-white font-bold">Top</span>
+</ScrollTop>
+
+// Custom icon with callbacks
+<ScrollTop 
+  targetElement="#footer"
+  onVisibilityChange={(visible) => console.log('Visible:', visible)}
+  onClick={() => console.log('Scrolled to top!')}
+>
+  <span className="text-white font-bold">↑</span>
+</ScrollTop>
+```
+
 ## 🛠️ Development
 
 ### Prerequisites
@@ -294,6 +451,8 @@ luna-library/
 │   │   ├── Spinner.tsx
 │   │   ├── DropDown.tsx
 │   │   ├── ProgressBar.tsx
+│   │   ├── Preloader.tsx
+│   │   ├── ScrollTop.tsx
 │   │   └── index.ts
 │   └── index.ts
 ├── dist/                 # Build output

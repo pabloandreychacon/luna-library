@@ -18,11 +18,13 @@ build/
 .env.production.local
 
 # IDE
-.vscode/
 .idea/
 *.swp
 *.swo
 *~
+
+# VS Code - Allow launch.json for debugging
+!.vscode/launch.json
 
 # OS
 .DS_Store
@@ -79,3 +81,6 @@ jspm_packages/
 # Temporary folders
 tmp/
 temp/
+
+# Chrome debugging data
+.chrome-debug/
