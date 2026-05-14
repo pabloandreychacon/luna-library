@@ -98,7 +98,7 @@ const ApiExamples = () => {
 
       <section className="pt-8 border-t border-gray-200">
         <h2 className="text-2xl font-bold mb-4 text-gray-800">🛠️ httpClient Utility Example</h2>
-        <p className="text-gray-600 mb-4">Performing manual HTTP requests:</p>
+        <p className="text-gray-600 mb-4">Performing manual HTTP requests. Call apiFetch() inside the httpClient.utils</p>
         <div className="mt-4 p-4 bg-gray-50 rounded-lg border border-gray-200">
           <pre className='bg-gray-100 p-4 rounded-lg mb-4 block text-xs'>
             {`const newPost = await httpClient.post('https://jsonplaceholder.typicode.com/posts', 
@@ -135,6 +135,14 @@ const ApiExamples = () => {
       <section className="pt-8 border-t border-gray-200">
         <h2 className="text-2xl font-bold mb-4 text-gray-800">🌐 apiFetch Utility Example</h2>
         <p className="text-gray-600 mb-4">Low-level fetch wrapper with error handling:</p>
+        <pre className="bg-gray-100 p-4 rounded-lg mb-4 block text-xs">
+          {`A generic wrapper for the fetch API with error handling and response parsing.
+          @param url - The URL to fetch
+          @param options - Fetch options (method, headers, body, signal, etc.)          
+          @returns Parsed JSON response
+          `}
+        </pre>
+
         <div className="mt-4 p-4 bg-gray-50 rounded-lg border border-gray-200">
           <pre className='bg-gray-100 p-4 rounded-lg mb-4 block text-xs'>
             {`try {
