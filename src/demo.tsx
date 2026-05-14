@@ -68,6 +68,9 @@ const DemoApp = () => {
                         value={inputValue}
                         onChange={(value) => setInputValue(value)}
                       />
+                      <code className="bg-gray-100 p-4 rounded-lg mb-4 block text-xs">
+                        {'<Input inputSize="sm" placeholder="Small input" value={inputValue} onChange={(value) => setInputValue(value)} />'}
+                      </code>
                     </div>
                     <div>
                       <label className="block text-sm font-medium text-gray-700 mb-1">Medium Input</label>
@@ -101,6 +104,9 @@ const DemoApp = () => {
                         value={inputValue}
                         onChange={(value) => setInputValue(value)}
                       />
+                      <code className="bg-gray-100 p-4 rounded-lg mb-4 block text-xs">
+                        {'<Input inputSize="md" variant="primary" placeholder="Primary input" value={inputValue} onChange={(value) => setInputValue(value)} />'}
+                      </code>
                     </div>
                     <div>
                       <label className="block text-sm font-medium text-gray-700 mb-1">Secondary Variant</label>
@@ -135,6 +141,9 @@ const DemoApp = () => {
                       disabled
                       placeholder="Disabled input"
                     />
+                    <code className="bg-gray-100 p-4 rounded-lg mb-4 block text-xs">
+                      {'<Input inputSize="md" disabled placeholder="Disabled input" />'}
+                    </code>
                   </div>
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-1">Read Only</label>
@@ -143,6 +152,9 @@ const DemoApp = () => {
                       readOnly
                       value="Read only value"
                     />
+                    <code className="bg-gray-100 p-4 rounded-lg mb-4 block text-xs">
+                      {'<Input inputSize="md" readOnly value="Read only value" />'}
+                    </code>
                   </div>
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-1">Password</label>
@@ -151,6 +163,9 @@ const DemoApp = () => {
                       type="password"
                       placeholder="Password"
                     />
+                    <code className="bg-gray-100 p-4 rounded-lg mb-4 block text-xs">
+                      {'<Input inputSize="md" type="password" placeholder="Password" />'}
+                    </code>
                   </div>
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-1">Email</label>
@@ -159,6 +174,9 @@ const DemoApp = () => {
                       type="email"
                       placeholder="email@example.com"
                     />
+                    <code className="bg-gray-100 p-4 rounded-lg mb-4 block text-xs">
+                      {'<Input inputSize="md" type="email" placeholder="email@example.com" />'}
+                    </code>
                   </div>
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-1">Number</label>
@@ -169,6 +187,9 @@ const DemoApp = () => {
                       value={inputValue}
                       onChange={(value) => setInputValue(value)}
                     />
+                    <code className="bg-gray-100 p-4 rounded-lg mb-4 block text-xs">
+                      {'<Input inputSize="md" type="number" placeholder="12345" value={inputValue} onChange={(value) => setInputValue(value)} />'}
+                    </code>
                   </div>
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-1">Telephone</label>
@@ -179,6 +200,9 @@ const DemoApp = () => {
                       value={inputValue}
                       onChange={(value) => setInputValue(value)}
                     />
+                    <code className="bg-gray-100 p-4 rounded-lg mb-4 block text-xs">
+                      {'<Input inputSize="md" type="tel" placeholder="+1 (555) 123-4567" value={inputValue} onChange={(value) => setInputValue(value)} />'}
+                    </code>
                   </div>
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-1">Range: {rangeValue}</label>
@@ -191,6 +215,9 @@ const DemoApp = () => {
                       value={rangeValue}
                       onChange={(value) => setRangeValue(value)}
                     />
+                    <code className="bg-gray-100 p-4 rounded-lg mb-4 block text-xs">
+                      {'<Input inputSize="md" type="range" min="0" max="100" value={rangeValue} onChange={(value) => setRangeValue(value)} />'}
+                    </code>
                   </div>
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-1">Date</label>
@@ -199,6 +226,9 @@ const DemoApp = () => {
                       type="date"
                       onChange={(value) => console.log('Date:', value)}
                     />
+                    <code className="bg-gray-100 p-4 rounded-lg mb-4 block text-xs">
+                      {'<Input inputSize="md" type="date" onChange={(value) => console.log("Date:", value)} />'}
+                    </code>
                   </div>
                 </div>
               </div>
@@ -215,6 +245,9 @@ const DemoApp = () => {
                   >
                     Full Name
                   </Input>
+                  <code className="bg-gray-100 p-4 rounded-lg mb-4 block text-xs">
+                    {'<Input id="fullName" inputSize="md" variant="outline" placeholder="Enter your name" value={inputValue} onChange={(value) => setInputValue(value)} > Full Name </Input>'}
+                  </code>
                   <Input
                     id="email"
                     inputSize="md"
@@ -225,6 +258,9 @@ const DemoApp = () => {
                   >
                     Email Address
                   </Input>
+                  <code className="bg-gray-100 p-4 rounded-lg mb-4 block text-xs">
+                    {'<Input id="email" inputSize="md" variant="outline" type="email" placeholder="your.email@example.com" aria-label="Email address for contact" > Email Address </Input>'}
+                  </code>
                   <Input
                     id="search"
                     inputSize="md"
@@ -232,7 +268,12 @@ const DemoApp = () => {
                     type="search"
                     placeholder="Search..."
                     aria-label="Search products"
-                  />
+                  >
+                    Search
+                  </Input>
+                  <code className="bg-gray-100 p-4 rounded-lg mb-4 block text-xs">
+                    {'<Input id="search" inputSize="md" variant="primary" type="search" placeholder="Search..." aria-label="Search products" > Search </Input>'}
+                  </code>
                   <Input
                     id="phone"
                     inputSize="md"
@@ -240,10 +281,12 @@ const DemoApp = () => {
                     type="tel"
                     placeholder="+1 (555) 123-4567"
                     aria-labelledby="phoneLabel"
-                  />
-                  <div id="phoneLabel" className="text-sm font-medium text-gray-700 mb-1">
+                  >
                     Phone Number (External Label)
-                  </div>
+                  </Input>
+                  <code className="bg-gray-100 p-4 rounded-lg mb-4 block text-xs">
+                    {'<Input id="phone" inputSize="md" variant="secondary" type="tel" placeholder="+1 (555) 123-4567" aria-labelledby="phoneLabel" > Phone Number (External Label) </Input>'}
+                  </code>
                 </div>
               </div>
             </div>
@@ -258,6 +301,9 @@ const DemoApp = () => {
                   <h3 className="text-sm font-medium text-gray-700 mb-3">Primary & Secondary</h3>
                   <div className="space-y-2">
                     <Button variant="primary" size="sm">Small Primary</Button>
+                    <code className="bg-gray-100 p-4 rounded-lg mb-4 block text-xs">
+                      {'<Button variant="primary" size="sm">Small Primary</Button>'}
+                    </code>
                     <Button variant="primary" size="md">Medium Primary</Button>
                     <Button variant="primary" size="lg">Large Primary</Button>
                     <Button variant="secondary" size="md">Secondary</Button>
@@ -267,6 +313,9 @@ const DemoApp = () => {
                   <h3 className="text-sm font-medium text-gray-700 mb-3">Success & Danger</h3>
                   <div className="space-y-2">
                     <Button variant="success" size="sm">Small Success</Button>
+                    <code className="bg-gray-100 p-4 rounded-lg mb-4 block text-xs">
+                      {'<Button variant="success" size="sm">Small Success</Button>'}
+                    </code>
                     <Button variant="success" size="md">Medium Success</Button>
                     <Button variant="success" size="lg">Large Success</Button>
                     <Button variant="danger" size="md">Danger</Button>
@@ -276,6 +325,9 @@ const DemoApp = () => {
                   <h3 className="text-sm font-medium text-gray-700 mb-3">Warning & Info</h3>
                   <div className="space-y-2">
                     <Button variant="warning" size="sm">Small Warning</Button>
+                    <code className="bg-gray-100 p-4 rounded-lg mb-4 block text-xs">
+                      {'<Button variant="warning" size="sm">Small Warning</Button>'}
+                    </code>
                     <Button variant="warning" size="md">Medium Warning</Button>
                     <Button variant="warning" size="lg">Large Warning</Button>
                     <Button variant="info" size="md">Info</Button>
@@ -285,6 +337,9 @@ const DemoApp = () => {
                   <h3 className="text-sm font-medium text-gray-700 mb-3">Dark & Light</h3>
                   <div className="space-y-2">
                     <Button variant="dark" size="sm">Small Dark</Button>
+                    <code className="bg-gray-100 p-4 rounded-lg mb-4 block text-xs">
+                      {'<Button variant="dark" size="sm">Small Dark</Button>'}
+                    </code>
                     <Button variant="dark" size="md">Medium Dark</Button>
                     <Button variant="dark" size="lg">Large Dark</Button>
                     <Button variant="light" size="md">Light</Button>
@@ -294,9 +349,15 @@ const DemoApp = () => {
                   <h3 className="text-sm font-medium text-gray-700 mb-3">Outline & Link</h3>
                   <div className="space-y-2">
                     <Button variant="outline" size="sm">Small Outline</Button>
+                    <code className="bg-gray-100 p-4 rounded-lg mb-4 block text-xs">
+                      {'<Button variant="outline" size="sm">Small Outline</Button>'}
+                    </code>
                     <Button variant="outline" size="md">Medium Outline</Button>
                     <Button variant="outline" size="lg">Large Outline</Button>
                     <Button variant="link" size="md">Link Button</Button>
+                    <code className="bg-gray-100 p-4 rounded-lg mb-4 block text-xs">
+                      {'<Button variant="link" size="md">Link Button</Button>'}
+                    </code>
                   </div>
                 </div>
               </div>
@@ -304,9 +365,15 @@ const DemoApp = () => {
                 <h3 className="text-sm font-medium text-gray-700 mb-3">States</h3>
                 <div className="flex gap-4">
                   <Button variant="primary" disabled>Disabled Button</Button>
+                  <code className="bg-gray-100 p-4 rounded-lg mb-4 block text-xs">
+                    {'<Button variant="primary" disabled>Disabled Button</Button>'}
+                  </code>
                   <Button variant="outline" onClick={() => alert('Button clicked!')}>
                     Click Me!
                   </Button>
+                  <code className="bg-gray-100 p-4 rounded-lg mb-4 block text-xs">
+                    {'<Button variant="outline" onClick={() => alert("Button clicked!")}>Click Me!</Button>'}
+                  </code>
                 </div>
               </div>
             </div>
@@ -319,10 +386,14 @@ const DemoApp = () => {
               <Card title="Basic Card" padding="sm" shadow="sm">
                 <p className="text-gray-600">Small padding with light shadow.</p>
               </Card>
+              <code className="bg-gray-100 p-4 rounded-lg mb-4 block text-xs">
+                {'<Card title="Basic Card" padding="sm" shadow="sm">'}
+              </code>
               <Card title="Default Card" padding="md" shadow="md">
                 <p className="text-gray-600">Medium padding with medium shadow.</p>
                 <Button variant="outline" size="sm" className="mt-2">Learn More</Button>
               </Card>
+
               <Card title="Large Card" padding="lg" shadow="lg">
                 <p className="text-gray-600">Large padding with large shadow.</p>
                 <div className="mt-4 flex gap-2">
@@ -342,6 +413,9 @@ const DemoApp = () => {
                   <h3 className="text-sm font-medium text-gray-700 mb-3">Primary Anchors</h3>
                   <div className="space-y-2">
                     <Anchor variant="primary" size="sm">Small Link</Anchor>
+                    <code className="bg-gray-100 p-4 rounded-lg mb-4 block text-xs">
+                      {'<Anchor variant="primary" size="sm">Small Link</Anchor>'}
+                    </code>
                     <Anchor variant="primary" size="md">Medium Link</Anchor>
                     <Anchor variant="primary" size="lg">Large Link</Anchor>
                   </div>
@@ -350,6 +424,9 @@ const DemoApp = () => {
                   <h3 className="text-sm font-medium text-gray-700 mb-3">Secondary Anchors</h3>
                   <div className="space-y-2">
                     <Anchor variant="secondary" size="sm">Small Link</Anchor>
+                    <code className="bg-gray-100 p-4 rounded-lg mb-4 block text-xs">
+                      {'<Anchor variant="secondary" size="sm">Small Link</Anchor>'}
+                    </code>
                     <Anchor variant="secondary" size="md">Medium Link</Anchor>
                     <Anchor variant="secondary" size="lg">Large Link</Anchor>
                   </div>
@@ -358,6 +435,9 @@ const DemoApp = () => {
                   <h3 className="text-sm font-medium text-gray-700 mb-3">Outline Anchors</h3>
                   <div className="space-y-2">
                     <Anchor variant="outline" size="sm">Small Link</Anchor>
+                    <code className="bg-gray-100 p-4 rounded-lg mb-4 block text-xs">
+                      {'<Anchor variant="outline" size="sm">Small Link</Anchor>'}
+                    </code>
                     <Anchor variant="outline" size="md">Medium Link</Anchor>
                     <Anchor variant="outline" size="lg">Large Link</Anchor>
                   </div>
@@ -370,9 +450,15 @@ const DemoApp = () => {
                     <Anchor href="https://github.com" variant="primary">
                       🚀 Visit GitHub
                     </Anchor>
+                    <code className="bg-gray-100 p-4 rounded-lg mb-4 block text-xs">
+                      {'<Anchor href="https://github.com" variant="primary">🚀 Visit GitHub</Anchor>'}
+                    </code>
                     <Anchor href="https://google.com" variant="outline">
                       🔍 Google Search
                     </Anchor>
+                    <code className="bg-gray-100 p-4 rounded-lg mb-4 block text-xs">
+                      {'<Anchor href="https://google.com" variant="outline">🔍 Google Search</Anchor>'}
+                    </code>
                   </div>
                   <div className="space-y-2">
                     <p className="text-sm text-gray-600 mb-2">Pure link examples (no button styling):</p>
@@ -384,6 +470,9 @@ const DemoApp = () => {
                       >
                         Wikipedia
                       </Anchor>
+                      <code className="bg-gray-100 p-4 rounded-lg mb-4 block text-xs">
+                        {'<Anchor href="https://www.wikipedia.org" variant="none" className="!text-blue-600 hover:!text-blue-800 !bg-transparent hover:!bg-transparent !px-2 !py-1">Wikipedia</Anchor>'}
+                      </code>
                       <Anchor
                         href="https://developer.mozilla.org"
                         variant="none"
@@ -391,6 +480,9 @@ const DemoApp = () => {
                       >
                         MDN Web Docs
                       </Anchor>
+                      <code className="bg-gray-100 p-4 rounded-lg mb-4 block text-xs">
+                        {'<Anchor href="https://developer.mozilla.org" variant="none" className="!text-gray-600 hover:!text-gray-900 !underline !bg-transparent hover:!bg-transparent">MDN Web Docs</Anchor>'}
+                      </code>
                     </div>
                   </div>
                 </div>
@@ -423,6 +515,10 @@ const DemoApp = () => {
                   </div>
                 }
               />
+              <code className="bg-gray-100 p-4 rounded-lg mb-4 block text-xs">
+                {'<Accordion key="demo-accordion" active={accordionActive} onClick={() => setAccordionActive(!accordionActive)} header={<h3 className="font-medium">Click to {accordionActive ? "Collapse" : "Expand"}</h3>} content={<div><h4 className="font-medium mb-2">Accordion Content</h4><p className="text-gray-600 mb-4">This is the content that appears when the accordion is expanded. You can put any React components here.</p><div className="flex gap-2"><Button variant="primary" size="sm">Action 1</Button><Button variant="outline" size="sm">Action 2</Button></div></div>                '
+                }
+              </code>
             </div>
           </section>
 
@@ -434,18 +530,30 @@ const DemoApp = () => {
                 <div className="text-center">
                   <h3 className="text-sm font-medium text-gray-700 mb-3">Circle Spinner</h3>
                   <Spinner size="md" type="circle" />
+                  <code className="bg-gray-100 p-4 rounded-lg mb-4 block text-xs">
+                    {'<Spinner size="md" type="circle" />'}
+                  </code>
                 </div>
                 <div className="text-center">
                   <h3 className="text-sm font-medium text-gray-700 mb-3">Dots Spinner</h3>
                   <Spinner size="md" type="dots" />
+                  <code className="bg-gray-100 p-4 rounded-lg mt-2 mb-4 block text-xs">
+                    {'<Spinner size="md" type="dots" />'}
+                  </code>
                 </div>
                 <div className="text-center">
                   <h3 className="text-sm font-medium text-gray-700 mb-3">Pulse Spinner</h3>
                   <Spinner size="md" type="pulse" />
+                  <code className="bg-gray-100 p-4 rounded-lg mt-2 mb-4 block text-xs">
+                    {'<Spinner size="md" type="pulse" />'}
+                  </code>
                 </div>
                 <div className="text-center">
                   <h3 className="text-sm font-medium text-gray-700 mb-3">Bars Spinner</h3>
                   <Spinner size="md" type="bars" />
+                  <code className="bg-gray-100 p-4 rounded-lg mt-2 mb-4 block text-xs">
+                    {'<Spinner size="md" type="bars" />'}
+                  </code>
                 </div>
               </div>
             </div>
@@ -464,6 +572,9 @@ const DemoApp = () => {
                     selected={selectedOption}
                     onChange={(value) => setSelectedOption(value as string)}
                   />
+                  <code className="bg-gray-100 p-4 rounded-lg mt-2 mb-4 block text-xs">
+                    {'<DropDown toggle={<Button variant="outline">Select Option</Button>} options={options} selected={selectedOption} onChange={(value) => setSelectedOption(value as string)} />'}
+                  </code>
                   <p className="mt-2 text-sm text-gray-600">Selected: {selectedOption}</p>
                 </div>
                 <div>
@@ -478,6 +589,9 @@ const DemoApp = () => {
                     selected="Blue"
                     onChange={(value) => alert(`Selected: ${value}`)}
                   />
+                  <code className="bg-gray-100 p-4 rounded-lg mt-2 mb-4 block text-xs">
+                    {'<DropDown toggle={<div className="px-4 py-2 bg-purple-600 text-white rounded cursor-pointer hover:bg-purple-700">🎨 Choose Color</div>} options={["Red", "Blue", "Green", "Yellow"]} selected="Blue" onChange={(value) => alert(`Selected: ${value}`)} />'}
+                  </code>
                 </div>
               </div>
             </div>
@@ -495,6 +609,18 @@ const DemoApp = () => {
                     <ProgressBar progress={50} max={100} min={0} aria-label="Processing progress" />
                     <ProgressBar progress={75} max={100} min={0} aria-label="Completion progress" />
                     <ProgressBar progress={100} max={100} min={0} aria-label="Complete progress" />
+                    <code className="bg-gray-100 p-4 rounded-lg mt-2 mb-4 block text-xs">
+                      {'<ProgressBar progress={25} max={100} min={0} aria-label="Upload progress" />'}
+                    </code>
+                    <code className="bg-gray-100 p-4 rounded-lg mt-2 mb-4 block text-xs">
+                      {'<ProgressBar progress={50} max={100} min={0} aria-label="Processing progress" />'}
+                    </code>
+                    <code className="bg-gray-100 p-4 rounded-lg mt-2 mb-4 block text-xs">
+                      {'<ProgressBar progress={75} max={100} min={0} aria-label="Completion progress" />'}
+                    </code>
+                    <code className="bg-gray-100 p-4 rounded-lg mt-2 mb-4 block text-xs">
+                      {'<ProgressBar progress={100} max={100} min={0} aria-label="Complete progress" />'}
+                    </code>
                   </div>
                 </div>
                 <div>
@@ -518,6 +644,18 @@ const DemoApp = () => {
                       </Button>
                     </div>
                     <p className="text-sm text-gray-600">Current progress: {progress}%</p>
+                    <code className="bg-gray-100 p-4 rounded-lg mt-2 mb-4 block text-xs">
+                      {'<ProgressBar progress={progress} max={100} min={0} aria-label="Interactive progress" />'}
+                    </code>
+                    <code className="bg-gray-100 p-4 rounded-lg mt-2 mb-4 block text-xs">
+                      {'<Button variant="outline" size="sm" onClick={() => setProgress(Math.max(0, progress - 10))}>-10%</Button>'}
+                    </code>
+                    <code className="bg-gray-100 p-4 rounded-lg mt-2 mb-4 block text-xs">
+                      {'<Button variant="outline" size="sm" onClick={() => setProgress(Math.min(100, progress + 10))}>+10%</Button>'}
+                    </code>
+                    <code className="bg-gray-100 p-4 rounded-lg mt-2 mb-4 block text-xs">
+                      {'<Button variant="primary" size="sm" onClick={() => setProgress(0)}>Reset</Button>'}
+                    </code>
                   </div>
                 </div>
               </div>
@@ -608,6 +746,9 @@ const DemoApp = () => {
                     aria-label="Custom styling"
                     className={{ backgroundColor: '#374151', color: '#ffffff' }}
                   />
+                  <code className="bg-gray-100 p-4 rounded-lg mt-2 mb-4 block text-xs">
+                    {'<ProgressBar progress={60} max={100} min={0} aria-label="Custom styling" className={{ backgroundColor: "#374151", color: "#ffffff" }} />'}
+                  </code>
                 </div>
               </div>
             </div>
@@ -628,6 +769,9 @@ const DemoApp = () => {
                       loop={true}
                     />
                   </p>
+                  <code className="bg-gray-100 p-4 rounded-lg mt-2 mb-4 block text-xs">
+                    {'<Typed strings={["I\'m a Freelancer", "I\'m a Developer", "I\'m a Designer"]} typeSpeed={100} backSpeed={50} loop={true} />'}
+                  </code>
                 </div>
 
                 <div>
@@ -641,6 +785,9 @@ const DemoApp = () => {
                       loop={true}
                     />
                   </p>
+                  <code className="bg-gray-100 p-4 rounded-lg mt-2 mb-4 block text-xs">
+                    {'<Typed strings={["Fast typing", "Medium typing", "Slow typing"]} typeSpeed={50} backSpeed={30} backDelay={1000} loop={true} />'}
+                  </code>
                 </div>
 
                 <div>
@@ -653,6 +800,9 @@ const DemoApp = () => {
                       loop={false}
                     />
                   </p>
+                  <code className="bg-gray-100 p-4 rounded-lg mt-2 mb-4 block text-xs">
+                    {'<Typed strings={["Clean typing animation"]} typeSpeed={80} showCursor={false} loop={false} />'}
+                  </code>
                 </div>
 
                 <div>
@@ -665,6 +815,9 @@ const DemoApp = () => {
                       loop={false}
                     />
                   </p>
+                  <code className="bg-gray-100 p-4 rounded-lg mt-2 mb-4 block text-xs">
+                    {'<Typed strings={["Starting in 2 seconds..."]} startDelay={2000} typeSpeed={60} loop={false} />'}
+                  </code>
                 </div>
               </div>
             </div>
@@ -690,6 +843,9 @@ const DemoApp = () => {
                       duration={2000}
                       onComplete={() => setShowDefaultPreloader(false)}
                     />
+                    <code className="bg-gray-100 p-4 rounded-lg mt-2 mb-4 block text-xs">
+                      {'<Preloader isLoading={showDefaultPreloader} duration={2000} onComplete={() => setShowDefaultPreloader(false)} />'}
+                    </code>
                   </div>
                 </div>
                 <div>
@@ -711,6 +867,9 @@ const DemoApp = () => {
                       onComplete={() => setShowCustomPreloader(false)}
                       borderWidth={3}
                     />
+                    <code className="bg-gray-100 p-4 rounded-lg mt-2 mb-4 block text-xs">
+                      {'<Preloader isLoading={showCustomPreloader} backgroundColor="#1a1a1a" accentColor="#00ff88" size={90} duration={2000} onComplete={() => setShowCustomPreloader(false)} borderWidth={3} />'}
+                    </code>
                   </div>
                 </div>
               </div>
@@ -732,6 +891,9 @@ const DemoApp = () => {
                       <p>Keep scrolling down...</p>
                     </div>
                     <ScrollTop targetElement={'#default-scrolltop-target'} />
+                    <code className="bg-gray-100 p-4 rounded-lg mt-2 mb-4 block text-xs">
+                      {'<ScrollTop targetElement="#default-scrolltop-target" />'}
+                    </code>
                   </div>
                 </div>
                 <div>
@@ -749,7 +911,21 @@ const DemoApp = () => {
                       targetElement="#custom-scrolltop-target"
                       className="bg-purple-600 hover:bg-purple-700"
                     />
+                    <code className="bg-gray-100 p-4 rounded-lg mt-2 mb-4 block text-xs">
+                      {'<ScrollTop position="bottom-left" size="lg" targetElement="#custom-scrolltop-target" className="bg-purple-600 hover:bg-purple-700" />'}
+                    </code>
                   </div>
+                  <ScrollTop
+                    size="lg"
+                    scrollPercentage={99}
+                    className="bg-indigo-600 hover:bg-indigo-700"
+                    position="bottom-center"
+                  >
+                    <span className="text-white font-bold">Top</span>
+                  </ScrollTop>
+                  <code className="bg-gray-100 p-4 rounded-lg mt-2 mb-4 block text-xs">
+                    {'<ScrollTop size="lg" scrollPercentage={99} className="bg-indigo-600 hover:bg-indigo-700" position="bottom-center"> <span className="text-white font-bold">Top</span> </ScrollTop>'}
+                  </code>
                 </div>
               </div>
             </div>
@@ -783,6 +959,9 @@ const DemoApp = () => {
                     position="bottom-left"
                     tooltipText="Chatea con nosotros"
                   />
+                  <code className="bg-gray-100 p-4 rounded-lg mt-2 mb-4 block text-xs">
+                    {'<WhatsApp phone="+1234567890" message="¿En qué pueden ayudarme?" size="md" position="bottom-left" tooltipText="Chatea con nosotros" />'}
+                  </code>
                 </div>
                 {/* <div>
                   <h3 className="text-sm font-medium text-gray-700 mb-3">Large Size, No Tooltip</h3>
@@ -843,14 +1022,6 @@ const DemoApp = () => {
             </div>
           </section>
         </div>
-        <ScrollTop
-          size="lg"
-          scrollPercentage={99}
-          className="bg-indigo-600 hover:bg-indigo-700"
-          position="bottom-center"
-        >
-          <span className="text-white font-bold">Top</span>
-        </ScrollTop>
 
         {/* Modals */}
         <Modal
@@ -861,6 +1032,9 @@ const DemoApp = () => {
           <p>This is a basic modal with a title and simple content.</p>
           <p>You can close it by clicking the X button, pressing ESC, or clicking outside.</p>
         </Modal>
+        <code className="bg-gray-100 p-4 rounded-lg mt-2 mb-4 block text-xs">
+          {'<Modal show={showModal === "basic"} onHide={() => setShowModal(null)} title="Basic Modal"> <p>This is a basic modal with a title and simple content.</p> <p>You can close it by clicking the X button, pressing ESC, or clicking outside.</p> </Modal>'}
+        </code>
 
         <Modal
           show={showModal === 'large-centered'}
@@ -880,6 +1054,9 @@ const DemoApp = () => {
             </Button>
           </div>
         </Modal>
+        <code className="bg-gray-100 p-4 rounded-lg mt-2 mb-4 block text-xs">
+          {'<Modal show={showModal === "large-centered"} onHide={() => setShowModal(null)} title="Large & Centered Modal" size="lg" centered> <p>This is a large modal that is centered vertically on the screen.</p> <p>It has more space for content and can be used for forms or detailed information.</p> <div className="mt-4 flex gap-2"> <Button variant="secondary" onClick={() => setShowModal(null)}> Cancel </Button> <Button onClick={() => setShowModal(null)}> Save Changes </Button> </div> </Modal>'}
+        </code>
 
         <Modal
           show={showModal === 'static'}
@@ -892,6 +1069,9 @@ const DemoApp = () => {
           <p>You can only close it by clicking the X button or pressing ESC.</p>
           <p className="text-muted">Clicking outside won't close this modal.</p>
         </Modal>
+        <code className="bg-gray-100 p-4 rounded-lg mt-2 mb-4 block text-xs">
+          {'<Modal show={showModal === "static"} onHide={() => setShowModal(null)} title="Static Backdrop Modal" backdrop="static" backdropClose={false}> <p>This modal has a static backdrop.</p> <p>You can only close it by clicking the X button or pressing ESC.</p> <p className="text-muted">Clicking outside won\'t close this modal.</p> </Modal>'}
+        </code>
 
         {/* Modal with Data Example */}
         <section>
@@ -938,8 +1118,8 @@ const DemoApp = () => {
             Test all components before publishing to ensure they work correctly.
           </p>
         </footer>
-      </div>
-    </div>
+      </div >
+    </div >
   );
 };
 

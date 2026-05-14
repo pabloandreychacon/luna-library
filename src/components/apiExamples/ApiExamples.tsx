@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useFetch } from '../../hooks';
-import { httpClient } from '../../utilities';
+import { httpClient, apiFetch } from '../../utilities';
 import Button from '../Button';
 import Card from '../Card';
 import Spinner from '../Spinner';
@@ -13,7 +13,10 @@ interface Post {
 
 const ApiExamples = () => {
   const [postResponse, setPostResponse] = useState<any>(null);
+  const [apiFetchResponse, setApiFetchResponse] = useState<any>(null);
   const [isPosting, setIsPosting] = useState(false);
+  const [isFetching, setIsFetching] = useState(false);
+
   // Example 1: Using useFetch hook with 2s delay
   const { data, error, loading } = useFetch<Post[]>('https://jsonplaceholder.typicode.com/posts?_limit=3', { delay: 2000 });
 
@@ -38,6 +41,23 @@ const ApiExamples = () => {
       alert('Failed to create post.');
     } finally {
       setIsPosting(false);
+    }
+  };
+
+  // Example 3: Using apiFetch manually
+  const handleApiFetch = async () => {
+    setIsFetching(true);
+    setApiFetchResponse(null);
+
+    try {
+      const result = await apiFetch('https://jsonplaceholder.typicode.com/posts/1');
+      setApiFetchResponse(result);
+      console.log('apiFetch result:', result);
+    } catch (err) {
+      console.error('apiFetch error:', err);
+      alert('apiFetch failed.');
+    } finally {
+      setIsFetching(false);
     }
   };
 
@@ -111,8 +131,45 @@ const ApiExamples = () => {
           </div>
         )}
       </section>
+
+      <section className="pt-8 border-t border-gray-200">
+        <h2 className="text-2xl font-bold mb-4 text-gray-800">🌐 apiFetch Utility Example</h2>
+        <p className="text-gray-600 mb-4">Low-level fetch wrapper with error handling:</p>
+        <div className="mt-4 p-4 bg-gray-50 rounded-lg border border-gray-200">
+          <pre className='bg-gray-100 p-4 rounded-lg mb-4 block text-xs'>
+            {`try {
+  const data = await apiFetch('https://jsonplaceholder.typicode.com/posts/1');
+  console.log(data);
+} catch (error) {
+  console.error(error.message);
+}`}</pre>
+        </div>
+
+        <div className="flex items-center gap-4">
+          <Button
+            variant="primary"
+            onClick={handleApiFetch}
+            disabled={isFetching}
+            className="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-6 rounded-lg disabled:opacity-50 mt-4"
+          >
+            {isFetching ? 'Fetching...' : 'Send GET Request (apiFetch)'}
+          </Button>
+
+          {isFetching && <Spinner size="sm" type="circle" className="text-blue-600" />}
+        </div>
+
+        {apiFetchResponse && (
+          <div className="mt-4 p-4 bg-blue-50 border border-blue-200 rounded-lg">
+            <h3 className="text-sm font-semibold text-blue-800 mb-2">✅ apiFetch Response:</h3>
+            <pre className="text-xs text-blue-700 overflow-auto bg-white p-3 rounded border border-blue-100">
+              {JSON.stringify(apiFetchResponse, null, 2)}
+            </pre>
+          </div>
+        )}
+      </section>
     </div>
   );
 };
+
 
 export default ApiExamples;
