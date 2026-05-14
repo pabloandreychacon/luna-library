@@ -54,93 +54,92 @@ import {
 } from 'luna-components-library';
 
 function App() {
+  const [showModal, setShowModal] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+
   return (
-    <div className="p-4 space-y-4">
-      <Button 
-        variant="primary" 
-        size="lg"
-        onClick={() => console.log('Clicked!')}
-        className="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded-lg transition-colors duration-200"
-      >
-        Click me
-      </Button>
-      
-      <Card 
-        title="Example Card" 
-        padding="md" 
-        shadow="lg"
-        className="max-w-md bg-white border border-gray-200 rounded-lg shadow-lg"
-      >
-        <p className="text-gray-700">This is a card component from Luna Components Library.</p>
-        <Button variant="outline" size="sm" className="mt-2 border border-gray-300 hover:border-gray-400">
-          Learn More
+    <div className="p-4 space-y-6">
+      {/* 1. Basic Components */}
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <Button 
+          variant="primary" 
+          onClick={() => setShowModal(true)}
+          className="bg-blue-600 hover:bg-blue-700 text-white p-2 rounded"
+        >
+          Open Modal
         </Button>
+        
+        <Input 
+          placeholder="Type something..." 
+          className="border p-2 rounded"
+        />
+      </div>
+
+      {/* 2. Content Display */}
+      <Card title="Luna Library" className="shadow-md p-4">
+        <Typed 
+          strings={['Modern React Components', 'TypeScript Ready', 'Tailwind Styled']} 
+          className="text-blue-600 font-bold"
+        />
+        <p className="mt-2">Building fast and beautiful interfaces.</p>
       </Card>
 
-      <Anchor 
-        href="https://example.com" 
-        variant="secondary"
-        className="text-gray-600 hover:text-gray-800 underline transition-colors duration-200"
-      >
-        Visit Example
-      </Anchor>
-
+      {/* 3. Interactive Elements */}
       <Accordion 
-        key="demo"
-        active={false}
-        onClick={() => console.log('Toggle')}
-        header={<h3 className="font-semibold text-gray-800">Click to expand</h3>}
-        content={<p className="text-gray-600">This is accordion content!</p>}
-        className="border border-gray-200 rounded-lg overflow-hidden"
+        header="Click to expand" 
+        content="This is the accordion content!" 
+        className="border rounded"
       />
 
-      <Spinner 
-        size="md" 
-        type="circle"
-        className="text-blue-600"
-      />
+      {/* 4. Feedback & Progress */}
+      <div className="space-y-2">
+        <p>Loading Progress:</p>
+        <ProgressBar progress={75} variant="success" className="h-2 bg-gray-200" />
+        <Spinner size="sm" type="dots" className="text-blue-500" />
+      </div>
 
-      <DropDown 
-        toggle={
-          <button className="bg-gray-100 hover:bg-gray-200 border border-gray-300 rounded px-3 py-2 text-sm">
-            Select Option
-          </button>
-        }
-        options={[
-          { value: 'option1', label: 'Option 1' },
-          { value: 'option2', label: 'Option 2' },
-          { value: 'option3', label: 'Option 3' }
-        ]}
-        selected="option1"
-        onChange={(value) => console.log('Selected:', value)}
-      />
+      {/* 5. Communication & Navigation */}
+      <div className="flex gap-4">
+        <WhatsApp phone="123456789" message="Hello!" />
+        <Anchor href="https://github.com" variant="outline">GitHub Repo</Anchor>
+      </div>
 
-      <Modal 
-        show={true}
-        onHide={() => console.log('Modal closed')}
-        title="Modal Title"
-        className="bg-white rounded-lg shadow-xl"
-      >
-        <p className="text-gray-700">This is a modal component from Luna Components Library.</p>
+      {/* 6. Overlays (Modals & Preloaders) */}
+      <Modal show={showModal} onHide={() => setShowModal(false)} title="Quick Start Modal">
+        <p>This is a modal from the library!</p>
       </Modal>
 
-      <ScrollTop 
-        threshold={200}
-        position="bottom-right"
-        size="md"
-        className="bg-blue-600 hover:bg-blue-700 text-white rounded-full shadow-lg"
-      />
-
-      <Input 
-        inputSize="md"
-        variant="primary"
-        placeholder="Enter your text here"
-        className="border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
-      />
+      {isLoading && <Preloader duration={2000} onComplete={() => setIsLoading(false)} />}
+      
+      <ScrollTop threshold={100} className="bg-blue-600 text-white p-2 rounded-full" />
     </div>
   );
 }
 ```
+
+### ⚓ Hooks & Utilities Quick Start
+
+Luna Library also provides powerful hooks and utilities for common tasks:
+
+```javascript
+import { useFetch, useLocalStorage, httpClient, formatters, validators } from 'luna-components-library';
+
+// 1. Data Fetching Hook
+const { data, loading, error } = useFetch('https://api.example.com/data');
+
+// 2. Direct HTTP Client
+const postData = async () => {
+  const result = await httpClient.post('/api/users', { name: 'New User' });
+};
+
+// 3. Local Storage Management
+const [theme, setTheme] = useLocalStorage('app-theme', 'light');
+
+// 4. Practical Utilities
+const price = formatters.currency(1200.50); // "$1,200.50"
+const isValid = validators.isEmail('user@luna.com'); // true
+```
+
 
 ## 🧩 Components
 
@@ -854,6 +853,21 @@ const response = await httpClient.post('https://api.example.com/posts', {
 // httpClient.delete(url, options)
 ```
 
+### apiFetch
+A low-level wrapper for the native `fetch` API that includes automatic response parsing and error handling for non-OK HTTP statuses.
+
+```javascript
+import { apiFetch } from 'luna-components-library';
+
+try {
+  const data = await apiFetch('https://api.example.com/resource');
+  console.log(data);
+} catch (error) {
+  console.error('Fetch failed:', error.message);
+}
+```
+
+
 ### storage
 A wrapper for `localStorage` with safety checks and automatic JSON parsing.
 
@@ -899,8 +913,6 @@ logger.info('App started');
 logger.success('User logged in');
 logger.warn('Low disk space');
 logger.error('API failed', error);
-```
-```
 
 ### useFetch
 A powerful custom hook for performing data fetching. It manages `data`, `error`, and `loading` states automatically and includes built-in `AbortController` support to prevent memory leaks and race conditions.
