@@ -827,7 +827,131 @@ type InputType = 'text' | 'email' | 'password' | 'number' | 'tel' | 'url' | 'sea
 - `lg` - Large padding and text
 - `xl` - Extra large padding and text
 
+
+## 🛠️ Utilities & Hooks
+
+Luna Library now includes generic utilities and hooks to streamline API communication and state management.
+
+### httpClient
+A generic HTTP client wrapper for the Fetch API with support for standard HTTP methods. It automatically handles JSON stringification for POST/PUT requests and sets appropriate headers.
+
+```javascript
+import { httpClient } from 'luna-components-library';
+
+// GET request
+const data = await httpClient.get('https://api.example.com/data');
+
+// POST request
+const response = await httpClient.post('https://api.example.com/posts', {
+  title: 'New Post',
+  body: 'Content here'
+});
+
+// httpClient.delete(url, options)
+```
+
+### storage
+A wrapper for `localStorage` with safety checks and automatic JSON parsing.
+
+```javascript
+import { storage } from 'luna-components-library';
+
+storage.set('user-theme', 'dark');
+const theme = storage.get('user-theme', 'light'); // 'dark'
+storage.remove('user-theme');
+storage.clear();
+```
+
+### formatters
+Useful functions for data presentation.
+
+```javascript
+import { formatters } from 'luna-components-library';
+
+const price = formatters.currency(1500.50); // "$1,500.50"
+const date = formatters.date(new Date()); // "May 14, 2026"
+const text = formatters.truncate('Long text here...', 10); // "Long text..."
+```
+
+### validators
+Common validation rules.
+
+```javascript
+import { validators } from 'luna-components-library';
+
+validators.isEmail('test@example.com'); // true
+validators.isEmpty('   '); // true
+validators.isStrongPassword('Pass1234'); // true
+```
+
+### logger
+Styled console logging for better debugging in development.
+
+```javascript
+import { logger } from 'luna-components-library';
+
+logger.info('App started');
+logger.success('User logged in');
+logger.warn('Low disk space');
+logger.error('API failed', error);
+```
+```
+
+### useFetch
+A powerful custom hook for performing data fetching. It manages `data`, `error`, and `loading` states automatically and includes built-in `AbortController` support to prevent memory leaks and race conditions.
+
+**Options:**
+- `delay?: number` - Optional delay in milliseconds before performing the fetch (useful for simulating slow networks or testing loading states).
+
+```javascript
+import { useFetch, Spinner } from 'luna-components-library';
+
+function UserList() {
+  // Fetch with an artificial delay of 2 seconds
+  const { data, error, loading } = useFetch('https://api.example.com/users', { delay: 2000 });
+
+  if (loading) return <Spinner />;
+  if (error) return <div>Error: {error}</div>;
+
+  return (
+    <ul>
+      {data?.map(user => (
+        <li key={user.id}>{user.name}</li>
+      ))}
+    </ul>
+  );
+}
+
+### useLocalStorage
+Syncs state with `localStorage` automatically.
+
+```javascript
+import { useLocalStorage } from 'luna-components-library';
+
+function ThemeToggle() {
+  const [theme, setTheme] = useLocalStorage('theme', 'light');
+  return <button onClick={() => setTheme(theme === 'light' ? 'dark' : 'light')}>{theme}</button>;
+}
+```
+
+### useDebounce
+Delays value updates until a specified time has passed.
+
+```javascript
+import { useDebounce } from 'luna-components-library';
+
+function Search() {
+  const [query, setQuery] = useState('');
+  const debouncedQuery = useDebounce(query, 500);
+  
+  useEffect(() => {
+    // Perform search only when user stops typing
+  }, [debouncedQuery]);
+}
+```
+
 ## 🛠️ Development
+
 
 ### Prerequisites
 - Node.js 16+ 
@@ -859,17 +983,14 @@ npm run clean
 luna-library/
 ├── src/
 │   ├── components/
-│   │   ├── Button.tsx
-│   │   ├── Card.tsx
-│   │   ├── Anchor.tsx
-│   │   ├── Accordion.tsx
-│   │   ├── Spinner.tsx
-│   │   ├── DropDown.tsx
-│   │   ├── ProgressBar.tsx
-│   │   ├── Preloader.tsx
-│   │   ├── ScrollTop.tsx
-│   │   ├── WhatsApp.tsx
-│   │   ├── Input.tsx
+│   │   ├── ... (Button, Card, Modal, etc.)
+│   │   └── index.ts
+│   ├── hooks/
+│   │   ├── useFetch.hook.ts
+│   │   └── index.ts
+│   ├── utilities/
+│   │   ├── apiFetch.util.ts
+│   │   ├── httpClient.util.ts
 │   │   └── index.ts
 │   └── index.ts
 ├── dist/                 # Build output

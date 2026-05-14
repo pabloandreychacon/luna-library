@@ -15,7 +15,11 @@ import Preloader from './components/Preloader';
 import ScrollTop from './components/ScrollTop';
 import WhatsApp from './components/WhatsApp';
 import Modal from './components/Modal';
-import ModalDataExample from './examples/ModalDataExample';
+import ModalDataExample from './components/modalExamples/ModalDataExample';
+import ApiExamples from './components/apiExamples/ApiExamples';
+import UtilExamples from './components/utilExamples/UtilExamples';
+
+
 
 const DemoApp = () => {
   const [accordionActive, setAccordionActive] = useState(false);
@@ -900,6 +904,32 @@ const DemoApp = () => {
           </div>
         </section>
 
+        {/* Hooks & Utilities Section */}
+        <section className="mt-12">
+          <h2 className="text-2xl font-semibold text-gray-800 mb-6">⚙️ Extra Hooks & Utilities</h2>
+          <div className="bg-white rounded-lg shadow-md overflow-hidden">
+            <div className="p-6 bg-gray-50 border-b border-gray-200">
+              <p className="text-gray-600">
+                Additional helper hooks and utilities included in the library to speed up development.
+              </p>
+            </div>
+            <UtilExamples />
+          </div>
+        </section>
+
+        <section className="mt-12">
+          <h2 className="text-2xl font-semibold text-gray-800 mb-6">🛠️ API Utilities & Hooks</h2>
+          <div className="bg-white rounded-lg shadow-md overflow-hidden">
+            <div className="p-6 bg-gray-50 border-b border-gray-200">
+              <p className="text-gray-600">
+                Demonstration of the new <code>useFetch</code> hook and <code>httpClient</code> utility.
+                The examples below perform real API requests to JSONPlaceholder.
+              </p>
+            </div>
+            <ApiExamples />
+          </div>
+        </section>
+
         <footer id="demo-footer" className="mt-16 text-center text-gray-600">
           <p className="mb-2">
             🌙 Luna Components Library - Visual Demo
@@ -909,9 +939,6 @@ const DemoApp = () => {
           </p>
         </footer>
       </div>
-      <Button variant="primary" onClick={() => console.log('Button clicked')}>
-        Click me
-      </Button>
     </div>
   );
 };
