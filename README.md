@@ -836,7 +836,7 @@ type InputType = 'text' | 'email' | 'password' | 'number' | 'tel' | 'url' | 'sea
 Luna Library now includes generic utilities and hooks to streamline API communication and state management.
 
 ### httpClient
-A generic HTTP client wrapper for the Fetch API with support for standard HTTP methods. It automatically handles JSON stringification for POST/PUT requests and sets appropriate headers.
+A generic HTTP client wrapper for the Fetch API with support for standard HTTP methods. It automatically handles JSON stringification for POST/PUT requests and sets appropriate headers. Calls apiFetch internally.
 
 ```javascript
 import { httpClient } from 'luna-components-library';
@@ -913,6 +913,7 @@ logger.info('App started');
 logger.success('User logged in');
 logger.warn('Low disk space');
 logger.error('API failed', error);
+```
 
 ### useFetch
 A powerful custom hook for performing data fetching. It manages `data`, `error`, and `loading` states automatically and includes built-in `AbortController` support to prevent memory leaks and race conditions.
