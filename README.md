@@ -47,7 +47,11 @@ To ensure Tailwind CSS successfully generates and includes the necessary utility
 ## 🚀 Quick Start
 
 ```jsx
-import { Button, Card, Anchor, Accordion, Spinner, DropDown, ProgressBar, Preloader, ScrollTop, Modal, Input } from 'luna-components-library';
+import { 
+  Button, Card, Anchor, Accordion, Spinner, DropDown, 
+  ProgressBar, Preloader, ScrollTop, Modal, Input, 
+  WhatsApp, Typed 
+} from 'luna-components-library';
 
 function App() {
   return (
@@ -882,6 +886,7 @@ import { validators } from 'luna-components-library';
 validators.isEmail('test@example.com'); // true
 validators.isEmpty('   '); // true
 validators.isStrongPassword('Pass1234'); // true
+validators.isPhone('88888888', 'es-CR'); // true
 ```
 
 ### logger
@@ -983,20 +988,30 @@ npm run clean
 luna-library/
 ├── src/
 │   ├── components/
-│   │   ├── ... (Button, Card, Modal, etc.)
+│   │   ├── apiExamples/          # Examples for API utilities
+│   │   ├── modalExamples/        # Examples for Modal component
+│   │   ├── utilExamples/         # Examples for hooks and extra utilities
+│   │   ├── Button.tsx
+│   │   ├── Card.tsx
+│   │   ├── ... (Other UI Components)
 │   │   └── index.ts
 │   ├── hooks/
 │   │   ├── useFetch.hook.ts
+│   │   ├── useLocalStorage.hook.ts
+│   │   ├── useDebounce.hook.ts
 │   │   └── index.ts
 │   ├── utilities/
 │   │   ├── apiFetch.util.ts
 │   │   ├── httpClient.util.ts
+│   │   ├── storage.util.ts
+│   │   ├── formatters.util.ts
+│   │   ├── validators.util.ts
+│   │   ├── logger.util.ts
 │   │   └── index.ts
-│   └── index.ts
-├── dist/                 # Build output
+│   ├── demo.tsx                  # Main visual demo page
+│   └── index.ts                  # Library entry point
+├── dist/                         # Build output
 ├── package.json
-├── tsconfig.json
-├── vite.config.ts
 └── README.md
 ```
 
