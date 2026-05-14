@@ -939,6 +939,7 @@ function UserList() {
     </ul>
   );
 }
+```
 
 ### useLocalStorage
 Syncs state with `localStorage` automatically.
