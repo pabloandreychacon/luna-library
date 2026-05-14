@@ -1,7 +1,6 @@
 /**
- * Utility for logging messages with different levels and optional environment check.
+ * Utility for logging messages with different levels.
  */
-const isDev = process.env.NODE_ENV === 'development';
 
 const logStyles = {
   info: 'color: #3b82f6; font-weight: bold;',
@@ -12,25 +11,18 @@ const logStyles = {
 
 export const logger = {
   info: (message: string, ...data: any[]): void => {
-    if (isDev) {
-      console.log(`%c[INFO] ${message}`, logStyles.info, ...data);
-    }
+    console.log(`%c[INFO] ${message}`, logStyles.info, ...data);
   },
 
   warn: (message: string, ...data: any[]): void => {
-    if (isDev) {
-      console.warn(`%c[WARN] ${message}`, logStyles.warn, ...data);
-    }
+    console.warn(`%c[WARN] ${message}`, logStyles.warn, ...data);
   },
 
   error: (message: string, ...data: any[]): void => {
-    // Errors are usually logged even in production for debugging
     console.error(`%c[ERROR] ${message}`, logStyles.error, ...data);
   },
 
   success: (message: string, ...data: any[]): void => {
-    if (isDev) {
-      console.log(`%c[SUCCESS] ${message}`, logStyles.success, ...data);
-    }
+    console.log(`%c[SUCCESS] ${message}`, logStyles.success, ...data);
   }
 };
