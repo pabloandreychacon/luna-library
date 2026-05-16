@@ -1,13 +1,16 @@
-import React from 'react';
+import React, { useCallback, useState, useEffect } from 'react';
+import { inputStyles } from '../styles';
+import type { ClassNames, Styles, InputVariant, InputSize } from '../types';
 
-// Input variants and sizes
-export type InputVariant = 'none' | 'primary' | 'secondary' | 'outline' | 'danger' | 'success';
-export type InputSize = 'sm' | 'md' | 'lg' | 'xl';
+export type { InputVariant, InputSize };
 export type InputType = 'text' | 'email' | 'password' | 'number' | 'tel' | 'url' | 'search' | 'date' | 'time' | 'datetime-local' | 'month' | 'week' | 'color' | 'file' | 'hidden' | 'image' | 'range' | 'reset' | 'submit';
 
-export type AllInputProps = Omit<React.ComponentPropsWithoutRef<'input'>, 'onChange'>;
+export type AllInputProps = Omit<React.ComponentPropsWithoutRef<'input'>, 'onChange' | 'value'>;
 
-export type InputProps = {
+export type InputClassNames = ClassNames<'container' | 'input' | 'label'>;
+export type InputStyles = Styles<'container' | 'input' | 'label'>;
+
+type InputCommonProps = {
   children?: React.ReactNode;
   variant?: InputVariant;
   inputSize?: InputSize;
@@ -20,16 +23,25 @@ export type InputProps = {
   disabled?: boolean;
   required?: boolean;
   readOnly?: boolean;
-  className?: string;
-  containerClassName?: string;
-  inputClassName?: string;
-  variantClassName?: string;
-  sizeClassName?: string;
-  style?: React.CSSProperties;
-  id?: string;
+  mask?: string;
+  maskChar?: string;
+  // Number/Currency props
+  useCurrency?: boolean;
+  currency?: string; // Example: "USD", "CRC", "EUR"
+  locale?: string; // Example: "en-US", "es-CR"
+  minFractionDigits?: number;
+  maxFractionDigits?: number;
   'aria-label'?: string;
   'aria-labelledby'?: string;
+  classNames?: InputClassNames;
+  styles?: InputStyles;
+  className?: string;
+  style?: React.CSSProperties;
+  id?: string;
+  name?: string;
 };
+
+export type InputProps = InputCommonProps;
 
 const Input = ({
   children,
@@ -37,83 +49,149 @@ const Input = ({
   type = 'text',
   inputSize = 'md',
   placeholder,
-  value,
+  value: controlledValue,
   onChange,
   onFocus,
   onBlur,
   disabled = false,
   required = false,
   readOnly = false,
-  className = '',
-  containerClassName = 'relative inline-block',
-  inputClassName = 'border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500',
-  variantClassName = '',
-  sizeClassName = '',
-  style,
   id,
+  name,
+  mask,
+  maskChar = '_',
+  useCurrency = false,
+  currency = 'USD',
+  locale = 'en-US',
+  minFractionDigits = 0,
+  maxFractionDigits = 2,
   'aria-label': ariaLabel,
   'aria-labelledby': ariaLabelledby,
+  classNames = {},
+  styles = {},
+  className: extraClassName = '',
+  style: extraStyle = {},
   ...props
 }: InputProps & AllInputProps) => {
-  const baseClasses = containerClassName;
+  const inputId = id || name;
+  const defaultClassNames = {
+    container: 'luna-input',
+    input: 'luna-input-field',
+    label: 'luna-input-label'
+  };
+  const finalClassNames = { ...defaultClassNames, ...classNames };
 
-  const variantClasses: Record<InputVariant, string> = {
-    none: '',
-    primary: 'bg-blue-600 text-white border-blue-600 focus:ring-blue-500 focus:border-blue-500',
-    secondary: 'bg-gray-600 text-white border-gray-600 focus:ring-gray-500 focus:border-gray-500',
-    outline: 'border-gray-300 text-gray-700 bg-white focus:ring-blue-500 focus:border-blue-500',
-    danger: 'bg-red-600 text-white border-red-600 focus:ring-red-500 focus:border-red-500',
-    success: 'bg-green-600 text-white border-green-600 focus:ring-green-500 focus:border-green-500'
+  // Internal state for uncontrolled usage
+  const [internalValue, setInternalValue] = useState(controlledValue || '');
+
+  // Keep internal value in sync with controlled value
+  useEffect(() => {
+    if (controlledValue !== undefined) {
+      setInternalValue(controlledValue);
+    }
+  }, [controlledValue]);
+
+  // --- Currency Formatting Logic ---
+
+  const formatCurrency = useCallback((val: string) => {
+    // Remove all non-numeric chars except decimal point
+    const cleanVal = val.replace(/[^0-9.]/g, '');
+    if (!cleanVal) return '';
+
+    const numericVal = parseFloat(cleanVal);
+    if (isNaN(numericVal)) return '';
+
+    return new Intl.NumberFormat(locale, {
+      style: useCurrency ? 'currency' : 'decimal',
+      currency: useCurrency ? currency : undefined,
+      minimumFractionDigits: minFractionDigits,
+      maximumFractionDigits: maxFractionDigits,
+    }).format(numericVal);
+  }, [locale, useCurrency, currency, minFractionDigits, maxFractionDigits]);
+
+  // --- Masking Logic ---
+
+  const formatWithMask = useCallback((val: string, maskStr: string) => {
+    if (!maskStr) return val;
+    let formatted = '';
+    let rawIdx = 0;
+    const rawVal = val.replace(/[^a-zA-Z0-9]/g, '');
+    for (let i = 0; i < maskStr.length; i++) {
+      const m = maskStr[i];
+      if (rawIdx >= rawVal.length) break;
+      if (m === '9') {
+        if (/\d/.test(rawVal[rawIdx])) { formatted += rawVal[rawIdx]; rawIdx++; }
+        else { rawIdx++; i--; }
+      } else if (m === 'a') {
+        if (/[a-zA-Z]/.test(rawVal[rawIdx])) { formatted += rawVal[rawIdx]; rawIdx++; }
+        else { rawIdx++; i--; }
+      } else if (m === '*') {
+        formatted += rawVal[rawIdx]; rawIdx++;
+      } else {
+        formatted += m;
+        if (rawVal[rawIdx] === m) rawIdx++;
+      }
+    }
+    return formatted;
+  }, []);
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    let newVal = e.target.value;
+
+    if (mask) {
+      newVal = formatWithMask(newVal, mask);
+    } else if (useCurrency || (type === 'number' && locale)) {
+      // For currency/locale numbers, we process only on blur or handle carefully
+      // To allow typing, we don't format EVERYTHING on every keystroke if it's currency
+      // because it jumps. Usually currency inputs are better formatted on blur.
+      // However, let's do a basic numeric-only filter during typing.
+      newVal = newVal.replace(/[^0-9.]/g, '');
+    }
+
+    if (controlledValue === undefined) {
+      setInternalValue(newVal);
+    }
+    onChange?.(newVal);
   };
 
-  const sizeClasses: Record<InputSize, string> = {
-    sm: 'px-2 py-1 text-sm',
-    md: 'px-3 py-2 text-base',
-    lg: 'px-4 py-3 text-lg',
-    xl: 'px-6 py-4 text-xl'
+  const handleBlur = () => {
+    if (useCurrency && internalValue) {
+      const formatted = formatCurrency(internalValue);
+      if (controlledValue === undefined) {
+        setInternalValue(formatted);
+      }
+      onChange?.(formatted);
+    }
+    onBlur?.();
   };
 
-  const classes = `
-    ${baseClasses}
-    ${variantClasses[variant]}
-    ${sizeClasses[inputSize]}
-    ${variantClassName}
-    ${sizeClassName}
-    ${className}
-    ${disabled ? 'opacity-50 cursor-not-allowed' : ''}
-    ${readOnly ? 'bg-gray-100 cursor-not-allowed' : ''}
-  `.trim();
+  const uiStyles = inputStyles(styles, extraStyle, inputSize, readOnly, disabled);
+
+  const finalInputStyle = { ...uiStyles.input, ...uiStyles.variants[variant] };
 
   return (
-    <div className={classes} style={style}>
+    <div className={`${finalClassNames.container || ''} ${extraClassName}`.trim()} style={uiStyles.container}>
       {children && (
-        <label
-          htmlFor={id}
-          className="block text-sm font-medium text-gray-700 mb-1"
-        >
+        <label htmlFor={inputId} className={finalClassNames.label} style={uiStyles.label}>
           {children}
         </label>
       )}
       <input
-        id={id}
-        type={type}
-        placeholder={placeholder}
-        value={value}
-        onChange={(e) => onChange?.(e.target.value)}
+        id={inputId}
+        name={name}
+        type={useCurrency ? 'text' : type}
+        placeholder={placeholder || (mask ? mask.replace(/[9a*]/g, maskChar) : '')}
+        value={internalValue}
+        onChange={handleChange}
         onFocus={onFocus}
-        onBlur={onBlur}
+        onBlur={handleBlur}
         disabled={disabled}
         required={required}
         readOnly={readOnly}
         aria-label={ariaLabel}
         aria-labelledby={ariaLabelledby}
-        className={`
-          ${inputClassName}
-          ${variantClasses[variant]}
-          ${sizeClasses[inputSize]}
-          ${variantClassName}
-          ${sizeClassName}
-        `.trim()}
+        style={finalInputStyle}
+        className={`${finalClassNames.input || ''} rounded-xl`.trim()}
         {...props}
       />
     </div>

@@ -1,7 +1,6 @@
 import React, { useEffect, useRef } from 'react';
-
-// Modal size variants
-type ModalSize = 'sm' | 'md' | 'lg' | 'xl';
+import type { ModalSize } from '../types';
+import { modalOverlayClasses, modalDialogClasses } from '../styles';
 
 export interface ModalProps {
   /** Whether the modal is visible */
@@ -56,11 +55,11 @@ const Modal = ({
   keyboard = true,
   animation = true,
   className = '',
-  dialogClassName = '',
-  contentClassName = '',
-  headerClassName = '',
-  bodyClassName = '',
-  footerClassName = '',
+  dialogClassName = 'luna-modal-dialog',
+  contentClassName = 'luna-modal-content',
+  headerClassName = 'luna-modal-header',
+  bodyClassName = 'luna-modal-body',
+  footerClassName = 'luna-modal-footer',
   title,
   header,
   children,
@@ -68,6 +67,9 @@ const Modal = ({
   closeButton = true,
   style
 }: ModalProps) => {
+  const defaultClass = 'luna-modal';
+  const combinedClassName = `${defaultClass} ${className}`.trim();
+
   const modalRef = useRef<HTMLDivElement>(null);
   const previousActiveElement = useRef<HTMLElement | null>(null);
 
@@ -119,26 +121,8 @@ const Modal = ({
     };
   }, [show]);
 
-  // Size classes
-  const sizeClasses = {
-    sm: 'max-w-sm',
-    md: 'max-w-md',
-    lg: 'max-w-lg',
-    xl: 'max-w-xl'
-  };
-
-  const modalClasses = `
-    fixed inset-0 z-60 flex items-center justify-center
-    ${show ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'}
-    ${animation ? 'transition-opacity duration-300' : ''}
-    ${className}
-  `.trim();
-
-  const dialogClasses = `
-    relative w-full ${sizeClasses[size]} mx-auto
-    ${centered ? 'flex items-center justify-center min-h-screen' : 'mt-8'}
-    ${dialogClassName}
-  `.trim();
+  const modalClasses = modalOverlayClasses(show, animation, combinedClassName);
+  const dialogClasses = modalDialogClasses(size, centered, dialogClassName);
 
   if (!show) return null;
 

@@ -1,8 +1,9 @@
-import React from 'react';
+import React, { useState } from 'react';
+import type { Size, AnchorVariant } from '../types';
+import { colors, radii, fontSizes, fontWeights, transitions, commonStyles, sizeStyles, anchorBaseStyles, anchorVariantStyles } from '../styles';
 
-// Anchor link variants and sizes
-export type AnchorVariant = 'none' | 'primary' | 'secondary' | 'outline';
-export type AnchorSize = 'sm' | 'md' | 'lg';
+export type { AnchorVariant };
+export type AnchorSize = Size;
 export type AllAnchorProps = React.ComponentPropsWithoutRef<'a'>;
 
 export type AnchorProps = {
@@ -11,55 +12,52 @@ export type AnchorProps = {
   size?: AnchorSize;
   href?: string;
   className?: string;
-  containerClassName?: string;
-  variantClassName?: string;
-  sizeClassName?: string;
   target?: string;
   rel?: string;
   style?: React.CSSProperties;
 };
 
 const Anchor = ({
-  children = "Pablo Andrey Chacon Luna",
+  children,
   variant = 'none',
-  size = 'sm',
-  href = 'https://andreychaconresumereact.netlify.app/',
-  className,
-  containerClassName = variant === 'none' ? 'font-medium transition-colors focus:outline-none' : 'font-medium rounded-lg transition-colors focus:outline-none focus:ring-2',
-  variantClassName = 'bg-blue-600 text-white hover:bg-blue-700',
-  sizeClassName = 'px-3 py-1.5 text-sm',
-  target = '_blank',
-  rel = 'noopener noreferrer',
-  style,
+  size = 'md',
+  href,
+  className = '',
+  target,
+  rel,
+  style = {},
   ...props
 }: AnchorProps & AllAnchorProps) => {
+  const [isHovered, setIsHovered] = useState(false);
+  const defaultClass = 'luna-anchor';
+  const combinedClassName = `${defaultClass} ${className}`.trim();
 
-  const baseClasses = containerClassName;
+  // Focus and Active states could also be managed via state if needed,
+  // but we'll stick to hover for simplicity in inline styles.
 
-  const variantClasses = {
-    none: '',
-    primary: 'bg-blue-600 text-white hover:bg-blue-700',
-    secondary: 'bg-gray-600 text-white hover:bg-gray-700',
-    outline: 'border border-gray-300 text-gray-700 hover:bg-gray-50',
+  const uiStyles = {
+    base: anchorBaseStyles(variant, isHovered, size),
+
+    variants: anchorVariantStyles(isHovered)
   };
 
-  const sizeClasses = {
-    sm: 'px-3 py-1.5 text-sm',
-    md: 'px-4 py-2 text-base',
-    lg: 'px-6 py-3 text-lg',
+  const finalStyle = {
+    ...uiStyles.base,
+    ...uiStyles.variants[variant],
+    ...style,
   };
-
-  const classes = `
-    ${baseClasses}
-    ${variantClasses[variant]}
-    ${sizeClasses[size]}
-    ${variantClassName}
-    ${sizeClassName}
-    ${className}
-  `.trim();
 
   return (
-    <a href={href} target={target} rel={rel} className={classes} style={style} {...props}>
+    <a
+      href={href}
+      target={target}
+      rel={rel}
+      className={combinedClassName}
+      style={finalStyle}
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
+      {...props}
+    >
       {children}
     </a>
   );

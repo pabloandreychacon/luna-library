@@ -1,83 +1,66 @@
 import React from 'react';
+import type { ProgressBarVariant } from '../types';
+import { progressBarStyles } from '../styles';
 
-// Progress bar color variants
-export type ProgressBarVariant = 'primary' | 'success' | 'warning' | 'danger' | 'dark' | 'light';
+export type { ProgressBarVariant };
 
-// Core progress bar props
 export type ProgressBarProps = {
+  /** The current progress value */
   progress: number;
-  max: number;
-  min: number;
-  'aria-label': string;
-}
-
-// Extended props with styling options
-export type ProgressBarPropsWithClassName = ProgressBarProps & {
-  className?: React.CSSProperties;
-  style?: React.CSSProperties;
-  containerClassName?: string;
-  barClassName?: string;
+  /** Maximum value (default: 100) */
+  max?: number;
+  /** Minimum value (default: 0) */
+  min?: number;
+  /** Accessibility label */
+  'aria-label'?: string;
+  /** Color variant */
   variant?: ProgressBarVariant;
+  /** Whether to show the percentage text */
+  showPercentage?: boolean;
+  /** Custom className for the container */
+  className?: string;
+  /** Custom styles */
+  styles?: {
+    container?: React.CSSProperties;
+    bar?: React.CSSProperties;
+    text?: React.CSSProperties;
+  };
 };
 
 const ProgressBar = ({
   progress,
-  max,
-  min,
-  'aria-label': ariaLabel,
-  className,
-  style,
-  containerClassName = 'w-full bg-gray-200 rounded-full h-4 overflow-hidden',
-  barClassName = 'h-full rounded-full transition-all duration-300 flex items-center justify-center text-xs font-medium',
-  variant = 'primary'
-}: ProgressBarPropsWithClassName) => {
-  const variantClasses = {
-    primary: {
-      bg: 'bg-blue-600',
-      text: 'text-white',
-      containerBg: 'bg-gray-200'
-    },
-    success: {
-      bg: 'bg-green-600',
-      text: 'text-white',
-      containerBg: 'bg-gray-200'
-    },
-    warning: {
-      bg: 'bg-yellow-500',
-      text: 'text-gray-900',
-      containerBg: 'bg-gray-200'
-    },
-    danger: {
-      bg: 'bg-red-600',
-      text: 'text-white',
-      containerBg: 'bg-gray-200'
-    },
-    dark: {
-      bg: 'bg-gray-800',
-      text: 'text-white',
-      containerBg: 'bg-gray-300'
-    },
-    light: {
-      bg: 'bg-gray-100',
-      text: 'text-gray-900',
-      containerBg: 'bg-gray-300'
-    }
-  };
+  max = 100,
+  min = 0,
+  'aria-label': ariaLabel = 'Progress',
+  variant = 'primary',
+  showPercentage = true,
+  className = '',
+  styles = {},
+}: ProgressBarProps) => {
+  const defaultClass = 'luna-progress';
+  const combinedClassName = `${defaultClass} ${className}`.trim();
 
-  const currentVariant = variantClasses[variant];
-  const barClasses = `${currentVariant.bg} ${barClassName} ${currentVariant.text}`;
+  // Ensure progress stays within bounds
+  const clampedProgress = Math.max(min, Math.min(max, progress));
+  const percentage = ((clampedProgress - min) / (max - min)) * 100;
+
+  const uiStyles = progressBarStyles(styles, percentage, variant);
 
   return (
-    <div className={containerClassName} style={style}>
+    <div style={uiStyles.container} className={combinedClassName}>
       <div
         role="progressbar"
-        className={barClasses}
-        aria-valuenow={progress}
+        style={uiStyles.bar}
+        aria-valuenow={clampedProgress}
         aria-valuemin={min}
         aria-valuemax={max}
-        style={{ width: `${progress}%`, ...className }}
+        aria-label={ariaLabel}
       >
-        {progress > 10 && `${progress}%`}
+        {showPercentage && percentage >= 10 && (
+          <span style={uiStyles.text}>
+            {Math.round(percentage)}%
+          </span>
+        )}
       </div>
     </div>
   );

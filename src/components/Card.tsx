@@ -1,59 +1,43 @@
 import React from 'react';
+import type { CardPadding, CardShadow } from '../types';
+import { cardStyles } from '../styles';
 
-// Card padding and shadow variants
-export type CardPadding = 'none' | 'sm' | 'md' | 'lg';
-export type CardShadow = 'none' | 'sm' | 'md' | 'lg';
+export type { CardPadding, CardShadow };
 
 export type CardProps = {
   children: React.ReactNode;
-  title?: string;
+  title?: React.ReactNode;
   className?: string;
-  containerClassName?: string;
-  titleClassName?: string;
   padding?: CardPadding;
   shadow?: CardShadow;
-  style?: React.CSSProperties;
+  styles?: {
+    container?: React.CSSProperties;
+    titleContainer?: React.CSSProperties;
+    title?: React.CSSProperties;
+    content?: React.CSSProperties;
+  };
 }
 
 const Card = ({
   children,
   title,
-  className = '',
-  containerClassName = 'bg-white rounded-lg border border-gray-200',
-  titleClassName = 'text-lg font-semibold text-gray-900',
+  className = "",
   padding = 'md',
   shadow = 'md',
-  style,
+  styles = {},
 }: CardProps) => {
-  const paddingClasses = {
-    none: '',
-    sm: 'p-3',
-    md: 'p-4',
-    lg: 'p-6',
-  };
-
-  const shadowClasses = {
-    none: '',
-    sm: 'shadow-sm',
-    md: 'shadow-md',
-    lg: 'shadow-lg',
-  };
-
-  const classes = `
-    ${containerClassName}
-    ${paddingClasses[padding]}
-    ${shadowClasses[shadow]}
-    ${className}
-  `.trim();
+  const uiStyles = cardStyles(padding, shadow, styles);
 
   return (
-    <div className={classes} style={style}>
+    <div style={uiStyles.container} className={`luna-card ${className}`.trim()}>
       {title && (
-        <div className="mb-4">
-          <h3 className={titleClassName}>{title}</h3>
+        <div style={uiStyles.titleContainer}>
+          <h3 style={uiStyles.title}>{title}</h3>
         </div>
       )}
-      {children}
+      <div style={uiStyles.content}>
+        {children}
+      </div>
     </div>
   );
 };

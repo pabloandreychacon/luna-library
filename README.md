@@ -7,10 +7,12 @@ A modern React component library built with TypeScript and Vite, designed for re
 - 🚀 **Built with Vite** - Fast development and optimized builds
 - 📝 **TypeScript Support** - Full type safety and IntelliSense
 - 🎨 **Modern Components** - Clean, accessible, and customizable UI components
-- 🎯 **Tailwind CSS Styled** - Components use Tailwind CSS utility classes for styling
+- 🎯 **Zero Dependencies** - Components use a pure inline-style architecture for maximum portability
 - 📦 **Tree-shakable** - Only bundle what you use
 - 🔧 **Multiple Formats** - ES modules and UMD bundles
 - 📚 **Type Declarations** - Complete TypeScript definitions included
+- 🧩 **Centralized Design System** - All design tokens, variants, and shared styles live in `src/styles.ts` for consistency
+- 🎭 **className Passthrough** - Every component accepts a `className` prop applied to the outermost element
 
 ## 📦 Installation
 
@@ -22,96 +24,73 @@ yarn add luna-components-library
 pnpm add luna-components-library
 ```
 
-**⚠️ Important:** This library uses **Tailwind CSS** for styling. Make sure you have Tailwind CSS configured in your project:
-
-```bash
-npm install tailwindcss
-npx tailwindcss init -p
-```
-
-Then add the library's components to your `tailwind.config.js`:
-
-```js
-module.exports = {
-  content: [
-    "./src/**/*.{js,jsx,ts,tsx}",
-    "./node_modules/luna-components-library/dist/**/*.{js,ts,jsx,tsx}"
-  ],
-  // ... rest of your config
-}
-```
-
-**💡 Tailwind CSS Best Practices with Luna Library:**
-To ensure Tailwind CSS successfully generates and includes the necessary utility classes in your target project's build, it is highly recommended to explicitly provide all necessary styling and positioning classes via the `className` prop for each component you use. By manually specifying these classes (e.g., `className="bg-blue-600 text-white p-4"`), you guarantee that Tailwind's scanner in your main project detects them and includes them in your final CSS file without relying exclusively on the node_modules parser.
+**💡 No Setup Required:** 
+Luna Library is fully standalone. All styles are encapsulated within the components using inline styles and dynamic CSS injection, meaning you do not need to install Tailwind CSS, PostCSS, Bootstrap, or any other styling framework to use it. Just install and import!
 
 ## 🚀 Quick Start
 
 ```jsx
+import { useState } from 'react';
 import { 
-  Button, Card, Anchor, Accordion, Spinner, DropDown, 
-  ProgressBar, Preloader, ScrollTop, Modal, Input, 
-  WhatsApp, Typed 
+  Button, Input, Card, Typed, Accordion, ProgressBar, Spinner, 
+  Preloader, ScrollTop, Modal, WhatsApp, DataTable
 } from 'luna-components-library';
 
 function App() {
   const [showModal, setShowModal] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
 
   return (
-    <div className="p-4 space-y-6">
+    <div style={{ padding: '2rem', display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
       {/* 1. Basic Components */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem' }}>
         <Button 
           variant="primary" 
           onClick={() => setShowModal(true)}
-          className="bg-blue-600 hover:bg-blue-700 text-white p-2 rounded"
         >
           Open Modal
         </Button>
         
         <Input 
           placeholder="Type something..." 
-          className="border p-2 rounded"
         />
       </div>
 
       {/* 2. Content Display */}
-      <Card title="Luna Library" className="shadow-md p-4">
+      <Card title="Luna Library" padding="md" shadow="sm">
         <Typed 
-          strings={['Modern React Components', 'TypeScript Ready', 'Tailwind Styled']} 
-          className="text-blue-600 font-bold"
+          strings={['Modern React Components', 'TypeScript Ready', 'Zero Dependencies']} 
         />
-        <p className="mt-2">Building fast and beautiful interfaces.</p>
+        <p style={{ marginTop: '0.5rem' }}>Building fast and beautiful interfaces.</p>
       </Card>
 
       {/* 3. Interactive Elements */}
       <Accordion 
-        header="Click to expand" 
-        content="This is the accordion content!" 
-        className="border rounded"
-      />
+        title="Click to expand" 
+      >
+        <p>This is the accordion content!</p>
+      </Accordion>
 
       {/* 4. Feedback & Progress */}
-      <div className="space-y-2">
+      <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
         <p>Loading Progress:</p>
-        <ProgressBar progress={75} variant="success" className="h-2 bg-gray-200" />
-        <Spinner size="sm" type="dots" className="text-blue-500" />
+        <ProgressBar progress={75} />
+        <Spinner size="sm" type="dots" />
       </div>
 
       {/* 5. Communication & Navigation */}
-      <div className="flex gap-4">
+      <div style={{ display: 'flex', gap: '1rem' }}>
         <WhatsApp phone="123456789" message="Hello!" />
         <Anchor href="https://github.com" variant="outline">GitHub Repo</Anchor>
       </div>
 
       {/* 6. Overlays (Modals & Preloaders) */}
-      <Modal show={showModal} onHide={() => setShowModal(false)} title="Quick Start Modal">
+      <Modal isOpen={showModal} onClose={() => setShowModal(false)} title="Quick Start Modal">
         <p>This is a modal from the library!</p>
       </Modal>
 
-      {isLoading && <Preloader duration={2000} onComplete={() => setIsLoading(false)} />}
+      <Preloader isLoading={isLoading} duration={2000} onComplete={() => setIsLoading(false)} />
       
-      <ScrollTop threshold={100} className="bg-blue-600 text-white p-2 rounded-full" />
+      <ScrollTop />
     </div>
   );
 }
@@ -154,7 +133,6 @@ A versatile button component with multiple variants and sizes.
   size="md"
   onClick={handleClick}
   disabled={false}
-  className="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded-lg transition-colors duration-200"
 >
   Button Text
 </Button>
@@ -164,7 +142,7 @@ A versatile button component with multiple variants and sizes.
 - `children`: React.ReactNode - Button content
 - `variant?: ButtonVariant` - Button style (default: 'primary')
 - `size?: ButtonSize` - Button size (default: 'md')
-- `onClick?: () => void` - Click handler
+- `onClick?: React.MouseEventHandler<HTMLButtonElement>` - Click handler
 - `disabled?: boolean` - Disable button (default: false)
 - `className?: string` - Additional CSS classes
 - `style?: React.CSSProperties` - Custom inline styles
@@ -247,35 +225,32 @@ type AnchorSize = 'sm' | 'md' | 'lg';
 ```
 
 ### Accordion
-A collapsible content component with customizable header and content sections.
+A collapsible content component with customizable header and animation.
 
 ```jsx
 <Accordion 
-  key="accordion-1"
-  active={isActive}
-  onClick={() => setIsActive(!isActive)}
-  header={<h3 className="font-semibold text-gray-800">Accordion Title</h3>}
-  content={<p className="text-gray-600">Accordion content goes here</p>}
-  className="border border-gray-200 rounded-lg overflow-hidden"
-  containerClassName="border border-gray-200 rounded-lg overflow-hidden"
-  headerClassName="w-full px-4 py-3 text-left bg-gray-50 hover:bg-gray-100 focus:bg-gray-100 focus:outline-none transition-colors duration-200 flex justify-between items-center"
-  contentClassName="transition-all duration-300 ease-in-out"
-  {...React.ComponentPropsWithoutRef<'div'>}
-/>
+  title="Click to expand"
+  className="custom-class"
+  styles={{
+    header: { backgroundColor: '#f3f4f6' },
+    content: { padding: '1rem' },
+    arrow: { color: '#6b7280' },
+    container: { marginBottom: '0.5rem' },
+    innerContent: { fontSize: '0.875rem' },
+  }}
+>
+  <p>Accordion content goes here.</p>
+</Accordion>
 ```
 
 **Props:**
-- `key: string` - Unique identifier for the accordion
-- `active: boolean` - Whether the accordion is expanded
-- `onClick: () => void` - Toggle function
-- `header: React.ReactNode` - Header content
-- `content: React.ReactNode` - Content to show when expanded
-- `className?: string` - Additional CSS classes for accordion
-- `containerClassName?: string` - CSS classes for accordion container element
-- `headerClassName?: string` - CSS classes for accordion header element
-- `contentClassName?: string` - CSS classes for accordion content element
-- `style?: React.CSSProperties` - Custom inline styles
-- `...props`: any - Additional HTML div attributes (spreads all native div props)
+- `title: React.ReactNode` - Header title content
+- `children: React.ReactNode` - Content to show when expanded
+- `defaultActive?: boolean` - Whether expanded by default (default: false)
+- `active?: boolean` - Controlled active state
+- `onClick?: () => void` - Toggle click handler
+- `styles?: Styles<'container' | 'header' | 'content' | 'arrow' | 'innerContent'>` - Custom inline styles per element
+- `className?: string` - Additional CSS classes
 
 ### Spinner
 A loading spinner component with customizable types and animations.
@@ -284,19 +259,17 @@ A loading spinner component with customizable types and animations.
 <Spinner 
   size="md" 
   type="circle" 
-  className="text-blue-600"
-  containerClassName="flex justify-center"
-  dotClassName="w-2 h-2 bg-blue-600 rounded-full"
-  barClassName="w-1 h-4 bg-blue-600 rounded-full"
-style={{ borderRadius: '50%' }}
+  color="#2563eb"
+  className="custom-class"
+  style={{ margin: '1rem' }}
 />
+```
+
 **Props:**
-- `className?: string` - Additional CSS classes
-- `containerClassName?: string` - CSS classes for container element
-- `dotClassName?: string` - CSS classes for dot elements
-- `barClassName?: string` - CSS classes for bar elements
 - `size?: SpinnerSize` - Spinner size (default: 'md')
 - `type?: SpinnerType` - Spinner animation type (default: 'circle')
+- `color?: string` - Spinner color (default: '#2563eb')
+- `className?: string` - Additional CSS classes
 - `style?: React.CSSProperties` - Custom inline styles
 
 **Types:**
@@ -310,36 +283,24 @@ A dropdown menu component with customizable toggle and options.
 
 ```jsx
 <DropDown 
-  toggle={
-    <button className="bg-gray-100 hover:bg-gray-200 border border-gray-300 rounded px-3 py-2 text-sm">
-      Menu
-    </button>
-  }
-  options={[
-    { value: 'option1', label: 'Option 1' },
-    { value: 'option2', label: 'Option 2' },
-    { value: 'option3', label: 'Option 3' }
-  ]}
-  selected="option1"
-  onChange={(value) => console.log('Selected:', value)}
-  className="relative inline-block text-left"
-  dropdownClassName="absolute top-full left-0 mt-1 w-full bg-white border border-gray-300 rounded shadow-lg z-10"
-  optionsContainerClassName="py-1"
-  optionClassName="block px-3 py-2 hover:bg-gray-100 cursor-pointer text-sm"
+  options={['Option 1', 'Option 2', 'Option 3']}
+  value={selectedOption}
+  onChange={setSelectedOption}
+  placeholder="Select an option"
+  className="custom-dropdown"
 />
 ```
 
 **Props:**
-- `toggle: React.ReactNode` - Toggle button/element
-- `options: DropDownOption[]` - Array of option objects with `value` and `label` properties
-- `selected: string | number` - Currently selected option value
-- `onChange: (value: string | number) => void` - Selection change handler
+- `options: (string | number | DropDownOption)[]` - Array of options
+- `value?: string | number | React.ReactNode` - Currently selected value
+- `onChange: (value: any) => void` - Selection change handler
+- `placeholder?: string` - Placeholder text (default: 'Select an option')
+- `toggle?: React.ReactNode` - Custom toggle element
+- `classNames?: DropDownClassNames` - Custom class names for sub-elements
+- `styles?: DropDownStyles` - Custom inline styles per element
+- `disabled?: boolean` - Disable the dropdown (default: false)
 - `className?: string` - Additional CSS classes for container
-- `containerClassName?: string` - CSS classes for dropdown container element
-- `dropdownClassName?: string` - CSS classes for dropdown menu element
-- `optionsContainerClassName?: string` - CSS classes for options container element
-- `optionClassName?: string` - CSS classes for individual option elements
-- `style?: React.CSSProperties` - Custom inline styles
 
 **DropDownOption Interface:**
 ```typescript
@@ -350,29 +311,26 @@ interface DropDownOption {
 ```
 
 ### ProgressBar
-A progress bar component with customizable progress values and accessibility.
+A progress bar component with customizable progress values, variants, and accessibility.
 
 ```jsx
 <ProgressBar 
   progress={75}
-  max={100}
-  min={0}
-  aria-label="Loading progress"
-  className="bg-gray-200 rounded-full h-2"
-  barClassName="bg-blue-600 h-full rounded-full transition-all duration-300"
+  variant="primary"
+  showPercentage
+  className="custom-class"
 />
 ```
 
 **Props:**
 - `progress: number` - Current progress value
-- `max: number` - Maximum progress value
-- `min: number` - Minimum progress value
-- `aria-label: string` - Accessibility label
-- `className?: React.CSSProperties` - Custom CSS properties for styling
-- `style?: React.CSSProperties` - Additional inline styles
-- `containerClassName?: string` - CSS classes for the container element
-- `barClassName?: string` - CSS classes for the progress bar element
+- `max?: number` - Maximum progress value (default: 100)
+- `min?: number` - Minimum progress value (default: 0)
 - `variant?: ProgressBarVariant` - Color variant (default: 'primary')
+- `showPercentage?: boolean` - Show percentage text (default: true)
+- `className?: string` - Additional CSS classes
+- `styles?: { container?: React.CSSProperties; bar?: React.CSSProperties; text?: React.CSSProperties }` - Custom inline styles
+- `aria-label?: string` - Accessibility label
 
 **Types:**
 ```typescript
@@ -390,15 +348,13 @@ A fullscreen overlay preloader component with customizable spinner and auto-hide
   accentColor="#00ff88"
   size={90}
   borderWidth={6}
-  className="fixed inset-0 z-50"
-  spinnerClassName="border-4 border-gray-300 border-t-green-400"
   onComplete={() => setIsLoading(false)}
 />
 ```
 
 **Props:**
 - `isLoading?: boolean` - Whether the preloader should be visible (if not provided, uses internal state)
-- `duration?: number` - Duration in milliseconds before auto-hide (default: 1000)
+- `duration?: number` - Duration in milliseconds before auto-hide (default: 2000)
 - `backgroundColor?: string` - Background color of the overlay (default: CSS variable)
 - `accentColor?: string` - Color of the spinner (default: CSS variable)
 - `size?: number` - Size of the spinner in pixels (default: 60)
@@ -407,7 +363,7 @@ A fullscreen overlay preloader component with customizable spinner and auto-hide
 - `spinnerClassName?: string` - Additional CSS classes for the spinner
 - `zIndex?: number` - Z-index of the overlay (default: 999999)
 - `onComplete?: () => void` - Callback when preloader finishes
-- `style?: React.CSSProperties` - Custom inline styles
+- `styles?: { overlay?: React.CSSProperties; spinner?: React.CSSProperties; }` - Custom inline styles
 
 **Usage Modes:**
 - **Controlled:** Use `isLoading` prop to control visibility externally
@@ -439,108 +395,24 @@ A floating scroll-to-top button that appears when the user scrolls down the page
 <ScrollTop 
   threshold={200}
   position="bottom-right"
-  size="md"
-  className="bg-blue-600 hover:bg-blue-700 text-white rounded-full shadow-lg"
+  className="custom-class"
 />
 ```
 
-**💡 Tip for Bootstrap / Existing CSS Frameworks:**
-If you are using this library in a project that also uses Bootstrap (or another framework), you may need to explicitly declare all Tailwind positioning and styling classes and mark them with `!` (important) to ensure they have priority over Bootstrap's default styles (which can override border-radius or positioning). For example:
-
-```jsx
-<ScrollTop
-  size="sm"
-  scrollPercentage={5}
-  className="!bg-indigo-600 hover:!bg-indigo-700 !text-white !rounded-full !z-[9999] !w-10 !h-10 flex items-center justify-center !right-8 !bottom-8 !fixed"
-  position="bottom-right"
->
-  <i className="bi bi-arrow-up"></i>
-</ScrollTop>
-```
-
 **Props:**
-- `threshold?: number` - Scroll position threshold to show the button in pixels (default: 100)
-- `className?: string` - Additional CSS classes for the button
-- `children?: React.ReactNode` - Custom icon/content for the button (default: arrow up)
-- `position?: 'bottom-right' | 'bottom-left' | 'bottom-center' | 'top-right' | 'top-left' | 'top-center'` - Button position (default: 'bottom-right')
-- `size?: 'sm' | 'md' | 'lg'` - Button size (default: 'md')
-- `shape?: 'circle' | 'square' | 'rounded'` - Button shape (default: 'circle')
-- `showInitially?: boolean` - Whether to show the button initially (default: false)
+- `threshold?: number` - Scroll position threshold in pixels (default: 100)
+- `className?: string` - Additional CSS classes
+- `children?: React.ReactNode` - Custom icon/content (default: arrow up SVG)
+- `position?: CornerPosition` - Button position (default: 'bottom-right')
+- `size?: number` - Button size in pixels (default: 48)
 - `scrollBehavior?: 'auto' | 'smooth'` - Scroll behavior (default: 'smooth')
-- `style?: React.CSSProperties` - Custom styles
-- `onClick?: () => void` - Callback when button is clicked
-- `onVisibilityChange?: (isVisible: boolean) => void` - Callback when visibility changes
-- `targetElement?: string` - Element ID or selector to check visibility for showing the button
-- `scrollPercentage?: number` - Percentage of page scroll to show the button (0-100)
-- `buttonClassName?: string` - CSS classes for the button element
-- `containerClassName?: string` - CSS classes for the container element
+- `styles?: React.CSSProperties` - Custom inline styles
 
 **Position Options:**
 - `bottom-right` - Fixed bottom right
 - `bottom-left` - Fixed bottom left
-- `bottom-center` - Fixed bottom center
 - `top-right` - Fixed top right
 - `top-left` - Fixed top left
-- `top-center` - Fixed top center
-
-**Size Options:**
-- `sm` - Small (32x32px)
-- `md` - Medium (48x48px)
-- `lg` - Large (64x64px)
-
-**Shape Options:**
-- `circle` - Fully rounded
-- `square` - Square corners
-- `rounded` - Slightly rounded
-
-**Examples:**
-```jsx
-// Default usage with target element
-<ScrollTop targetElement="#default-target" />
-
-// Custom position and size
-<ScrollTop 
-  position="bottom-left"
-  size="lg"
-  targetElement="#custom-target"
-  className="bg-purple-600 hover:bg-purple-700"
-/>
-
-// Top position with small size
-<ScrollTop 
-  position="top-right"
-  size="sm"
-  targetElement="#top-target"
-  className="bg-green-600 hover:bg-green-700"
-/>
-
-// Center position with custom color
-<ScrollTop 
-  position="top-center"
-  size="sm"
-  targetElement="#center-target"
-  className="bg-blue-600 hover:bg-blue-700"
-/>
-
-// Percentage-based triggering
-<ScrollTop 
-  position="bottom-center"
-  size="lg"
-  scrollPercentage={99}
-  className="bg-indigo-600 hover:bg-indigo-700"
->
-  <span className="text-white font-bold">Top</span>
-</ScrollTop>
-
-// Custom icon with callbacks
-<ScrollTop 
-  targetElement="#footer"
-  onVisibilityChange={(visible) => console.log('Visible:', visible)}
-  onClick={() => console.log('Scrolled to top!')}
->
-  <span className="text-white font-bold">↑</span>
-</ScrollTop>
-```
 
 ### Typed
 A typing animation component that types and deletes text in sequence.
@@ -551,33 +423,22 @@ A typing animation component that types and deletes text in sequence.
   typeSpeed={50}
   backSpeed={30}
   loop={true}
-  className="text-blue-600 font-mono text-lg"
-  containerClassName="inline-block"
-  typedClassName="border-r-2 border-blue-600"
+  className="custom-class"
+  style={{ fontSize: '1.25rem' }}
 />
 ```
 
 **Props:**
 - `strings: string[]` - Array of strings to type in sequence
-- `typeSpeed?: number` - Speed of typing in milliseconds per character (default: 50)
-- `backSpeed?: number` - Speed of backspacing in milliseconds per character (default: 30)
-- `backDelay?: number` - Delay before backspacing starts in milliseconds (default: 500)
-- `startDelay?: number` - Delay before typing starts in milliseconds (default: 0)
-- `loop?: boolean` - Whether to loop through strings indefinitely (default: true)
-- `showCursor?: boolean` - Whether to show a blinking cursor (default: true)
-- `className?: string` - Additional CSS classes for the component
-- `containerClassName?: string` - CSS classes for the container element
-- `typedClassName?: string` - CSS classes for the typed text
-- `cursorClassName?: string` - CSS classes for the cursor
-- `style?: TypedStyle` - Custom CSS properties for styling
-
-**Types:**
-```typescript
-type TypedStyle = CSSProperties & {
-  animation?: string;
-  animationDelay?: string;
-};
-```
+- `typeSpeed?: number` - Typing speed in ms per character (default: 50)
+- `backSpeed?: number` - Backspacing speed in ms per character (default: 30)
+- `backDelay?: number` - Delay before backspacing in ms (default: 500)
+- `startDelay?: number` - Delay before typing starts in ms (default: 0)
+- `loop?: boolean` - Loop through strings (default: true)
+- `showCursor?: boolean` - Show blinking cursor (default: true)
+- `className?: string` - Additional CSS classes
+- `style?: CSSProperties & { animation?: string; animationDelay?: string }` - Custom inline styles
+- `cursorStyle?: React.CSSProperties` - Custom styles for cursor element
 
 ### WhatsApp
 A WhatsApp button component for quick contact integration.
@@ -588,28 +449,21 @@ A WhatsApp button component for quick contact integration.
   message="Hello! I need help."
   position="bottom-right"
   size="md"
-  className="bg-green-500 hover:bg-green-600 text-white rounded-full shadow-lg"
+  className="custom-class"
 />
 ```
 
 **Props:**
-- `phone?: string` - Phone number for WhatsApp (with country code, without + or spaces)
-- `message?: string` - Default message to send (default: "¡Hola! Me gustaría obtener más información.")
-- `position?: WhatsAppPosition` - Position of the button (default: 'bottom-right')
-- `size?: WhatsAppSize` - Size of the button (default: 'md')
+- `phone?: string` - Phone number (with country code, without + or spaces)
+- `message?: string` - Default message (default: 'Hi!')
+- `position?: CornerPosition` - Button position (default: 'bottom-right')
+- `size?: Size` - Button size (default: 'md')
 - `showTooltip?: boolean` - Show tooltip on hover (default: true)
-- `tooltipText?: string` - Tooltip text
-- `className?: string` - Additional CSS classes for the button
-- `style?: React.CSSProperties` - Custom styles
-- `onClick?: () => void` - Callback when button is clicked
-- `zIndex?: number` - Z-index for the button
-- `openInNewTab?: boolean` - Whether to open in new tab (default: true)
-
-**Types:**
-```typescript
-type WhatsAppPosition = 'bottom-right' | 'bottom-left' | 'bottom-center' | 'top-right' | 'top-left' | 'top-center';
-type WhatsAppSize = 'sm' | 'md' | 'lg';
-```
+- `tooltipText?: string` - Tooltip text (default: 'Need help?')
+- `className?: string` - Additional CSS classes
+- `styles?: { button?: React.CSSProperties; tooltip?: React.CSSProperties }` - Custom inline styles
+- `onClick?: () => void` - Click callback
+- `zIndex?: number` - Z-index (default: 1000)
 
 ### Modal
 A flexible modal component for displaying dialogs, forms, and overlays.
@@ -652,12 +506,13 @@ A flexible modal component for displaying dialogs, forms, and overlays.
 - `footer?: React.ReactNode` - Custom footer content
 - `closeButton?: boolean` - Whether to show close button (default: true)
 - `className?: string` - Additional CSS classes for the modal
-- `dialogClassName?: string` - CSS classes for the modal dialog
-- `contentClassName?: string` - CSS classes for the modal content
-- `headerClassName?: string` - CSS classes for the modal header
-- `bodyClassName?: string` - CSS classes for the modal body
-- `footerClassName?: string` - CSS classes for the modal footer
+- `dialogClassName?: string` - CSS classes for the modal dialog (default: 'luna-modal-dialog')
+- `contentClassName?: string` - CSS classes for the modal content (default: 'luna-modal-content')
+- `headerClassName?: string` - CSS classes for the modal header (default: 'luna-modal-header')
+- `bodyClassName?: string` - CSS classes for the modal body (default: 'luna-modal-body')
+- `footerClassName?: string` - CSS classes for the modal footer (default: 'luna-modal-footer')
 - `style?: React.CSSProperties` - Custom inline styles
+
 
 **Types:**
 ```typescript
@@ -771,7 +626,7 @@ const MyComponent = () => {
 ```
 
 ### Input
-A versatile input component with multiple variants, sizes, and types.
+A versatile input component with multiple variants, sizes, masks, currency formatting, and types.
 
 ```jsx
 <Input 
@@ -781,8 +636,11 @@ A versatile input component with multiple variants, sizes, and types.
   placeholder="Enter your text here"
   value={inputValue}
   onChange={(value) => setInputValue(value)}
-  className="border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
-/>
+  className="custom-class"
+  id="my-input"
+>
+  Input Label
+</Input>
 ```
 
 **Props:**
@@ -799,15 +657,21 @@ A versatile input component with multiple variants, sizes, and types.
 - `required?: boolean` - Required field (default: false)
 - `readOnly?: boolean` - Read-only input (default: false)
 - `className?: string` - Additional CSS classes
-- `containerClassName?: string` - CSS classes for container element
-- `inputClassName?: string` - CSS classes for input element
-- `variantClassName?: string` - CSS classes for variant styling
-- `sizeClassName?: string` - CSS classes for size styling
 - `style?: React.CSSProperties` - Custom inline styles
 - `id?: string` - HTML id attribute for label association
+- `name?: string` - HTML name attribute
+- `classNames?: InputClassNames` - Custom class names for sub-elements
+- `styles?: InputStyles` - Custom inline styles per element
+- `mask?: string` - Input mask pattern (e.g. "(999) 999-9999")
+- `maskChar?: string` - Mask placeholder character (default: '_')
+- `useCurrency?: boolean` - Enable currency formatting
+- `currency?: string` - Currency code (e.g. "USD", "CRC")
+- `locale?: string` - Locale for formatting (e.g. "en-US", "es-CR")
+- `minFractionDigits?: number` - Minimum fraction digits (default: 0)
+- `maxFractionDigits?: number` - Maximum fraction digits (default: 2)
 - `aria-label?: string` - ARIA label for accessibility
-- `aria-labelledby?: string` - ARIA labelledby for accessibility
-- `...props`: any - Additional HTML input attributes (spreads all native input props)
+- `aria-labelledby?: string` - ARIA labelledby
+- `...props`: any - Additional HTML input attributes
 
 **Types:**
 ```typescript
@@ -818,17 +682,85 @@ type InputType = 'text' | 'email' | 'password' | 'number' | 'tel' | 'url' | 'sea
 
 **Variants:**
 - `none` - Default styling with border
-- `primary` - Blue background with white text
-- `secondary` - Gray background with white text
-- `outline` - Border only with gray text
-- `danger` - Red background with white text
-- `success` - Green background with white text
+- `primary` - Blue focus ring
+- `secondary` - Gray focus ring
+- `outline` - Border only
+- `danger` - Red focus ring
+- `success` - Green focus ring
 
 **Size Options:**
 - `sm` - Small padding and text
 - `md` - Medium padding and text
 - `lg` - Large padding and text
 - `xl` - Extra large padding and text
+### DataTable
+A powerful and customizable data grid with support for filtering, sorting, pagination, selection, and search.
+
+```jsx
+<DataTable
+  columns={[
+    { key: 'name', label: 'Name', sortable: true, filterable: true },
+    { key: 'email', label: 'Email' },
+    { 
+      key: 'status', 
+      label: 'Status', 
+      filterable: true,
+      filterOptions: [
+        { label: 'Active', value: 'Active' },
+        { label: 'Inactive', value: 'Inactive' }
+      ],
+      render: (val) => <span className={val === 'Active' ? 'text-green-600' : 'text-red-600'}>{val}</span>
+    },
+    {
+      key: 'actions',
+      label: 'Actions',
+      render: (_, row) => (
+        <Button size="sm" variant="outline" onClick={() => handleEdit(row)}>
+          Edit
+        </Button>
+      )
+    }
+  ]}
+  data={myData}
+  pagination
+  pageSize={5}
+  selectable
+  searchable
+  onRowClick={(row) => console.log('Clicked:', row)}
+  onSelectionChange={(selectedRows) => console.log('Selected:', selectedRows)}
+  className="custom-datatable"
+/>
+```
+
+**Props:**
+- `columns: DataTableColumn[]` - Array of column definitions
+- `data: any[]` - Array of data objects
+- `pagination?: boolean` - Enable pagination (default: false)
+- `pageSize?: number` - Rows per page (default: 10)
+- `selectable?: boolean` - Show selection checkboxes (default: false)
+- `searchable?: boolean` - Show search filter (default: false)
+- `onSelectionChange?: (selectedRows: any[]) => void` - Selection change handler
+- `onRowClick?: (row: any) => void` - Row click handler
+- `onRowDoubleClick?: (row: any) => void` - Row double click handler
+- `texts?: DataTableTexts` - Custom text labels for i18n
+- `classNames?: DataTableClassNames` - Custom class names per element
+- `styles?: DataTableStyles` - Custom inline styles per element
+- `className?: string` - Additional CSS classes
+
+**Column Interface:**
+```typescript
+interface DataTableColumn {
+  key: string;
+  label: React.ReactNode;
+  sortable?: boolean;
+  filterable?: boolean;
+  filterOptions?: { label: string; value: any }[];
+  render?: (value: any, row: any) => React.ReactNode;
+}
+```
+
+
+
 
 
 ## 🛠️ Utilities & Hooks
@@ -1007,8 +939,12 @@ luna-library/
 │   │   ├── utilExamples/         # Examples for hooks and extra utilities
 │   │   ├── Button.tsx
 │   │   ├── Card.tsx
+│   │   ├── DataTable.tsx
 │   │   ├── ... (Other UI Components)
+
 │   │   └── index.ts
+│   ├── styles.ts                 # Design tokens and shared style functions
+│   ├── types.ts                  # Shared TypeScript types
 │   ├── hooks/
 │   │   ├── useFetch.hook.ts
 │   │   ├── useLocalStorage.hook.ts
@@ -1088,7 +1024,9 @@ The library is configured with:
 - `rimraf` - Cross-platform file removal
 
 ### Styling
-This library is built with **Tailwind CSS** utility classes. Components use predefined Tailwind classes for consistent styling and are fully customizable through the `className` prop.
+This library uses a **pure inline-style architecture** with a centralized design system. All design tokens (`colors`, `radii`, `fontSizes`, `shadows`, `transitions`, etc.) and shared style objects (`commonStyles`, `variantStyles`, `sizeStyles`) are defined in `src/styles.ts`. Components consume these tokens and generate inline styles, class name strings, or both depending on the component.
+
+**No CSS framework required** - you don't need Tailwind CSS, PostCSS, or any other styling tool to use this library. Each component accepts `className` (for CSS classes) and `style` (for inline style overrides) props for customization.
 
 ## 🤝 Contributing
 

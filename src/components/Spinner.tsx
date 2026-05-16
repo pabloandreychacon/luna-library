@@ -1,73 +1,79 @@
 import React from 'react';
+import type { Size } from '../types';
+import { spinnerAnimationStyles, spinnerSizeValues, spinnerDotSizeValues, spinnerBarSizeValues } from '../styles';
 
-export type SpinnerSize = 'sm' | 'md' | 'lg';
+export type SpinnerSize = Size;
 export type SpinnerType = 'circle' | 'dots' | 'pulse' | 'bars';
 
 export type SpinnerProps = {
   className?: string;
-  containerClassName?: string;
-  dotClassName?: string;
-  barClassName?: string;
   size?: SpinnerSize;
   type?: SpinnerType;
+  color?: string;
   style?: React.CSSProperties;
 };
 
 const Spinner = ({
-  className,
-  containerClassName = 'flex gap-1',
-  dotClassName = 'bg-blue-600 rounded-full animate-bounce',
-  barClassName = 'bg-blue-600 animate-pulse',
+  className = '',
   size = 'md',
   type = 'circle',
-  style
+  color = '#2563eb', // blue-600
+  style = {},
 }: SpinnerProps) => {
-  const sizeClasses = {
-    sm: 'w-4 h-4',
-    md: 'w-6 h-6',
-    lg: 'w-8 h-8'
-  };
+  const defaultClass = 'luna-spinner';
+  const combinedClassName = `${defaultClass} ${className}`.trim();
 
-  const dotSizeClasses = {
-    sm: 'w-1 h-1',
-    md: 'w-2 h-2',
-    lg: 'w-3 h-3'
-  };
-
-  const barSizeClasses = {
-    sm: 'w-1 h-4',
-    md: 'w-1 h-6',
-    lg: 'w-1 h-8'
-  };
+  const currentSize = spinnerSizeValues[size];
+  const currentDotSize = spinnerDotSizeValues[size];
+  const currentBarSize = spinnerBarSizeValues[size];
 
   if (type === 'dots') {
+    const dotStyle = {
+      width: currentDotSize,
+      height: currentDotSize,
+      backgroundColor: color,
+      borderRadius: '9999px',
+      animation: 'luna-bounce 1s infinite',
+    };
     return (
-      <div role="status" className={`${containerClassName} ${className || ''}`}>
-        <span className="sr-only">Loading...</span>
-        <div className={`${dotSizeClasses[size]} ${dotClassName}`} style={{ animationDelay: '0ms' }}></div>
-        <div className={`${dotSizeClasses[size]} ${dotClassName}`} style={{ animationDelay: '150ms' }}></div>
-        <div className={`${dotSizeClasses[size]} ${dotClassName}`} style={{ animationDelay: '300ms' }}></div>
+      <div role="status" style={{ display: 'flex', gap: '0.25rem', ...style }} className={combinedClassName}>
+        <style>{spinnerAnimationStyles}</style>
+        <div style={{ ...dotStyle, animationDelay: '0ms' }}></div>
+        <div style={{ ...dotStyle, animationDelay: '150ms' }}></div>
+        <div style={{ ...dotStyle, animationDelay: '300ms' }}></div>
       </div>
     );
   }
 
   if (type === 'pulse') {
     return (
-      <div role="status" className={`${sizeClasses[size]} ${className || ''}`}>
-        <span className="sr-only">Loading...</span>
-        <div className={`${sizeClasses[size]} ${dotClassName}`}></div>
+      <div role="status" style={{ ...style }} className={combinedClassName}>
+        <style>{spinnerAnimationStyles}</style>
+        <div style={{
+          width: currentSize,
+          height: currentSize,
+          backgroundColor: color,
+          borderRadius: '9999px',
+          animation: 'luna-pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+        }}></div>
       </div>
     );
   }
 
   if (type === 'bars') {
+    const barStyle = {
+      width: currentBarSize.w,
+      height: currentBarSize.h,
+      backgroundColor: color,
+      animation: 'luna-pulse 1.2s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+    };
     return (
-      <div role="status" className={`flex gap-1 items-center ${containerClassName} ${className || ''}`}>
-        <span className="sr-only">Loading...</span>
-        <div className={`${barSizeClasses[size]} ${barClassName}`} style={{ animationDelay: '0ms' }}></div>
-        <div className={`${barSizeClasses[size]} ${barClassName}`} style={{ animationDelay: '200ms' }}></div>
-        <div className={`${barSizeClasses[size]} ${barClassName}`} style={{ animationDelay: '400ms' }}></div>
-        <div className={`${barSizeClasses[size]} ${barClassName}`} style={{ animationDelay: '600ms' }}></div>
+      <div role="status" style={{ display: 'flex', gap: '0.25rem', alignItems: 'center', ...style }} className={combinedClassName}>
+        <style>{spinnerAnimationStyles}</style>
+        <div style={{ ...barStyle, animationDelay: '0ms' }}></div>
+        <div style={{ ...barStyle, animationDelay: '200ms' }}></div>
+        <div style={{ ...barStyle, animationDelay: '400ms' }}></div>
+        <div style={{ ...barStyle, animationDelay: '600ms' }}></div>
       </div>
     );
   }
@@ -76,10 +82,20 @@ const Spinner = ({
   return (
     <div
       role="status"
-      className={`inline-block animate-spin rounded-full border-2 border-gray-300 border-t-blue-600 ${sizeClasses[size]} ${className || ''}`}
-      style={style}
+      className={combinedClassName}
+      style={{
+        display: 'inline-block',
+        width: currentSize,
+        height: currentSize,
+        borderRadius: '9999px',
+        border: '2px solid #e5e7eb',
+        borderTopColor: color,
+        animation: 'luna-spin 1s linear infinite',
+        ...style
+      }}
     >
-      <span className="sr-only">Loading...</span>
+      <style>{spinnerAnimationStyles}</style>
+      <span style={{ position: 'absolute', width: '1px', height: '1px', padding: 0, margin: '-1px', overflow: 'hidden', clip: 'rect(0, 0, 0, 0)', whiteSpace: 'nowrap', borderWidth: 0 }}>Loading...</span>
     </div>
   );
 };

@@ -1,4 +1,5 @@
 import React, { useState, useEffect, CSSProperties } from 'react';
+import { typedStyles } from '../styles';
 
 // Typing animation configuration
 type TypedStyle = CSSProperties & {
@@ -15,10 +16,8 @@ type TypedProps = {
   loop?: boolean;
   showCursor?: boolean;
   className?: string;
-  containerClassName?: string;
-  typedClassName?: string;
-  cursorClassName?: string;
   style?: TypedStyle;
+  cursorStyle?: CSSProperties;
 };
 
 const Typed = ({
@@ -30,11 +29,12 @@ const Typed = ({
   loop = true,
   showCursor = true,
   className = '',
-  containerClassName = 'inline-block',
-  typedClassName = 'typed',
-  cursorClassName = 'typed-cursor ml-1 inline-block w-0.5 h-5 bg-current',
   style = {},
+  cursorStyle = {},
 }: TypedProps) => {
+  const defaultClass = 'luna-typed';
+  const combinedClassName = `${defaultClass} ${className}`.trim();
+
   const [currentStringIndex, setCurrentStringIndex] = useState(0);
   const [currentText, setCurrentText] = useState('');
   const [isDeleting, setIsDeleting] = useState(false);
@@ -88,29 +88,24 @@ const Typed = ({
 
   // Cursor fade effect
   useEffect(() => {
+    if (!showCursor) return;
     const fadeTimer = setInterval(() => {
-      setCursorOpacity(prev => {
-        if (prev === 1) return 0;
-        return 1;
-      });
-    }, 750);
+      setCursorOpacity(prev => prev === 1 ? 0 : 1);
+    }, 500);
 
     return () => clearInterval(fadeTimer);
-  }, []);
+  }, [showCursor]);
+
+  const uiStyles = typedStyles(style, cursorStyle, cursorOpacity);
 
   return (
-    <span className={`${containerClassName} ${className}`} style={style}>
-      <span className={typedClassName}>{currentText}</span>
+    <span className={combinedClassName} style={uiStyles.container}>
+      <span>{currentText}</span>
       {showCursor && (
         <span
-          className={cursorClassName}
           aria-hidden="true"
-          style={{
-            opacity: cursorOpacity
-          }}
-        >
-
-        </span>
+          style={uiStyles.cursor}
+        />
       )}
     </span>
   );

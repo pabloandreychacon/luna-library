@@ -1,74 +1,123 @@
-{/* Dropdown component for selecting options */ }
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
+import type { ClassNames, Styles } from '../types';
+import { dropDownStyles } from '../styles';
 
-type DropDownOption = {
-  value: string;
+export type DropDownOption = {
+  value: string | number;
   label: React.ReactNode;
 };
 
+export type DropDownClassNames = ClassNames<'container' | 'trigger' | 'panel' | 'option'>;
+export type DropDownStyles = Styles<'container' | 'trigger' | 'panel' | 'option'>;
+
 export type DropDownProps = {
-  toggle: React.ReactNode;
-  options: React.ReactNode[] | DropDownOption[];
-  selected: React.ReactNode;
-  onChange: (value: React.ReactNode) => void;
+  options: (string | number | DropDownOption)[];
+  value?: string | number | React.ReactNode;
+  onChange: (value: any) => void;
+  placeholder?: string;
+  toggle?: React.ReactNode;
+  classNames?: DropDownClassNames;
+  styles?: DropDownStyles;
+  disabled?: boolean;
   className?: string;
-  containerClassName?: string;
-  dropdownClassName?: string;
-  optionsContainerClassName?: string;
-  optionClassName?: string;
-  style?: React.CSSProperties;
 };
 
 const DropDown = ({
-  toggle,
   options,
-  selected,
+  value,
   onChange,
-  className = '',
-  containerClassName = 'relative inline-block text-left',
-  dropdownClassName = 'absolute z-50 mt-2 w-48 rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none',
-  optionsContainerClassName = 'py-1 flex flex-col',
-  optionClassName = 'block w-full px-4 py-2 text-left text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900 focus:bg-gray-100 focus:text-gray-900',
-  style
+  placeholder = 'Select an option',
+  toggle,
+  classNames = {},
+  styles = {},
+  disabled = false,
+  className,
 }: DropDownProps) => {
+  const defaultClassNames = {
+    container: 'luna-dropdown',
+    trigger: 'luna-dropdown-trigger',
+    panel: 'luna-dropdown-panel',
+    option: 'luna-dropdown-option'
+  };
+  const finalClassNames = { ...defaultClassNames, ...classNames };
+
   const [isOpen, setIsOpen] = useState(false);
+  const [hoverIndex, setHoverIndex] = useState<number | null>(null);
+  const containerRef = useRef<HTMLDivElement>(null);
+
+  // Close on click outside
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (containerRef.current && !containerRef.current.contains(event.target as Node)) {
+        setIsOpen(false);
+      }
+    };
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, []);
 
   const handleToggle = () => {
+    if (disabled) return;
     setIsOpen(!isOpen);
   };
 
-  const handleOptionClick = (option: React.ReactNode) => {
-    onChange(option);
+  const handleOptionClick = (optionValue: any) => {
+    onChange(optionValue);
     setIsOpen(false);
   };
 
+  // Helper to get label from value
+  const getDisplayLabel = () => {
+    if (value === undefined || value === null || value === '') return placeholder;
+    const found = options.find(opt => {
+      if (typeof opt === 'object') return opt.value === value;
+      return opt === value;
+    });
+    if (found && typeof found === 'object') return found.label;
+    return found || value;
+  };
+
+  const uiStyles = dropDownStyles(styles, disabled, isOpen, hoverIndex, value);
+
   return (
-    <div className={`${containerClassName} ${className}`} style={style}>
-      <div onClick={handleToggle} className="cursor-pointer">
-        {toggle}
-      </div>
-
-      {isOpen && (
-        <div className={dropdownClassName}>
-          <div className={optionsContainerClassName}>
-            {options.map((option, index) => {
-              const isOptionObject = typeof option === 'object' && option !== null && 'value' in option;
-              const optionValue = isOptionObject ? (option as DropDownOption).value : option;
-              const optionLabel = isOptionObject ? (option as DropDownOption).label : option;
-
-              return (
-                <button
-                  key={index}
-                  onClick={() => handleOptionClick(optionValue)}
-                  className={optionClassName}
-                >
-                  {optionLabel}
-                </button>
-              );
-            })}
-          </div>
+    <div ref={containerRef} style={uiStyles.container} className={`${finalClassNames.container} ${className || ''}`.trim()}>
+      {toggle ? (
+        <div onClick={handleToggle} style={{ display: 'inline-block' }}>
+          {toggle}
         </div>
+      ) : (
+        <button
+          type="button"
+          style={uiStyles.trigger}
+          className={finalClassNames.trigger}
+          onClick={handleToggle}
+        >
+          <span>{getDisplayLabel()}</span>
+          <span style={uiStyles.arrow}>▼</span>
+        </button>
       )}
+
+      <div style={uiStyles.panel} className={finalClassNames.panel}>
+        {options.map((option, index) => {
+          const isObj = typeof option === 'object' && option !== null && 'value' in option;
+          const optValue = isObj ? (option as DropDownOption).value : option;
+          const optLabel = isObj ? (option as DropDownOption).label : option;
+
+          return (
+            <button
+              key={index}
+              type="button"
+              style={uiStyles.option(index)}
+              className={finalClassNames.option}
+              onMouseEnter={() => setHoverIndex(index)}
+              onMouseLeave={() => setHoverIndex(null)}
+              onClick={() => handleOptionClick(optValue)}
+            >
+              {optLabel}
+            </button>
+          );
+        })}
+      </div>
     </div>
   );
 };

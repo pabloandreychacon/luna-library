@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from 'react';
+import { preloaderStyles } from '../styles';
+import Spinner from './Spinner';
 
 export type PreloaderProps = {
   /** Loading state - if true, preloader is shown */
   isLoading?: boolean;
-  /** Duration in milliseconds before auto-hide */
+  /** Duration in milliseconds before auto-hide (only for internal state) */
   duration?: number;
   /** Background color overlay */
   backgroundColor?: string;
@@ -22,97 +24,55 @@ export type PreloaderProps = {
   /** Callback when preloader finishes */
   onComplete?: () => void;
   /** Custom inline styles */
-  style?: React.CSSProperties;
+  styles?: {
+    overlay?: React.CSSProperties;
+    spinner?: React.CSSProperties;
+  };
 }
 
 const Preloader = ({
   isLoading: externalLoading,
-  duration = 1000,
-  backgroundColor,
-  accentColor,
-  size = 90,
-  borderWidth = 6,
+  duration = 2000,
+  backgroundColor = 'rgba(255, 255, 255, 0.9)',
+  accentColor = '#2563eb',
+  size = 60,
+  borderWidth = 4,
   className = '',
   spinnerClassName = '',
-  zIndex = 999999,
+  zIndex = 99999,
   onComplete,
-  style
+  styles = {}
 }: PreloaderProps) => {
+  const defaultClass = 'luna-preloader';
+  const combinedClassName = `${defaultClass} ${className}`.trim();
+
   const [internalLoading, setInternalLoading] = useState(true);
 
   // Use external loading state if provided, otherwise use internal state
   const isLoading = externalLoading !== undefined ? externalLoading : internalLoading;
 
   useEffect(() => {
-    // Only auto-hide if we're using internal loading state
     if (externalLoading === undefined) {
       const timer = setTimeout(() => {
         setInternalLoading(false);
         onComplete?.();
       }, duration);
-
       return () => clearTimeout(timer);
     }
   }, [duration, externalLoading, onComplete]);
 
-  // Handle external loading state changes - auto-hide when externalLoading is true
-  useEffect(() => {
-    if (externalLoading === true) {
-      const timer = setTimeout(() => {
-        onComplete?.();
-      }, duration);
+  if (!isLoading) return null;
 
-      return () => clearTimeout(timer);
-    }
-  }, [externalLoading, duration, onComplete]);
-
-  const preloaderStyle: React.CSSProperties = {
-    position: 'fixed',
-    inset: 0,
-    zIndex,
-    overflow: 'hidden',
-    background: backgroundColor || 'var(--background-color, #00000018)',
-    transition: 'all 0.6s ease-out',
-    display: isLoading ? 'block' : 'none'
-  };
-
-  const spinnerStyle: React.CSSProperties = {
-    position: 'fixed',
-    top: '50%',
-    left: '50%',
-    transform: 'translate(-50%, -50%)',
-    border: `${borderWidth}px solid #ffffff`,
-    borderColor: `${accentColor || 'var(--accent-color, #007bff)'} transparent transparent transparent`,
-    borderRadius: '50%',
-    width: `${size}px`,
-    height: `${size}px`,
-    animation: 'animate-preloader 1.5s linear infinite'
-  };
+  const uiStyles = preloaderStyles(zIndex, backgroundColor, size, borderWidth, styles);
 
   return (
-    <>
-      <div
-        className={`preloader-overlay ${className}`}
-        style={{ ...preloaderStyle, ...style }}
-      >
-        <div
-          className={`preloader-spinner ${spinnerClassName}`}
-          style={spinnerStyle}
-        />
-      </div>
-
-      {/* Global styles for animation */}
-      <style>{`
-        @keyframes animate-preloader {
-          0% {
-            transform: translate(-50%, -50%) rotate(0deg);
-          }
-          100% {
-            transform: translate(-50%, -50%) rotate(360deg);
-          }
-        }
-      `}</style>
-    </>
+    <div style={uiStyles.overlay} className={combinedClassName}>
+      <Spinner
+        className={spinnerClassName}
+        color={accentColor}
+        style={uiStyles.spinner}
+      />
+    </div>
   );
 };
 

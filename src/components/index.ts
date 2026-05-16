@@ -12,3 +12,9 @@ export { default as ScrollTop } from './ScrollTop';
 export { default as WhatsApp } from './WhatsApp';
 export { default as Modal } from './Modal';
 export { default as Input } from './Input';
+export { default as DataTable } from './DataTable';
+export { default as Toast } from './Toast';
+export { default as MultiSelect } from './MultiSelect';
+export { default as Popconfirm } from './Popconfirm';
+export { default as QRCode } from './QRCode';
+

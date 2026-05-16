@@ -66,6 +66,7 @@ const UtilExamples = () => {
               {`const debouncedSearch = useDebounce(searchTerm, 1000);`}
             </code>
             <Input
+              id="util-input-1"
               placeholder="Type to search..."
               value={searchTerm}
               onChange={(val) => setSearchTerm(val)}
@@ -114,6 +115,7 @@ const UtilExamples = () => {
                   {`const isEmailValid = validators.isEmail(email);`}
                 </code>
                 <Input
+                  id="util-input-2"
                   placeholder="Test email validation"
                   value={email}
                   onChange={(val) => setEmail(val)}

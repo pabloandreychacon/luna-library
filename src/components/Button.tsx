@@ -1,74 +1,67 @@
 import React from 'react';
+import type { ClassNames, Styles, ButtonVariant, ButtonSize } from '../types';
+import { commonStyles, sizeStyles, sizeClasses, variantStyles, variantClasses } from '../styles';
 
-// Button variants and sizes
-export type ButtonVariant = 'primary' | 'secondary' | 'outline' | 'success' | 'danger' | 'warning' | 'info' | 'dark' | 'light' | 'link';
-export type ButtonSize = 'sm' | 'md' | 'lg';
+export type { ButtonVariant, ButtonSize };
 export type AllButtonProps = React.ComponentPropsWithoutRef<'button'>;
+
+export type ButtonClassNames = ClassNames<'button' | 'container' | 'variant' | 'size'>;
+export type ButtonStyles = Styles<'button'>;
 
 export type ButtonProps = {
   children: React.ReactNode;
   variant?: ButtonVariant;
   size?: ButtonSize;
-  onClick?: () => void;
+  onClick?: React.MouseEventHandler<HTMLButtonElement>;
   disabled?: boolean;
+  classNames?: ButtonClassNames;
+  styles?: ButtonStyles;
   className?: string;
-  containerClassName?: string;
-  variantClassName?: string;
-  sizeClassName?: string;
   style?: React.CSSProperties;
 }
-
-{/* onCLick default should open window.open('https://andreychaconresumereact.netlify.app/', '_blank') */ }
 
 const Button = ({
   children,
   variant = 'primary',
   size = 'sm',
-  onClick = () =>
-    void 0,
+  onClick,
   disabled = false,
+  classNames = {},
+  styles = {},
   className = '',
-  containerClassName = 'font-medium rounded-lg transition-colors focus:outline-none focus:ring-2',
-  variantClassName = 'bg-blue-600 text-white hover:bg-blue-700 focus:ring-blue-500',
-  sizeClassName = 'px-3 py-1.5 text-sm',
-  style,
+  style: extraStyle = {}, // Capturamos style extra
   ...props
 }: AllButtonProps & ButtonProps) => {
-  const baseClasses = containerClassName;
 
-  const variantClasses = {
-    primary: 'bg-blue-600 text-white hover:bg-blue-700 focus:ring-blue-500',
-    secondary: 'bg-gray-600 text-white hover:bg-gray-700 focus:ring-gray-500',
-    outline: 'border border-gray-300 text-gray-700 hover:bg-gray-50 focus:ring-gray-500',
-    success: 'bg-green-600 text-white hover:bg-green-700 focus:ring-green-500',
-    danger: 'bg-red-600 text-white hover:bg-red-700 focus:ring-red-500',
-    warning: 'bg-yellow-500 text-white hover:bg-yellow-600 focus:ring-yellow-500',
-    info: 'bg-cyan-600 text-white hover:bg-cyan-700 focus:ring-cyan-500',
-    dark: 'bg-gray-900 text-white hover:bg-gray-800 focus:ring-gray-900',
-    light: 'bg-gray-100 text-gray-900 hover:bg-gray-200 focus:ring-gray-300',
-    link: 'text-blue-600 hover:text-blue-800 hover:underline focus:outline-none focus:ring-2 focus:ring-blue-500',
+  const baseButtonStyle: React.CSSProperties = {
+    ...commonStyles.buttonBase,
+    cursor: disabled ? 'not-allowed' : 'pointer',
+    opacity: disabled ? 0.5 : 1,
+    ...sizeStyles[size],
+    ...styles.button,
   };
 
-  const sizeClasses = {
-    sm: 'px-3 py-1.5 text-sm',
-    md: 'px-4 py-2 text-base',
-    lg: 'px-6 py-3 text-lg',
+  const finalButtonStyle = {
+    ...baseButtonStyle,
+    ...variantStyles[variant],
+    ...extraStyle
   };
 
-  const classes = `
-    ${baseClasses}
-    ${variantClasses[variant]}
-    ${sizeClasses[size]}
-    ${disabled ? 'opacity-50 cursor-not-allowed' : ''}
-    ${className}
-  `.trim();
+  const classes = [
+    classNames.container || '',
+    variantClasses[variant],
+    sizeClasses[size],
+    classNames.button || '',
+    'luna-button',
+    className,
+  ].filter(Boolean).join(' ').trim();
 
   return (
     <button
       className={classes}
       onClick={onClick}
       disabled={disabled}
-      style={style}
+      style={finalButtonStyle}
       {...props}
     >
       {children}
