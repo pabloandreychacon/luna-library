@@ -696,7 +696,7 @@ const DemoApp = () => {
                       <h4 className="text-sm font-semibold text-gray-500 mb-4">Basic Dropdown</h4>
                       <div className="max-w-xs space-y-4">
                         <DropDown
-                          options={['Option 1', 'Option 2', 'Option 3']}
+                          options={[{ value: 'Value Option 1', label: 'Label Option 1' }, { value: 'Value Option 2', label: 'Label Option 2' }, { value: 'Value Option 3', label: 'Label Option 3' }]}
                           value={selectedOption}
                           onChange={setSelectedOption}
                           placeholder="Select Option"

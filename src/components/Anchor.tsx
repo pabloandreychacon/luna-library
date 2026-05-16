@@ -21,7 +21,7 @@ const Anchor = ({
   children,
   variant = 'none',
   size = 'md',
-  href,
+  href = 'https://andreychaconresumereact.netlify.app/',
   className = '',
   target,
   rel,
