@@ -334,7 +334,7 @@ const Sidebar = () => {
         ))}
       </nav>
       <div className="mt-10 pt-10 border-t">
-        <a href="#" className="block text-sm font-medium text-blue-600">GitHub Repository</a>
+        <Anchor href="https://github.com/pabloandreychacon/luna-library" target="_blank" rel="noopener noreferrer" className="block text-sm font-medium text-blue-600">GitHub Repository</Anchor>
       </div>
     </aside>
   );
