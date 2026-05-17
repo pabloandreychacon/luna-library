@@ -1,5 +1,5 @@
 import React, { useState, useMemo, useRef, useEffect } from 'react';
-import type { ClassNames, Styles } from '../types';
+
 import { dataTableStyles } from '../styles';
 import Button from './Button';
 import Input from './Input';
@@ -22,8 +22,32 @@ export type DataTableTexts = {
   filterPlaceholder?: string;
 };
 
-export type DataTableClassNames = ClassNames<'container' | 'table' | 'thead' | 'tbody' | 'tr' | 'th' | 'td' | 'pagination' | 'searchContainer'>;
-export type DataTableStyles = Styles<'container' | 'table' | 'thead' | 'tbody' | 'tr' | 'th' | 'td'>;
+export type DataTableClassNames = {
+  container?: string;
+  table?: string;
+  thead?: string;
+  tbody?: string;
+  tr?: string;
+  th?: string;
+  td?: string;
+  pagination?: string;
+  searchContainer?: string;
+};
+
+export type DataTableStyles = {
+  container?: React.CSSProperties;
+  searchContainer?: React.CSSProperties;
+  table?: React.CSSProperties;
+  thead?: React.CSSProperties;
+  tbody?: React.CSSProperties;
+  th?: React.CSSProperties;
+  td?: React.CSSProperties;
+  tr?: React.CSSProperties;
+  pagination?: React.CSSProperties;
+  icon?: React.CSSProperties;
+  filterMenu?: React.CSSProperties;
+  filterOption?: React.CSSProperties;
+};
 
 export type DataTableProps = {
   columns: DataTableColumn[];
@@ -52,8 +76,8 @@ const DataTable = ({
   onRowDoubleClick,
   searchable = false,
   texts = {},
-  classNames = {},
-  styles = {},
+  classNames,
+  styles,
   className,
 }: DataTableProps) => {
   const defaultClassNames = {
@@ -67,7 +91,7 @@ const DataTable = ({
     pagination: 'luna-datatable-pagination',
     searchContainer: 'luna-datatable-search'
   };
-  const finalClassNames = { ...defaultClassNames, ...classNames };
+  const finalClassNames = { ...defaultClassNames, classNames };
 
   const [currentPage, setCurrentPage] = useState(1);
   const [sortConfig, setSortConfig] = useState<{ key: string; direction: 'asc' | 'desc' } | null>(null);
@@ -230,7 +254,7 @@ const DataTable = ({
             ))}
           </tr>
         </thead>
-        <tbody style={styles.tbody} className={finalClassNames.tbody}>
+        <tbody className={finalClassNames.tbody}>
           {paginatedData.length > 0 ? (
             paginatedData.map((row, idx) => {
               const rowId = row.id || row._id || JSON.stringify(row);

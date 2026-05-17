@@ -996,13 +996,27 @@ const DemoApp = () => {
                       <h4 className="text-sm font-semibold text-gray-500 mb-2">Pure link examples (no button styling):</h4>
                       <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
                         <div className="flex gap-4 items-center">
-                          <Anchor href="https://www.wikipedia.org" variant="none" style={{ padding: '0.25rem 0.5rem' }} className="custom-class">Wikipedia</Anchor>
+                          <Anchor
+                            href="https://www.wikipedia.org"
+                            variant="none"
+                            style={{ padding: '0.25rem 0.5rem' }}
+                            className="custom-class"
+                          >
+                            Wikipedia
+                          </Anchor>
                           <code className="bg-gray-100 p-2 rounded block text-[10px] text-gray-600 flex-1">
                             {'<Anchor href="https://www.wikipedia.org" variant="none">Wikipedia</Anchor>'}
                           </code>
                         </div>
                         <div className="flex gap-4 items-center">
-                          <Anchor href="https://developer.mozilla.org" variant="none" style={{ color: '#4b5563', textDecoration: 'underline' }} className="custom-class">MDN Web Docs</Anchor>
+                          <Anchor
+                            href="https://developer.mozilla.org"
+                            variant="none"
+                            style={{ color: '#4b5563', textDecoration: 'underline' }}
+                            className="custom-class"
+                          >
+                            MDN Web Docs
+                          </Anchor>
                           <code className="bg-gray-100 p-2 rounded block text-[10px] text-gray-600 flex-1">
                             {'<Anchor href="https://developer.mozilla.org" variant="none" style={{ color: "#4b5563", textDecoration: "underline" }}>MDN Web Docs</Anchor>'}
                           </code>

@@ -1,9 +1,16 @@
 import React, { useState } from 'react';
-import type { ClassNames, Styles } from '../types';
 import { qrCodeStyles } from '../styles';
 
-export type QRCodeClassNames = ClassNames<'container' | 'image'>;
-export type QRCodeStyles = Styles<'container' | 'image'>;
+export type QRCodeClassNames = {
+  container?: string;
+  image?: string;
+};
+
+export type QRCodeStyles = {
+  container?: React.CSSProperties;
+  image?: React.CSSProperties;
+  skeleton?: React.CSSProperties;
+};
 
 export type QRCodeProps = {
   value: string;
@@ -23,8 +30,8 @@ const QRCode = ({
   color = '000000',
   bgColor = 'ffffff',
   bordered = true,
-  classNames = {},
-  styles = {},
+  classNames,
+  styles,
   errorCorrectionLevel = 'M',
   className,
 }: QRCodeProps) => {
@@ -32,7 +39,7 @@ const QRCode = ({
     container: 'luna-qrcode',
     image: 'luna-qrcode-image'
   };
-  const finalClassNames = { ...defaultClassNames, ...classNames };
+  const finalClassNames = { ...defaultClassNames, classNames };
 
   const [isLoading, setIsLoading] = useState(true);
 

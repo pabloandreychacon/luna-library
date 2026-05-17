@@ -1,18 +1,18 @@
 import React, { useCallback, useState, useEffect } from 'react';
 import { inputStyles } from '../styles';
-import type { ClassNames, Styles, InputVariant, InputSize } from '../types';
+import { InputSize, StandardVariant } from '../types';
 
-export type { InputVariant, InputSize };
+export type { StandardVariant, InputSize };
 export type InputType = 'text' | 'email' | 'password' | 'number' | 'tel' | 'url' | 'search' | 'date' | 'time' | 'datetime-local' | 'month' | 'week' | 'color' | 'file' | 'hidden' | 'image' | 'range' | 'reset' | 'submit';
 
 export type AllInputProps = Omit<React.ComponentPropsWithoutRef<'input'>, 'onChange' | 'value'>;
 
-export type InputClassNames = ClassNames<'container' | 'input' | 'label'>;
-export type InputStyles = Styles<'container' | 'input' | 'label'>;
+export type InputClassNames = Record<'container' | 'input' | 'label', string>;
+export type InputStyles = Record<'container' | 'input' | 'label', React.CSSProperties>;
 
 type InputCommonProps = {
   children?: React.ReactNode;
-  variant?: InputVariant;
+  variant?: StandardVariant;
   inputSize?: InputSize;
   type?: InputType;
   placeholder?: string;
@@ -67,8 +67,8 @@ const Input = ({
   maxFractionDigits = 2,
   'aria-label': ariaLabel,
   'aria-labelledby': ariaLabelledby,
-  classNames = {},
-  styles = {},
+  classNames,
+  styles,
   className: extraClassName = '',
   style: extraStyle = {},
   ...props
@@ -79,7 +79,7 @@ const Input = ({
     input: 'luna-input-field',
     label: 'luna-input-label'
   };
-  const finalClassNames = { ...defaultClassNames, ...classNames };
+  const finalClassNames = { ...defaultClassNames, classNames };
 
   // Internal state for uncontrolled usage
   const [internalValue, setInternalValue] = useState(controlledValue || '');

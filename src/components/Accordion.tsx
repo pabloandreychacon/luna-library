@@ -1,8 +1,13 @@
 import React, { useState } from 'react';
 import { accordionStyles } from '../styles';
-import type { Styles } from '../types';
 
-type AccordionElements = 'container' | 'header' | 'content' | 'arrow' | 'innerContent';
+export type AccordionStyles = {
+  container?: React.CSSProperties;
+  header?: React.CSSProperties;
+  content?: React.CSSProperties;
+  innerContent?: React.CSSProperties;
+  arrow?: React.CSSProperties;
+};
 
 export type AccordionProps = {
   title: React.ReactNode;
@@ -10,7 +15,7 @@ export type AccordionProps = {
   defaultActive?: boolean;
   active?: boolean;
   onClick?: () => void;
-  styles?: Styles<AccordionElements>;
+  styles?: AccordionStyles;
   className?: string;
 };
 
@@ -46,12 +51,13 @@ const Accordion = ({
       <button
         type="button"
         style={uiStyles.header}
+        className='accordion-button'
         onClick={handleToggle}
       >
         <span>{title}</span>
         <span style={uiStyles.arrow}>▼</span>
       </button>
-      <div style={uiStyles.content}>
+      <div style={uiStyles.content} className='accordion-content'>
         <div style={uiStyles.innerContent}>
           {children}
         </div>

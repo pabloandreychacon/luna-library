@@ -1,9 +1,24 @@
 import React, { useEffect, useState } from 'react';
-import type { ClassNames, Styles, ToastSeverity, ToastPosition } from '../types';
+import type { ToastSeverity, ToastPosition } from '../types';
 import { toastStyles, toastSeverityConfig } from '../styles';
 
-export type ToastClassNames = ClassNames<'container' | 'content' | 'icon' | 'summary' | 'detail' | 'closeButton'>;
-export type ToastStyles = Styles<'container' | 'content' | 'summary' | 'detail'>;
+export type ToastClassNames = {
+  container?: string;
+  content?: string;
+  icon?: string;
+  summary?: string;
+  detail?: string;
+  closeButton?: string;
+};
+
+export type ToastStyles = {
+  container?: React.CSSProperties;
+  iconWrapper?: React.CSSProperties;
+  content?: React.CSSProperties;
+  summary?: React.CSSProperties;
+  detail?: React.CSSProperties;
+  closeButton?: React.CSSProperties;
+};
 
 export type ToastProps = {
   visible: boolean;
@@ -26,8 +41,8 @@ const Toast = ({
   life,
   onClose,
   position = 'top-right',
-  classNames = {},
-  styles = {},
+  classNames,
+  styles,
   className,
 }: ToastProps) => {
   const defaultClassNames = {
@@ -38,7 +53,7 @@ const Toast = ({
     detail: 'luna-toast-detail',
     closeButton: 'luna-toast-close'
   };
-  const finalClassNames = { ...defaultClassNames, ...classNames };
+  const finalClassNames = { ...defaultClassNames, classNames };
 
   const [isExiting, setIsExiting] = useState(false);
 
@@ -68,12 +83,12 @@ const Toast = ({
   const config = toastSeverityConfig[severity || 'info'];
 
   return (
-    <div className={`${finalClassNames.container} ${className || ''}`.trim()} style={uiStyles.container}>
-      <div className={finalClassNames.icon} style={uiStyles.iconWrapper}>
+    <div className={`${finalClassNames?.container} ${className || ''}`.trim()} style={uiStyles.container}>
+      <div className={finalClassNames?.icon} style={uiStyles.iconWrapper}>
         {config.icon}
       </div>
-      <div className={finalClassNames.content} style={uiStyles.content}>
-        {summary && <span className={finalClassNames.summary} style={uiStyles.summary}>{summary}</span>}
+      <div className={finalClassNames?.content} style={uiStyles.content}>
+        {summary && <span className={finalClassNames?.summary} style={uiStyles.summary}>{summary}</span>}
         {detail && <div className={finalClassNames.detail} style={uiStyles.detail}>{detail}</div>}
       </div>
       <button

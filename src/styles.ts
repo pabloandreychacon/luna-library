@@ -1,5 +1,5 @@
 import React from 'react';
-import type { Size, AnchorVariant, CardPadding, CardShadow, InputSize, InputVariant, ModalSize, PopconfirmPosition, ProgressBarVariant, ToastSeverity, ToastPosition, CornerPosition } from './types';
+import type { Size, StandardVariant, CardPadding, CardShadow, InputSize, ModalSize, PopconfirmPosition, ProgressBarVariant, ToastSeverity, ToastPosition, CornerPosition } from './types';
 
 // ─── Design Tokens ────────────────────────────────────────────
 
@@ -117,14 +117,6 @@ export const commonStyles = {
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'space-between',
-    backgroundColor: colors.bgHeader,
-    border: 'none',
-    cursor: 'pointer',
-    textAlign: 'left' as const,
-    fontSize: fontSizes.sm,
-    fontWeight: fontWeights.semibold,
-    color: colors.text,
-    outline: 'none',
   } as React.CSSProperties,
 
   chevron: {
@@ -215,14 +207,14 @@ export const commonStyles = {
 
   buttonBase: {
     display: 'inline-flex',
-    alignItems: 'center',
-    justifyContent: 'center',
     fontWeight: fontWeights.medium,
     borderRadius: radii.md,
-    transition: transitions.fast,
-    cursor: 'pointer',
-    outline: 'none',
-    border: '1px solid transparent',
+    hover: {
+      backgroundColor: colors.bgHover,
+    },
+  } as React.CSSProperties,
+
+  anchorBase: {
   } as React.CSSProperties,
 
   inputWrapper: {
@@ -321,7 +313,7 @@ export const dataTableStyles = (styles?: Record<string, React.CSSProperties>) =>
     overflowX: 'auto',
     ...styles?.container,
   } as React.CSSProperties,
-  searchContainer: { padding: '1rem', borderBottom: `1px solid ${colors.border}` } as React.CSSProperties,
+  searchContainer: { padding: '1rem', borderBottom: `1px solid ${colors.border}`, ...styles?.searchContainer } as React.CSSProperties,
   table: {
     width: '100%',
     borderCollapse: 'collapse',
@@ -351,18 +343,23 @@ export const dataTableStyles = (styles?: Record<string, React.CSSProperties>) =>
   tr: (clickable: boolean) => ({
     transition: transitions.bg,
     cursor: clickable ? 'pointer' : 'default',
+    ...styles?.tr,
   }) as React.CSSProperties,
   pagination: {
     ...commonStyles.pagination,
+    ...styles?.pagination,
   } as React.CSSProperties,
   icon: {
     ...commonStyles.icon,
+    ...styles?.icon,
   } as React.CSSProperties,
   filterMenu: {
     ...commonStyles.filterMenu,
+    ...styles?.filterMenu,
   } as React.CSSProperties,
   filterOption: (active: boolean) => ({
     ...commonStyles.filterOption(active),
+    ...styles?.filterOption,
   }) as React.CSSProperties,
 });
 
@@ -416,6 +413,7 @@ export const dropDownStyles = (
     ...commonStyles.chevron,
     marginLeft: '0.5rem',
     transform: isOpen ? 'rotate(180deg)' : 'rotate(0deg)',
+    ...styles?.arrow,
   } as React.CSSProperties,
 });
 
@@ -456,12 +454,12 @@ export const inputStyles = (
 ) => ({
   container: {
     ...commonStyles.inputWrapper,
-    ...styles?.container,
+    styles,
     ...extraStyle,
   } as React.CSSProperties,
   label: {
     ...commonStyles.inputLabel,
-    ...styles?.label,
+    styles,
   } as React.CSSProperties,
   input: {
     ...commonStyles.inputField,
@@ -474,7 +472,7 @@ export const inputStyles = (
     backgroundColor: readOnly ? colors.borderLight : colors.white,
     cursor: disabled ? 'not-allowed' : (readOnly ? 'default' : 'text'),
     opacity: disabled ? 0.5 : 1,
-    ...styles?.input,
+    styles,
   } as React.CSSProperties,
   variants: {
     none: {},
@@ -483,7 +481,7 @@ export const inputStyles = (
     outline: { ...variantStyles.outline, backgroundColor: '#ffffff', borderColor: '#d1d5db' },
     danger: { ...variantStyles.danger, borderColor: '#dc2626' },
     success: { ...variantStyles.success, borderColor: '#16a34a' },
-  } as Record<InputVariant, React.CSSProperties>,
+  } as Record<StandardVariant, React.CSSProperties>,
 });
 
 export const multiSelectStyles = (
@@ -494,14 +492,14 @@ export const multiSelectStyles = (
   container: {
     position: 'relative',
     width: '100%',
-    ...styles?.container,
+    styles,
   } as React.CSSProperties,
   trigger: {
     ...commonStyles.trigger,
     minHeight: '2.5rem',
     cursor: disabled ? 'not-allowed' : 'pointer',
     opacity: disabled ? 0.6 : 1,
-    ...styles?.trigger,
+    styles,
   } as React.CSSProperties,
   chevron: {
     ...commonStyles.chevron,
@@ -510,7 +508,7 @@ export const multiSelectStyles = (
   panel: {
     ...commonStyles.panel,
     display: isOpen ? 'block' : 'none',
-    ...styles?.panel,
+    styles,
   } as React.CSSProperties,
   header: {
     ...commonStyles.header,
@@ -518,7 +516,7 @@ export const multiSelectStyles = (
     borderBottom: `1px solid ${colors.borderLight}`,
     flexDirection: 'column',
     gap: '0.5rem',
-    ...styles?.header,
+    styles,
   } as React.CSSProperties,
   selectAllWrapper: {
     display: 'flex',
@@ -533,14 +531,14 @@ export const multiSelectStyles = (
   } as React.CSSProperties,
   item: (isSelected: boolean, isDisabled: boolean) => ({
     ...commonStyles.item(isSelected, isDisabled),
-    ...styles?.item,
+    styles,
   }) as React.CSSProperties,
   checkbox: {
     ...commonStyles.checkbox,
   } as React.CSSProperties,
   chip: {
     ...commonStyles.chip,
-    ...styles?.chip,
+    styles,
   } as React.CSSProperties,
   chipIcon: {
     cursor: 'pointer',
@@ -582,12 +580,14 @@ export const popconfirmStyles = (
     alignItems: 'flex-start',
     gap: '0.5rem',
     marginBottom: '0.5rem',
+    ...styles?.titleWrapper,
   } as React.CSSProperties,
   icon: {
     color: '#eab308',
     fontSize: '1rem',
     fontWeight: 'bold',
     marginTop: '1px',
+    ...styles?.icon,
   } as React.CSSProperties,
   title: {
     fontSize: fontSizes.sm,
@@ -606,6 +606,7 @@ export const popconfirmStyles = (
     display: 'flex',
     justifyContent: 'flex-end',
     gap: '0.5rem',
+    ...styles?.actions,
   } as React.CSSProperties,
 });
 
@@ -720,6 +721,7 @@ export const qrCodeStyles = (
     borderRadius: radii.sm,
     display: isLoading ? 'block' : 'none',
     animation: 'pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+    ...styles?.skeleton,
   } as React.CSSProperties,
 });
 
@@ -807,6 +809,7 @@ export const toastStyles = (
       fontSize: fontSizes.sm,
       fontWeight: fontWeights.bold,
       flexShrink: 0,
+      ...styles?.iconWrapper,
     } as React.CSSProperties,
     content: {
       flex: 1,
@@ -841,6 +844,7 @@ export const toastStyles = (
       alignItems: 'center',
       justifyContent: 'center',
       flexShrink: 0,
+      ...styles?.closeButton,
     } as React.CSSProperties,
   };
 };
@@ -962,14 +966,10 @@ export const modalOverlayClasses = (show: boolean, animation: boolean, className
 export const modalDialogClasses = (size: ModalSize, centered: boolean, dialogClassName: string) =>
   `relative w-full ${modalSizeClasses[size]} mx-auto ${centered ? 'flex items-center justify-center min-h-screen' : 'mt-8'} ${dialogClassName}`.trim();
 
-export const anchorBaseStyles = (variant: AnchorVariant, isHovered: boolean, size: Size): React.CSSProperties => ({
-  ...commonStyles.buttonBase,
-  gap: '0',
-  cursor: 'pointer',
+export const anchorBaseStyles = (variant: StandardVariant, isHovered: boolean, size: Size): React.CSSProperties => ({
+  ...commonStyles.anchorBase,
   textDecoration: variant === 'none' ? (isHovered ? 'underline' : 'none') : 'none',
-  border: variant === 'none' ? 'none' : '1px solid transparent',
   ...(variant !== 'none' ? sizeStyles[size] : {}),
-  display: variant === 'none' ? 'inline' : 'inline-flex',
   borderRadius: variant === 'none' ? '0' : radii.md,
 });
 
@@ -978,12 +978,10 @@ export const accordionStyles = (isActive: boolean, styles?: Record<string, React
     ...commonStyles.container,
     overflow: 'hidden',
     marginBottom: '0.5rem',
-    ...styles?.container,
   } as React.CSSProperties,
   header: {
     ...commonStyles.header,
     transition: transitions.bgSlow,
-    ...styles?.header,
   } as React.CSSProperties,
   content: {
     maxHeight: isActive ? '1000px' : '0',
@@ -991,7 +989,6 @@ export const accordionStyles = (isActive: boolean, styles?: Record<string, React
     overflow: 'hidden',
     transition: transitions.normal,
     borderTop: isActive ? `1px solid ${colors.border}` : 'none',
-    ...styles?.content,
   } as React.CSSProperties,
   innerContent: {
     padding: '1rem',
@@ -1001,27 +998,50 @@ export const accordionStyles = (isActive: boolean, styles?: Record<string, React
   arrow: {
     ...commonStyles.chevron,
     transform: isActive ? 'rotate(180deg)' : 'rotate(0deg)',
-    ...styles?.arrow,
   } as React.CSSProperties,
 });
 
-export const anchorVariantStyles = (isHovered: boolean): Record<AnchorVariant, React.CSSProperties> => ({
+export const standardVariantStyles = (isHovered: boolean): Record<StandardVariant, React.CSSProperties> => ({
   none: {
     color: colors.primary,
   },
   primary: {
     backgroundColor: isHovered ? '#1d4ed8' : '#2563eb',
-    color: '#ffffff',
-    border: '1px solid transparent',
+    color: isHovered ? 'black' : 'white',
   },
   secondary: {
-    backgroundColor: isHovered ? '#374151' : '#4b5563',
-    color: '#ffffff',
-    border: '1px solid transparent',
+    backgroundColor: isHovered ? '#6d737c' : '#4b5563',
+    color: isHovered ? 'black' : 'white',
   },
   outline: {
-    backgroundColor: isHovered ? '#f9fafb' : 'transparent',
-    color: '#374151',
-    border: `1px solid ${colors.borderInput}`,
+    backgroundColor: isHovered ? 'lightgray' : 'white',
+    color: isHovered ? 'white' : 'black',
+  },
+  danger: {
+    backgroundColor: isHovered ? '#b91c1c' : '#dc2626',
+    color: isHovered ? 'black' : 'white',
+  },
+  success: {
+    backgroundColor: isHovered ? '#15803d' : '#16a34a',
+    color: isHovered ? 'black' : 'white',
+  },
+  warning: {
+    backgroundColor: isHovered ? '#d97706' : '#f59e0b',
+    color: isHovered ? 'black' : 'white',
+  },
+  info: {
+    backgroundColor: isHovered ? '#0891b2' : '#0ea5e9',
+    color: isHovered ? 'black' : 'white',
+  },
+  dark: {
+    backgroundColor: isHovered ? '#1f2937' : '#111827',
+    color: isHovered ? 'black' : 'white',
+  },
+  light: {
+    backgroundColor: isHovered ? '#f3f4f6' : '#f9fafb',
+    color: isHovered ? 'black' : 'white',
+  },
+  link: {
+    color: isHovered ? colors.primary : colors.text,
   },
 });

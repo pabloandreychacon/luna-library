@@ -1,14 +1,26 @@
 import React, { useState, useRef, useEffect } from 'react';
-import type { ClassNames, Styles } from '../types';
 import { dropDownStyles } from '../styles';
 
 export type DropDownOption = {
   value: string | number;
-  label: React.ReactNode;
+  label?: React.ReactNode;
+  text?: React.ReactNode;
 };
 
-export type DropDownClassNames = ClassNames<'container' | 'trigger' | 'panel' | 'option'>;
-export type DropDownStyles = Styles<'container' | 'trigger' | 'panel' | 'option'>;
+export type DropDownClassNames = {
+  container?: string;
+  trigger?: string;
+  panel?: string;
+  option?: string;
+};
+
+export type DropDownStyles = {
+  container?: React.CSSProperties;
+  trigger?: React.CSSProperties;
+  panel?: React.CSSProperties;
+  option?: React.CSSProperties;
+  arrow?: React.CSSProperties;
+};
 
 export type DropDownProps = {
   options: (string | number | DropDownOption)[];
@@ -28,10 +40,9 @@ const DropDown = ({
   onChange,
   placeholder = 'Select an option',
   toggle,
-  classNames = {},
-  styles = {},
-  disabled = false,
   className,
+  styles,
+  disabled = false,
 }: DropDownProps) => {
   const defaultClassNames = {
     container: 'luna-dropdown',
@@ -39,7 +50,7 @@ const DropDown = ({
     panel: 'luna-dropdown-panel',
     option: 'luna-dropdown-option'
   };
-  const finalClassNames = { ...defaultClassNames, ...classNames };
+  const finalClassNames = { ...defaultClassNames, className };
 
   const [isOpen, setIsOpen] = useState(false);
   const [hoverIndex, setHoverIndex] = useState<number | null>(null);

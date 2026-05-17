@@ -1,11 +1,27 @@
 import React, { useState, useRef, useEffect } from 'react';
-import type { ClassNames, Styles, PopconfirmPosition } from '../types';
+import type { PopconfirmPosition } from '../types';
 import Button from './Button';
 import { popconfirmStyles } from '../styles';
 
-export type PopconfirmClassNames = ClassNames<'container' | 'popover' | 'title' | 'description' | 'actions' | 'okButton' | 'cancelButton'>;
+export type PopconfirmClassNames = {
+  container?: string;
+  popover?: string;
+  title?: string;
+  description?: string;
+  actions?: string;
+  okButton?: string;
+  cancelButton?: string;
+};
 
-export type PopconfirmStyles = Styles<'container' | 'popover' | 'title' | 'description'>;
+export type PopconfirmStyles = {
+  container?: React.CSSProperties;
+  popover?: React.CSSProperties;
+  titleWrapper?: React.CSSProperties;
+  icon?: React.CSSProperties;
+  title?: React.CSSProperties;
+  description?: React.CSSProperties;
+  actions?: React.CSSProperties;
+};
 
 export type PopconfirmProps = {
   title: React.ReactNode;
@@ -31,8 +47,8 @@ const Popconfirm = ({
   cancelText = 'No',
   position = 'top',
   children,
-  classNames = {},
-  styles = {},
+  classNames,
+  styles,
   disabled = false,
   className = '',
 }: PopconfirmProps) => {
@@ -45,7 +61,7 @@ const Popconfirm = ({
     okButton: 'luna-popconfirm-ok',
     cancelButton: 'luna-popconfirm-cancel'
   };
-  const finalClassNames = { ...defaultClassNames, ...classNames };
+  const finalClassNames = { ...defaultClassNames, classNames };
 
   const [show, setShow] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);

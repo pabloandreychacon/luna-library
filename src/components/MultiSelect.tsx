@@ -1,5 +1,4 @@
 import React, { useState, useMemo, useRef, useEffect } from 'react';
-import type { ClassNames, Styles } from '../types';
 import { multiSelectStyles } from '../styles';
 import Input from './Input';
 
@@ -9,8 +8,32 @@ export type MultiSelectOption = {
   disabled?: boolean;
 };
 
-export type MultiSelectClassNames = ClassNames<'container' | 'trigger' | 'label' | 'panel' | 'header' | 'filterInput' | 'list' | 'item' | 'chip' | 'chipIcon'>;
-export type MultiSelectStyles = Styles<'container' | 'trigger' | 'panel' | 'header' | 'item' | 'chip'>;
+export type MultiSelectClassNames = {
+  container?: string;
+  trigger?: string;
+  label?: string;
+  panel?: string;
+  header?: string;
+  filterInput?: string;
+  list?: string;
+  item?: string;
+  chip?: string;
+  chipIcon?: string;
+};
+
+export type MultiSelectStyles = {
+  container?: React.CSSProperties;
+  trigger?: React.CSSProperties;
+  chevron?: React.CSSProperties;
+  panel?: React.CSSProperties;
+  header?: React.CSSProperties;
+  selectAllWrapper?: React.CSSProperties;
+  list?: React.CSSProperties;
+  item?: React.CSSProperties;
+  checkbox?: React.CSSProperties;
+  chip?: React.CSSProperties;
+  chipIcon?: React.CSSProperties;
+};
 
 export type MultiSelectProps = {
   options: MultiSelectOption[];
@@ -40,10 +63,9 @@ const MultiSelect = ({
   filterPlaceholder = 'Search...',
   selectAll = true,
   maxSelectedLabels = 3,
-  classNames = {},
-  styles = {},
+  classNames,
+  styles,
   disabled = false,
-  className,
 }: MultiSelectProps) => {
   const defaultClassNames = {
     container: 'luna-multiselect',
@@ -53,7 +75,7 @@ const MultiSelect = ({
     item: 'luna-multiselect-item',
     chip: 'luna-multiselect-chip'
   };
-  const finalClassNames = { ...defaultClassNames, ...classNames };
+  const finalClassNames = { ...defaultClassNames, classNames };
 
   const [isOpen, setIsOpen] = useState(false);
   const [filterText, setFilterText] = useState('');
@@ -131,7 +153,7 @@ const MultiSelect = ({
   return (
     <div
       ref={containerRef}
-      className={`${finalClassNames.container} ${className || ''}`.trim()}
+      className={`${finalClassNames.container} ${classNames || ''}`.trim()}
       style={uiStyles.container}
     >
       <div
@@ -166,7 +188,7 @@ const MultiSelect = ({
                 placeholder={filterPlaceholder}
                 value={filterText}
                 onChange={setFilterText}
-                classNames={{ container: 'w-full' }}
+                className="w-full"
               />
             )}
           </div>

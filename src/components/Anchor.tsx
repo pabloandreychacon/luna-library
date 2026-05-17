@@ -1,14 +1,14 @@
 import React, { useState } from 'react';
-import type { Size, AnchorVariant } from '../types';
-import { colors, radii, fontSizes, fontWeights, transitions, commonStyles, sizeStyles, anchorBaseStyles, anchorVariantStyles } from '../styles';
+import type { Size, StandardVariant } from '../types';
+import { anchorBaseStyles, standardVariantStyles } from '../styles';
 
-export type { AnchorVariant };
+export type { StandardVariant as AnchorVariant };
 export type AnchorSize = Size;
 export type AllAnchorProps = React.ComponentPropsWithoutRef<'a'>;
 
 export type AnchorProps = {
   children?: React.ReactNode;
-  variant?: AnchorVariant;
+  variant?: StandardVariant;
   size?: AnchorSize;
   href?: string;
   className?: string;
@@ -38,7 +38,7 @@ const Anchor = ({
   const uiStyles = {
     base: anchorBaseStyles(variant, isHovered, size),
 
-    variants: anchorVariantStyles(isHovered)
+    variants: standardVariantStyles(isHovered)
   };
 
   const finalStyle = {
