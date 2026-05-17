@@ -73,6 +73,14 @@ const ToastExample = () => {
         >
           Error
         </Button>
+        <Button
+          className="custom-class"
+          variant="outline"
+          size="sm"
+          onClick={() => showToast('info', 'Sticky Toast', 'This will not close automatically.')}
+        >
+          Sticky
+        </Button>
       </div>
       <Toast className="custom-toast" visible={visible} onClose={() => setVisible(false)} {...config} />
       <code className="bg-gray-100 p-2 rounded block text-[10px] text-gray-600">
@@ -443,6 +451,44 @@ const DemoApp = () => {
                         <Button variant="link" size="sm" className="custom-class">Link Button</Button>
                       </div>
                     </div>
+
+                    {/* Rounded */}
+                    <div className="space-y-4">
+                      <h4 className="text-sm font-semibold text-gray-500 mb-2">Rounded (Pill)</h4>
+                      <div className="flex flex-wrap gap-2 items-center">
+                        <Button variant="primary" size="sm" rounded>Rounded Primary</Button>
+                        <Button variant="outline" size="sm" rounded>Rounded Outline</Button>
+                      </div>
+                      <code className="bg-gray-100 p-2 rounded block text-[10px] text-gray-600">
+                        {'<Button variant="primary" rounded>Rounded Primary</Button>'}
+                      </code>
+                    </div>
+
+                    {/* Icon left / right */}
+                    <div className="space-y-4">
+                      <h4 className="text-sm font-semibold text-gray-500 mb-2">Icon Left & Right</h4>
+                      <div className="flex flex-wrap gap-2 items-center">
+                        <Button variant="primary" size="sm" icon="🚀">Deploy</Button>
+                        <Button variant="outline" size="sm" icon="→" iconPosition="right">Next</Button>
+                      </div>
+                      <code className="bg-gray-100 p-2 rounded block text-[10px] text-gray-600">
+                        {'<Button icon="🚀">Deploy</Button>\n<Button icon="→" iconPosition="right">Next</Button>'}
+                      </code>
+                    </div>
+
+                    {/* Icon only rounded */}
+                    <div className="space-y-4">
+                      <h4 className="text-sm font-semibold text-gray-500 mb-2">Icon Only + Rounded</h4>
+                      <div className="flex flex-wrap gap-2 items-center">
+                        <Button variant="primary" size="sm" rounded icon="✕" />
+                        <Button variant="success" size="sm" rounded icon="✓" />
+                        <Button variant="danger" size="sm" rounded icon="🗑" />
+                        <Button variant="outline" size="md" rounded icon="⚙" />
+                      </div>
+                      <code className="bg-gray-100 p-2 rounded block text-[10px] text-gray-600">
+                        {'<Button variant="primary" rounded icon="✕" />'}
+                      </code>
+                    </div>
                   </div>
                 </Card>
               </div>
@@ -504,6 +550,18 @@ const DemoApp = () => {
                           placeholder="Success input"
                         >
                           Success Variant
+                        </Input>
+                      </div>
+                      {/* danger variant */}
+                      <div>
+                        <Input
+                          id="input-danger"
+                          className="my-custom-class"
+                          inputSize="sm"
+                          variant="danger"
+                          placeholder="Danger input"
+                        >
+                          Danger Variant
                         </Input>
                       </div>
                     </div>
@@ -614,6 +672,37 @@ const DemoApp = () => {
                           </Input>
                           <code className="bg-gray-100 p-2 rounded block text-[10px] text-gray-600 mt-2">
                             {'<Input type="date" />'}
+                          </code>
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Icon Inputs */}
+                    <div className="lg:col-span-2 space-y-6 pt-6 mt-4">
+                      <h3 className="text-sm font-semibold text-gray-500 border-b pb-2">Icon Inputs</h3>
+                      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                        <div>
+                          <Input id="input-icon-search" icon="🔍" placeholder="Search..." inputSize="sm">Search</Input>
+                          <code className="bg-gray-100 p-2 rounded block text-[10px] text-gray-600 mt-2">
+                            {'<Input icon="🔍">Search</Input>'}
+                          </code>
+                        </div>
+                        <div>
+                          <Input id="input-icon-email" icon="📧" variant="primary" type='email' placeholder="Email" inputSize="sm">Email</Input>
+                          <code className="bg-gray-100 p-2 rounded block text-[10px] text-gray-600 mt-2">
+                            {'<Input icon="📧" variant="primary">Email</Input>'}
+                          </code>
+                        </div>
+                        <div>
+                          <Input id="input-icon-right" type="password" icon="🔒" iconPosition="right" variant="danger" placeholder="Password" inputSize="sm">Password</Input>
+                          <code className="bg-gray-100 p-2 rounded block text-[10px] text-gray-600 mt-2">
+                            {'<Input icon="🔒" iconPosition="right" variant="danger">Password</Input>'}
+                          </code>
+                        </div>
+                        <div>
+                          <Input id="input-icon-required" icon="👤" variant="success" placeholder="Username" inputSize="sm" isRequired>Username</Input>
+                          <code className="bg-gray-100 p-2 rounded block text-[10px] text-gray-600 mt-2">
+                            {'<Input icon="👤" variant="success" isRequired>Username</Input>'}
                           </code>
                         </div>
                       </div>

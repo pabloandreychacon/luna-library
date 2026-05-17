@@ -17,7 +17,23 @@ export const colors = {
   bgSelected: '#eff6ff',
   bgSkeleton: '#f3f4f6',
   primary: '#2563eb',
+  primaryHover: '#1d4ed8',
+  secondary: '#4b5563',
+  secondaryHover: '#6d737c',
+  success: '#16a34a',
+  successHover: '#15803d',
+  danger: '#dc2626',
+  dangerHover: '#b91c1c',
+  warning: '#f59e0b',
+  warningHover: '#d97706',
+  info: '#0ea5e9',
+  infoHover: '#0891b2',
+  light: '#f9fafb',
+  lightHover: '#f3f4f6',
   dark: '#111827',
+  darkHover: '#1f2937',
+  whatsapp: '#25D366',
+  whatsappHover: '#128C7E',
 } as const;
 
 export const radii = {
@@ -234,7 +250,9 @@ export const commonStyles = {
   inputField: {
     width: '100%',
     borderRadius: radii.md,
-    border: `1px solid ${colors.borderInput}`,
+    borderStyle: 'solid',
+    borderWidth: '1px',
+    borderColor: colors.borderInput,
     transition: transitions.fast,
     outline: 'none',
   } as React.CSSProperties,
@@ -420,29 +438,16 @@ export const dropDownStyles = (
 // ─── Variant Style Objects ────────────────────────────────────
 
 export const variantStyles = {
-  primary: { backgroundColor: '#2563eb', color: '#ffffff' },
-  secondary: { backgroundColor: '#4b5563', color: '#ffffff' },
-  outline: { backgroundColor: 'transparent', color: '#374151', borderColor: '#d1d5db' },
-  success: { backgroundColor: '#16a34a', color: '#ffffff' },
-  danger: { backgroundColor: '#dc2626', color: '#ffffff' },
-  warning: { backgroundColor: '#eab308', color: '#ffffff' },
-  info: { backgroundColor: '#0891b2', color: '#ffffff' },
-  dark: { backgroundColor: '#111827', color: '#ffffff' },
-  light: { backgroundColor: '#f3f4f6', color: '#111827' },
-  link: { backgroundColor: 'transparent', color: '#2563eb', border: 'none', padding: 0, textDecoration: 'underline' },
-} as const;
-
-export const variantClasses = {
-  primary: 'bg-blue-600 text-white hover:bg-blue-700',
-  secondary: 'bg-gray-600 text-white hover:bg-gray-700',
-  outline: 'border border-gray-300 text-gray-700 hover:bg-gray-50',
-  success: 'bg-green-600 text-white hover:bg-green-700',
-  danger: 'bg-red-600 text-white hover:bg-red-700',
-  warning: 'bg-yellow-500 text-white hover:bg-yellow-600',
-  info: 'bg-cyan-600 text-white hover:bg-cyan-700',
-  dark: 'bg-gray-900 text-white hover:bg-gray-800',
-  light: 'bg-gray-100 text-gray-900 hover:bg-gray-200',
-  link: 'text-blue-600 hover:text-blue-800 hover:underline',
+  primary: { backgroundColor: colors.primary, color: colors.white },
+  secondary: { backgroundColor: colors.secondary, color: colors.white },
+  outline: { backgroundColor: 'transparent', color: colors.text, borderColor: colors.borderInput },
+  success: { backgroundColor: colors.success, color: colors.white },
+  danger: { backgroundColor: colors.danger, color: colors.white },
+  warning: { backgroundColor: colors.warning, color: colors.white },
+  info: { backgroundColor: colors.info, color: colors.white },
+  dark: { backgroundColor: colors.dark, color: colors.white },
+  light: { backgroundColor: colors.light, color: colors.dark },
+  link: { backgroundColor: 'transparent', color: colors.primary, border: 'none', padding: 0, textDecoration: 'underline' },
 } as const;
 
 export const inputStyles = (
@@ -476,11 +481,16 @@ export const inputStyles = (
   } as React.CSSProperties,
   variants: {
     none: {},
-    primary: { ...variantStyles.primary, borderColor: '#2563eb' },
-    secondary: { ...variantStyles.secondary, borderColor: '#4b5563' },
-    outline: { ...variantStyles.outline, backgroundColor: '#ffffff', borderColor: '#d1d5db' },
-    danger: { ...variantStyles.danger, borderColor: '#dc2626' },
-    success: { ...variantStyles.success, borderColor: '#16a34a' },
+    primary: { borderColor: colors.primary, color: colors.primary },
+    secondary: { borderColor: colors.secondary, color: colors.secondary },
+    outline: { borderColor: colors.borderInput, color: colors.text },
+    danger: { borderColor: colors.danger, color: colors.danger },
+    success: { borderColor: colors.success, color: colors.success },
+    warning: { borderColor: colors.warning, color: colors.warning },
+    info: { borderColor: colors.info, color: colors.info },
+    dark: { borderColor: colors.dark, color: colors.dark },
+    light: { borderColor: colors.light, color: colors.light },
+    link: { borderColor: 'transparent', color: colors.primary },
   } as Record<StandardVariant, React.CSSProperties>,
 });
 
@@ -640,12 +650,12 @@ export const preloaderStyles = (
 });
 
 export const progressBarVariantColors: Record<ProgressBarVariant, { bg: string; text: string; track: string }> = {
-  primary: { bg: '#2563eb', text: '#ffffff', track: '#e5e7eb' },
-  success: { bg: '#16a34a', text: '#ffffff', track: '#e5e7eb' },
-  warning: { bg: '#eab308', text: '#111827', track: '#e5e7eb' },
-  danger: { bg: '#dc2626', text: '#ffffff', track: '#e5e7eb' },
-  dark: { bg: '#1f2937', text: '#ffffff', track: '#d1d5db' },
-  light: { bg: '#f3f4f6', text: '#111827', track: '#d1d5db' },
+  primary: { bg: colors.primary, text: colors.white, track: colors.border },
+  success: { bg: colors.success, text: colors.white, track: colors.border },
+  warning: { bg: colors.warning, text: colors.dark, track: colors.border },
+  danger: { bg: colors.danger, text: colors.white, track: colors.border },
+  dark: { bg: colors.darkHover, text: colors.white, track: colors.borderInput },
+  light: { bg: colors.light, text: colors.dark, track: colors.borderInput },
 };
 
 export const progressBarStyles = (
@@ -903,7 +913,7 @@ export const whatsAppStyles = (
       ...cornerPositionStyles(pos),
       width: `${currentSize.button}px`,
       height: `${currentSize.button}px`,
-      backgroundColor: isHovered ? '#128C7E' : '#25D366',
+      backgroundColor: isHovered ? colors.whatsappHover : colors.whatsapp,
       color: colors.white,
       zIndex: zIndex ?? 1000,
       transition: transitions.normal,
@@ -967,7 +977,7 @@ export const modalDialogClasses = (size: ModalSize, centered: boolean, dialogCla
   `relative w-full ${modalSizeClasses[size]} mx-auto ${centered ? 'flex items-center justify-center min-h-screen' : 'mt-8'} ${dialogClassName}`.trim();
 
 export const anchorBaseStyles = (variant: StandardVariant, isHovered: boolean, size: Size): React.CSSProperties => ({
-  ...commonStyles.anchorBase,
+  //...commonStyles.anchorBase,
   textDecoration: variant === 'none' ? (isHovered ? 'underline' : 'none') : 'none',
   ...(variant !== 'none' ? sizeStyles[size] : {}),
   borderRadius: variant === 'none' ? '0' : radii.md,
@@ -1002,46 +1012,15 @@ export const accordionStyles = (isActive: boolean, styles?: Record<string, React
 });
 
 export const standardVariantStyles = (isHovered: boolean): Record<StandardVariant, React.CSSProperties> => ({
-  none: {
-    color: colors.primary,
-  },
-  primary: {
-    backgroundColor: isHovered ? '#1d4ed8' : '#2563eb',
-    color: isHovered ? 'black' : 'white',
-  },
-  secondary: {
-    backgroundColor: isHovered ? '#6d737c' : '#4b5563',
-    color: isHovered ? 'black' : 'white',
-  },
-  outline: {
-    backgroundColor: isHovered ? 'lightgray' : 'white',
-    color: isHovered ? 'white' : 'black',
-  },
-  danger: {
-    backgroundColor: isHovered ? '#b91c1c' : '#dc2626',
-    color: isHovered ? 'black' : 'white',
-  },
-  success: {
-    backgroundColor: isHovered ? '#15803d' : '#16a34a',
-    color: isHovered ? 'black' : 'white',
-  },
-  warning: {
-    backgroundColor: isHovered ? '#d97706' : '#f59e0b',
-    color: isHovered ? 'black' : 'white',
-  },
-  info: {
-    backgroundColor: isHovered ? '#0891b2' : '#0ea5e9',
-    color: isHovered ? 'black' : 'white',
-  },
-  dark: {
-    backgroundColor: isHovered ? '#1f2937' : '#111827',
-    color: isHovered ? 'black' : 'white',
-  },
-  light: {
-    backgroundColor: isHovered ? '#f3f4f6' : '#f9fafb',
-    color: isHovered ? 'black' : 'white',
-  },
-  link: {
-    color: isHovered ? colors.primary : colors.text,
-  },
+  none: { color: colors.primary },
+  primary: { backgroundColor: isHovered ? colors.primaryHover : colors.primary, color: colors.white },
+  secondary: { backgroundColor: isHovered ? colors.secondaryHover : colors.secondary, color: colors.white },
+  outline: { backgroundColor: isHovered ? colors.lightHover : colors.white, color: colors.dark },
+  danger: { backgroundColor: isHovered ? colors.dangerHover : colors.danger, color: colors.white },
+  success: { backgroundColor: isHovered ? colors.successHover : colors.success, color: colors.white },
+  warning: { backgroundColor: isHovered ? colors.warningHover : colors.warning, color: colors.white },
+  info: { backgroundColor: isHovered ? colors.infoHover : colors.info, color: colors.white },
+  dark: { backgroundColor: isHovered ? colors.darkHover : colors.dark, color: colors.white },
+  light: { backgroundColor: isHovered ? colors.lightHover : colors.light, color: colors.dark },
+  link: { color: isHovered ? colors.primary : colors.text },
 });

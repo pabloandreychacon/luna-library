@@ -1,6 +1,20 @@
 import React, { useCallback, useState, useEffect } from 'react';
-import { inputStyles } from '../styles';
+import { inputStyles, colors } from '../styles';
 import { InputSize, StandardVariant } from '../types';
+
+const variantBorderColors: Record<StandardVariant, string> = {
+  none: colors.borderInput,
+  primary: colors.primary,
+  secondary: colors.secondary,
+  outline: colors.borderInput,
+  danger: colors.danger,
+  success: colors.success,
+  warning: colors.warning,
+  info: colors.info,
+  dark: colors.dark,
+  light: colors.light,
+  link: 'transparent',
+};
 
 export type { StandardVariant, InputSize };
 export type InputType = 'text' | 'email' | 'password' | 'number' | 'tel' | 'url' | 'search' | 'date' | 'time' | 'datetime-local' | 'month' | 'week' | 'color' | 'file' | 'hidden' | 'image' | 'range' | 'reset' | 'submit';
@@ -22,6 +36,9 @@ type InputCommonProps = {
   onBlur?: () => void;
   disabled?: boolean;
   required?: boolean;
+  isRequired?: boolean;
+  icon?: React.ReactNode;
+  iconPosition?: 'left' | 'right';
   readOnly?: boolean;
   mask?: string;
   maskChar?: string;
@@ -55,6 +72,9 @@ const Input = ({
   onBlur,
   disabled = false,
   required = false,
+  isRequired = false,
+  icon,
+  iconPosition = 'left',
   readOnly = false,
   id,
   name,
@@ -81,8 +101,8 @@ const Input = ({
   };
   const finalClassNames = { ...defaultClassNames, classNames };
 
-  // Internal state for uncontrolled usage
   const [internalValue, setInternalValue] = useState(controlledValue || '');
+  const [isFocused, setIsFocused] = useState(false);
 
   // Keep internal value in sync with controlled value
   useEffect(() => {
@@ -155,6 +175,7 @@ const Input = ({
   };
 
   const handleBlur = () => {
+    setIsFocused(false);
     if (useCurrency && internalValue) {
       const formatted = formatCurrency(internalValue);
       if (controlledValue === undefined) {
@@ -167,33 +188,56 @@ const Input = ({
 
   const uiStyles = inputStyles(styles, extraStyle, inputSize, readOnly, disabled);
 
-  const finalInputStyle = { ...uiStyles.input, ...uiStyles.variants[variant] };
+  const iconPadding = icon ? '2.25rem' : undefined;
+
+  const finalInputStyle: React.CSSProperties = {
+    ...uiStyles.input,
+    ...uiStyles.variants[variant],
+    borderStyle: 'solid',
+    borderWidth: isFocused ? '2px' : '1px',
+    borderColor: variantBorderColors[variant],
+    ...(icon && iconPosition === 'left'  ? { paddingLeft:  iconPadding } : {}),
+    ...(icon && iconPosition === 'right' ? { paddingRight: iconPadding } : {}),
+  };
 
   return (
     <div className={`${finalClassNames.container || ''} ${extraClassName}`.trim()} style={uiStyles.container}>
       {children && (
         <label htmlFor={inputId} className={finalClassNames.label} style={uiStyles.label}>
           {children}
+          {isRequired && <span style={{ color: colors.danger, marginLeft: '0.25rem' }}>*</span>}
         </label>
       )}
-      <input
-        id={inputId}
-        name={name}
-        type={useCurrency ? 'text' : type}
-        placeholder={placeholder || (mask ? mask.replace(/[9a*]/g, maskChar) : '')}
-        value={internalValue}
-        onChange={handleChange}
-        onFocus={onFocus}
-        onBlur={handleBlur}
-        disabled={disabled}
-        required={required}
-        readOnly={readOnly}
-        aria-label={ariaLabel}
-        aria-labelledby={ariaLabelledby}
-        style={finalInputStyle}
-        className={`${finalClassNames.input || ''} rounded-xl`.trim()}
-        {...props}
-      />
+      <div style={{ position: 'relative', display: 'flex', alignItems: 'center' }}>
+        {icon && iconPosition === 'left' && (
+          <span style={{ position: 'absolute', left: '0.65rem', display: 'flex', alignItems: 'center', color: colors.textDisabled, pointerEvents: 'none' }}>
+            {icon}
+          </span>
+        )}
+        <input
+          id={inputId}
+          name={name}
+          type={useCurrency ? 'text' : type}
+          placeholder={placeholder || (mask ? mask.replace(/[9a*]/g, maskChar) : '')}
+          value={internalValue}
+          onChange={handleChange}
+          onFocus={() => { setIsFocused(true); onFocus?.(); }}
+          onBlur={handleBlur}
+          disabled={disabled}
+          required={required}
+          readOnly={readOnly}
+          aria-label={ariaLabel}
+          aria-labelledby={ariaLabelledby}
+          style={finalInputStyle}
+          className={`${finalClassNames.input || ''} rounded-xl`.trim()}
+          {...props}
+        />
+        {icon && iconPosition === 'right' && (
+          <span style={{ position: 'absolute', right: '0.65rem', display: 'flex', alignItems: 'center', color: colors.textDisabled, pointerEvents: 'none' }}>
+            {icon}
+          </span>
+        )}
+      </div>
     </div>
   );
 };

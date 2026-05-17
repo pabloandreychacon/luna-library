@@ -125,28 +125,35 @@ const isValid = validators.isEmail('user@luna.com'); // true
 All components use TypeScript with specific types for better type safety and IntelliSense. The library follows a minimal documentation approach with descriptive type names instead of extensive JSDoc comments.
 
 ### Button
-A versatile button component with multiple variants and sizes.
+A versatile button component with multiple variants, sizes, icons, and rounded style.
 
 ```jsx
-<Button 
-  variant="primary" 
-  size="md"
-  onClick={handleClick}
-  disabled={false}
->
-  Button Text
-</Button>
+// Basic
+<Button variant="primary" size="md" onClick={handleClick}>Click Me</Button>
+
+// Rounded (pill)
+<Button variant="primary" rounded>Rounded</Button>
+
+// With icon
+<Button variant="primary" icon="🚀">Deploy</Button>
+<Button variant="outline" icon="→" iconPosition="right">Next</Button>
+
+// Icon only
+<Button variant="danger" rounded icon="✕" />
 ```
 
 **Props:**
-- `children`: React.ReactNode - Button content
+- `children?: React.ReactNode` - Button content (optional when using icon only)
 - `variant?: ButtonVariant` - Button style (default: 'primary')
-- `size?: ButtonSize` - Button size (default: 'md')
+- `size?: ButtonSize` - Button size (default: 'sm')
+- `rounded?: boolean` - Pill/circle shape (default: false)
+- `icon?: React.ReactNode` - Icon element, emoji, or any ReactNode
+- `iconPosition?: 'left' | 'right'` - Icon placement (default: 'left')
 - `onClick?: React.MouseEventHandler<HTMLButtonElement>` - Click handler
 - `disabled?: boolean` - Disable button (default: false)
 - `className?: string` - Additional CSS classes
 - `style?: React.CSSProperties` - Custom inline styles
-- `...props`: any - Additional HTML button attributes (spreads all native button props)
+- `...props`: any - Additional HTML button attributes
 
 **Types:**
 ```typescript
@@ -155,15 +162,15 @@ type ButtonSize = 'sm' | 'md' | 'lg';
 ```
 
 **Variants:**
-- `primary` - Blue background button
-- `secondary` - Gray background button  
+- `primary` - Blue background
+- `secondary` - Gray background
 - `outline` - Transparent with border
-- `success` - Green background button
-- `danger` - Red background button
-- `warning` - Yellow background button
-- `info` - Cyan background button
-- `dark` - Dark gray background button
-- `light` - Light gray background button
+- `success` - Green background
+- `danger` - Red background
+- `warning` - Yellow background
+- `info` - Cyan background
+- `dark` - Dark gray background
+- `light` - Light gray background
 - `link` - Blue text link with hover effects
 
 ### Card
@@ -626,67 +633,69 @@ const MyComponent = () => {
 ```
 
 ### Input
-A versatile input component with multiple variants, sizes, masks, currency formatting, and types.
+A versatile input component with multiple variants, sizes, masks, currency formatting, icons, and required indicator.
 
 ```jsx
-<Input 
-  inputSize="md"
-  variant="primary"
-  type="text"
-  placeholder="Enter your text here"
-  value={inputValue}
-  onChange={(value) => setInputValue(value)}
-  className="custom-class"
-  id="my-input"
->
-  Input Label
-</Input>
+// Basic
+<Input variant="primary" placeholder="Enter text">Label</Input>
+
+// With icon
+<Input icon="🔍" placeholder="Search...">Search</Input>
+<Input icon="🔒" iconPosition="right" variant="danger" placeholder="Password">Password</Input>
+
+// Required indicator
+<Input isRequired variant="primary" placeholder="Email">Email</Input>
+
+// Currency
+<Input useCurrency currency="USD" locale="en-US" placeholder="$0.00">Price</Input>
+
+// Mask
+<Input mask="(999) 999-9999" placeholder="(555) 000-0000">Phone</Input>
 ```
 
 **Props:**
-- `children?: React.ReactNode` - Label content for the input
-- `variant?: InputVariant` - Input style variant (default: 'none')
+- `children?: React.ReactNode` - Label content
+- `variant?: InputVariant` - Border color variant (default: 'none')
 - `inputSize?: InputSize` - Input size (default: 'md')
 - `type?: InputType` - HTML input type (default: 'text')
 - `placeholder?: string` - Placeholder text
-- `value?: string` - Input value
+- `value?: string` - Controlled value
 - `onChange?: (value: string) => void` - Change handler
 - `onFocus?: () => void` - Focus handler
 - `onBlur?: () => void` - Blur handler
 - `disabled?: boolean` - Disable input (default: false)
-- `required?: boolean` - Required field (default: false)
+- `required?: boolean` - HTML required attribute (default: false)
+- `isRequired?: boolean` - Shows a red `*` next to the label (default: false)
 - `readOnly?: boolean` - Read-only input (default: false)
+- `icon?: React.ReactNode` - Icon inside the input (emoji, SVG, component)
+- `iconPosition?: 'left' | 'right'` - Icon placement (default: 'left')
 - `className?: string` - Additional CSS classes
 - `style?: React.CSSProperties` - Custom inline styles
-- `id?: string` - HTML id attribute for label association
+- `id?: string` - HTML id for label association
 - `name?: string` - HTML name attribute
-- `classNames?: InputClassNames` - Custom class names for sub-elements
-- `styles?: InputStyles` - Custom inline styles per element
-- `mask?: string` - Input mask pattern (e.g. "(999) 999-9999")
-- `maskChar?: string` - Mask placeholder character (default: '_')
+- `classNames?: InputClassNames` - Custom class names per sub-element
+- `styles?: InputStyles` - Custom inline styles per sub-element
+- `mask?: string` - Input mask pattern (e.g. `"(999) 999-9999"`)
+- `maskChar?: string` - Mask placeholder character (default: `'_'`)
 - `useCurrency?: boolean` - Enable currency formatting
-- `currency?: string` - Currency code (e.g. "USD", "CRC")
-- `locale?: string` - Locale for formatting (e.g. "en-US", "es-CR")
+- `currency?: string` - Currency code (e.g. `"USD"`, `"CRC"`)
+- `locale?: string` - Locale for formatting (e.g. `"en-US"`, `"es-CR"`)
 - `minFractionDigits?: number` - Minimum fraction digits (default: 0)
 - `maxFractionDigits?: number` - Maximum fraction digits (default: 2)
-- `aria-label?: string` - ARIA label for accessibility
+- `aria-label?: string` - ARIA label
 - `aria-labelledby?: string` - ARIA labelledby
 - `...props`: any - Additional HTML input attributes
 
 **Types:**
 ```typescript
-type InputVariant = 'none' | 'primary' | 'secondary' | 'outline' | 'danger' | 'success';
+type InputVariant = 'none' | 'primary' | 'secondary' | 'outline' | 'danger' | 'success' | 'warning' | 'info' | 'dark' | 'light' | 'link';
 type InputSize = 'sm' | 'md' | 'lg' | 'xl';
 type InputType = 'text' | 'email' | 'password' | 'number' | 'tel' | 'url' | 'search' | 'date' | 'time' | 'datetime-local' | 'month' | 'week' | 'color' | 'file' | 'hidden' | 'image' | 'range' | 'reset' | 'submit';
 ```
 
-**Variants:**
-- `none` - Default styling with border
-- `primary` - Blue focus ring
-- `secondary` - Gray focus ring
-- `outline` - Border only
-- `danger` - Red focus ring
-- `success` - Green focus ring
+**Focus behavior:** Border increases from `1px` to `2px` on focus, using the variant color. On blur it returns to `1px` with the same variant color.
+
+**Variants:** Each variant applies a distinct border color — `primary` (blue), `secondary` (gray), `danger` (red), `success` (green), `warning` (yellow), `info` (cyan), `dark`, `light`, `outline` (default gray), `none` (default gray).
 
 **Size Options:**
 - `sm` - Small padding and text

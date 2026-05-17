@@ -23,8 +23,8 @@ const Anchor = ({
   size = 'md',
   href = 'https://andreychaconresumereact.netlify.app/',
   className = '',
-  target,
-  rel,
+  target = "_blank",
+  rel = "noopener noreferrer",
   style = {},
   ...props
 }: AnchorProps & AllAnchorProps) => {
