@@ -250,28 +250,36 @@ const DataTableMasterExample = () => {
 
 
 const FormExample = () => {
+  const defaultValues = {
+    name: 'Default Name',
+    email: 'pabloandrey@chacon',
+    password: '123456',
+    birthdate: '1976-06-08',
+    agree: false
+  }
+
   const form = useForm({
     name: {
-      value: 'Default Name',
+      value: defaultValues.name,
       rules: [{ required: true, message: 'Name is required' }]
     },
     email: {
-      value: '',
+      value: defaultValues.email,
       rules: [{ required: true, message: 'Email is required' },
       { type: 'email', message: 'Invalid email' }]
     },
     password: {
-      value: '',
+      value: defaultValues.password,
       rules: [{ required: true, message: 'Password is required' },
       { minLength: 6, message: 'Min 6 characters' },
       { validator: (v) => !validators.isStrongPassword(v, 6) ? 'Must have letters and numbers' : undefined }]
     },
     birthdate: {
-      value: '',
+      value: defaultValues.birthdate,
       rules: [{ required: true, message: 'Date is required' }, { type: 'date', message: 'Invalid date' }, { maxDate: new Date().toISOString().split('T')[0], message: 'Date cannot be in the future' }]
     },
     agree: {
-      value: false,
+      value: defaultValues.agree,
       rules: [{ required: true, message: 'You must accept the terms' }]
     },
   });

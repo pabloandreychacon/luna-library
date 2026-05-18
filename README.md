@@ -775,6 +775,8 @@ type FormLayout = 'vertical' | 'horizontal' | 'inline';
 - Supports Luna `Input` and native HTML inputs (checkbox, etc.)
 - Error messages appear below the field in red
 
+### DataTable
+
 A powerful and customizable data grid with support for filtering, sorting, pagination, selection, and search.
 
 ```jsx
