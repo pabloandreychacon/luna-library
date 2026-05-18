@@ -16,3 +16,7 @@ export type ToastSeverity = 'success' | 'info' | 'warn' | 'error';
 export type ToastPosition = 'top-right' | 'top-left' | 'bottom-right' | 'bottom-left' | 'top-center' | 'bottom-center';
 export type CornerPosition = 'bottom-right' | 'bottom-left' | 'top-right' | 'top-left';
 
+// ─── Regex Patterns ───────────────────────────────────────────
+export const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+export const URL_REGEX = /^https?:\/\/.+/;
+

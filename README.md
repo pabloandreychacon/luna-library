@@ -702,7 +702,79 @@ type InputType = 'text' | 'email' | 'password' | 'number' | 'tel' | 'url' | 'sea
 - `md` - Medium padding and text
 - `lg` - Large padding and text
 - `xl` - Extra large padding and text
-### DataTable
+### Form
+A form component with built-in state management, validation, and layout control. Works together with the `useForm` hook.
+
+```jsx
+import { Form, Input, Button, useForm } from 'luna-components-library';
+
+const MyForm = () => {
+  const form = useForm({
+    name:  { value: '', rules: [{ required: true, message: 'Name is required' }] },
+    email: { value: '', rules: [{ required: true }, { type: 'email', message: 'Invalid email' }] },
+    password: { value: '', rules: [
+      { required: true },
+      { minLength: 6, message: 'Min 6 characters' },
+      { validator: (v) => !validators.isStrongPassword(v) ? 'Must have letters and numbers' : undefined }
+    ]},
+    birthdate: { value: '', rules: [{ type: 'date' }, { maxDate: '2025-12-31' }] },
+    agree: { value: false, rules: [{ required: true, message: 'You must accept the terms' }] },
+  });
+
+  return (
+    <Form form={form} layout="vertical" onFinish={(values) => console.log(values)}>
+      <Form.Item name="name" label="Full Name" required>
+        <Input placeholder="John Doe" />
+      </Form.Item>
+      <Form.Item name="email" label="Email" required>
+        <Input type="email" placeholder="john@example.com" />
+      </Form.Item>
+      <Form.Item name="password" label="Password" required>
+        <Input type="password" placeholder="Min 6 chars" />
+      </Form.Item>
+      <Form.Item name="birthdate" label="Birth Date" required>
+        <Input type="date" />
+      </Form.Item>
+      <Form.Item name="agree">
+        <label>
+          <input type="checkbox" checked={form.values.agree} onChange={(e) => form.setValue('agree', e.target.checked)} />
+          I accept the terms
+        </label>
+      </Form.Item>
+      <Button type="submit">Submit</Button>
+      <Button type="button" variant="outline" onClick={form.reset}>Reset</Button>
+    </Form>
+  );
+};
+```
+
+**Form Props:**
+- `form: FormInstance` - Form instance from `useForm` hook
+- `onFinish?: (values) => void` - Called on valid submit
+- `onFinishFailed?: (errors) => void` - Called on invalid submit
+- `layout?: FormLayout` - Layout mode (default: `'vertical'`)
+- `children: React.ReactNode` - Form fields
+- `className?: string` - Additional CSS classes
+- `style?: React.CSSProperties` - Custom inline styles
+
+**Form.Item Props:**
+- `name?: string` - Field name, connects to form context
+- `label?: React.ReactNode` - Field label
+- `children: React.ReactElement` - Input component (auto-receives `value` and `onChange`)
+- `required?: boolean` - Shows `*` on label
+- `className?: string` - Additional CSS classes
+- `style?: React.CSSProperties` - Custom inline styles
+
+**Types:**
+```typescript
+type FormLayout = 'vertical' | 'horizontal' | 'inline';
+```
+
+**Behavior:**
+- `Form.Item` automatically injects `value`, `onChange`, and `variant="danger"` into the child when there's an error
+- Supports Luna `Input` and native HTML inputs (checkbox, etc.)
+- Error messages appear below the field in red
+
 A powerful and customizable data grid with support for filtering, sorting, pagination, selection, and search.
 
 ```jsx
@@ -833,15 +905,25 @@ const text = formatters.truncate('Long text here...', 10); // "Long text..."
 ```
 
 ### validators
-Common validation rules.
+Common validation functions, shared internally with `useForm`.
 
 ```javascript
 import { validators } from 'luna-components-library';
 
-validators.isEmail('test@example.com'); // true
-validators.isEmpty('   '); // true
-validators.isStrongPassword('Pass1234'); // true
-validators.isPhone('88888888', 'es-CR'); // true
+validators.isEmail('test@example.com');        // true
+validators.isUrl('https://example.com');       // true
+validators.isEmpty('   ');                     // true
+validators.isEmpty(null);                      // true
+validators.isEmpty(false);                     // true
+validators.isNumber('42');                     // true
+validators.isStrongPassword('Pass1234');       // true (8+ chars, letter + number)
+validators.isPhone('88888888', 'es-CR');       // true
+validators.minLength('hello', 3);             // true
+validators.maxLength('hello', 10);            // true
+validators.matchesPattern('ABC123', /^[A-Z]{3}\d{3}$/); // true
+validators.isDate('2025-01-15');              // true
+validators.isDateBefore('2024-01-01', '2025-01-01'); // true
+validators.isDateAfter('2025-01-01', '2024-01-01');  // true
 ```
 
 ### logger
@@ -882,7 +964,80 @@ function UserList() {
 }
 ```
 
-### useLocalStorage
+### useForm
+Manages form state and validation. Returns a `FormInstance` used by the `Form` component.
+
+```javascript
+import { useForm } from 'luna-components-library';
+
+const form = useForm({
+  email: {
+    value: '',
+    rules: [
+      { required: true, message: 'Email is required' },
+      { type: 'email', message: 'Invalid email' },
+    ]
+  },
+  age: {
+    value: '',
+    rules: [
+      { type: 'number', message: 'Must be a number' },
+    ]
+  },
+  website: {
+    value: '',
+    rules: [{ type: 'url', message: 'Invalid URL' }]
+  },
+  birthdate: {
+    value: '',
+    rules: [
+      { type: 'date', message: 'Invalid date' },
+      { minDate: '1900-01-01', message: 'Too old' },
+      { maxDate: '2025-12-31', message: 'Cannot be in the future' },
+    ]
+  },
+  bio: {
+    value: '',
+    rules: [
+      { minLength: 10, message: 'Min 10 characters' },
+      { maxLength: 200, message: 'Max 200 characters' },
+    ]
+  },
+  code: {
+    value: '',
+    rules: [{ pattern: /^[A-Z]{3}\d{3}$/, message: 'Format: ABC123' }]
+  },
+  custom: {
+    value: '',
+    rules: [{ validator: (v) => v !== 'forbidden' ? undefined : 'This value is not allowed' }]
+  },
+});
+
+// FormInstance API
+form.values;                    // { email: '', age: '', ... }
+form.errors;                    // { email: 'Email is required', ... }
+form.setValue('email', 'a@b.c'); // update + validate field
+form.validate();                 // validate all, returns boolean
+form.reset();                    // restore initial values
+form.setError('email', 'Taken'); // set error manually
+form.clearError('email');        // clear error manually
+```
+
+**FieldRule options:**
+```typescript
+type FieldRule = {
+  required?: boolean;       // field must not be empty
+  message?: string;         // custom error message
+  type?: 'email' | 'url' | 'number' | 'date'; // format validation
+  minLength?: number;       // minimum string length
+  maxLength?: number;       // maximum string length
+  minDate?: string;         // minimum date (ISO string)
+  maxDate?: string;         // maximum date (ISO string)
+  pattern?: RegExp;         // regex pattern
+  validator?: (value: any) => string | undefined; // custom validator
+};
+```
+
 Syncs state with `localStorage` automatically.
 
 ```javascript

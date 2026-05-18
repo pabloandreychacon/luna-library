@@ -23,6 +23,9 @@ import Popconfirm from './components/Popconfirm';
 import QRCode from './components/QRCode';
 
 // Examples
+import Form from './components/Form';
+import useForm from './hooks/useForm.hook';
+import { validators } from './utilities/validators.util';
 import ModalDataExample from './components/modalExamples/ModalDataExample';
 import ApiExamples from './components/apiExamples/ApiExamples';
 import UtilExamples from './components/utilExamples/UtilExamples';
@@ -246,6 +249,68 @@ const DataTableMasterExample = () => {
 };
 
 
+const FormExample = () => {
+  const form = useForm({
+    name: {
+      value: 'Default Name',
+      rules: [{ required: true, message: 'Name is required' }]
+    },
+    email: {
+      value: '',
+      rules: [{ required: true, message: 'Email is required' },
+      { type: 'email', message: 'Invalid email' }]
+    },
+    password: {
+      value: '',
+      rules: [{ required: true, message: 'Password is required' },
+      { minLength: 6, message: 'Min 6 characters' },
+      { validator: (v) => !validators.isStrongPassword(v, 6) ? 'Must have letters and numbers' : undefined }]
+    },
+    birthdate: {
+      value: '',
+      rules: [{ required: true, message: 'Date is required' }, { type: 'date', message: 'Invalid date' }, { maxDate: new Date().toISOString().split('T')[0], message: 'Date cannot be in the future' }]
+    },
+    agree: {
+      value: false,
+      rules: [{ required: true, message: 'You must accept the terms' }]
+    },
+  });
+
+  return (
+    <div className="space-y-8">
+      <Form form={form} layout="vertical" onFinish={(values) => alert(JSON.stringify(values, null, 2))} onFinishFailed={() => alert('Fix errors first')}>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-x-6">
+          <Form.Item name="name" label="Full Name" required>
+            <Input id="form-name" placeholder="John Doe" inputSize="sm" />
+          </Form.Item>
+          <Form.Item name="email" label="Email" required>
+            <Input id="form-email" placeholder="john@example.com" inputSize="sm" />
+          </Form.Item>
+          <Form.Item name="password" label="Password" required>
+            <Input id="form-password" type="password" placeholder="Min 6 chars" inputSize="sm" />
+          </Form.Item>
+          <Form.Item name="birthdate" label="Birth Date" required>
+            <Input id="form-birthdate" type="date" inputSize="sm" />
+          </Form.Item>
+        </div>
+        <Form.Item name="agree">
+          <label style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', fontSize: '0.875rem', cursor: 'pointer' }}>
+            <input type="checkbox" checked={form.values.agree} onChange={(e) => form.setValue('agree', e.target.checked)} />
+            I accept the terms and conditions
+          </label>
+        </Form.Item>
+        <div className="flex gap-3">
+          <Button type="submit" variant="primary" size="sm">Submit</Button>
+          <Button type="button" variant="outline" size="sm" onClick={form.reset}>Reset</Button>
+        </div>
+      </Form>
+      <pre className="bg-gray-100 p-2 rounded block text-[10px] text-gray-600">
+        {'const form = useForm({ name: { value: \'\', rules: [{ required: true }] } })\n<Form form={form} onFinish={handleSubmit}>\n  <Form.Item name="name" label="Name" required>\n    <Input />\n  </Form.Item>\n</Form>'}
+      </pre>
+    </div>
+  );
+};
+
 // --- Sidebar Navigation ---
 
 const Sidebar = () => {
@@ -254,6 +319,7 @@ const Sidebar = () => {
       id: 'forms', label: 'Inputs & Forms', icon: '📝',
       items: [
         { id: 'comp-button', label: 'Button' },
+        { id: 'comp-form', label: 'Form' },
         { id: 'comp-input', label: 'Input (Masks)' },
         { id: 'comp-multiselect', label: 'MultiSelect' },
         { id: 'comp-dropdown', label: 'DropDown' }
@@ -490,6 +556,11 @@ const DemoApp = () => {
                       </code>
                     </div>
                   </div>
+                </Card>
+              </div>
+              <div id="comp-form">
+                <Card title="Form Component" className="custom-class">
+                  <FormExample />
                 </Card>
               </div>
               <div id="comp-input">

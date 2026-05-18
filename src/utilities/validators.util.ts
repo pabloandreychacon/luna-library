@@ -1,49 +1,39 @@
-/**
- * Utility functions for common validations.
- */
+import { EMAIL_REGEX, URL_REGEX } from '../types';
+
 export const validators = {
-  /**
-   * Checks if a string is a valid email.
-   */
-  isEmail: (email: string): boolean => {
-    const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    return re.test(email);
-  },
+  isEmail: (value: string): boolean => EMAIL_REGEX.test(value),
 
-  /**
-   * Checks if a string is empty or only whitespace.
-   */
-  isEmpty: (str: string | null | undefined): boolean => {
-    return !str || str.trim().length === 0;
-  },
+  isUrl: (value: string): boolean => URL_REGEX.test(value),
 
-  /**
-   * Checks if a value is a number.
-   */
-  isNumber: (value: any): boolean => {
-    return !isNaN(parseFloat(value)) && isFinite(value);
-  },
+  isEmpty: (value: any): boolean =>
+    value === undefined || value === null || value === false || String(value).trim().length === 0,
 
-  /**
-   * Validates if a password meets minimum complexity.
-   * (At least 8 chars, 1 letter, 1 number)
-   */
-  isStrongPassword: (password: string): boolean => {
-    return password.length >= 8 && /[A-Za-z]/.test(password) && /[0-9]/.test(password);
-  },
+  isNumber: (value: any): boolean =>
+    !isNaN(parseFloat(value)) && isFinite(value),
 
-  /**
-   * Validates a phone number.
-   * @param phone - Phone number string
-   * @param locale - Optional locale (default: 'generic')
-   */
+  /** A strong password is defined as including both letters and numbers. */
+  isStrongPassword: (password: string, minLength: number): boolean =>
+    password.length >= minLength && /[A-Za-z]/.test(password) && /[0-9]/.test(password),
+
   isPhone: (phone: string, locale: string = 'generic'): boolean => {
-    const cleanPhone = phone.replace(/\s|-/g, '');
-    if (locale === 'es-CR') {
-      // Costa Rica: 8 digits, starts with 2, 4, 5, 6, 7 or 8
-      return /^[245678]\d{7}$/.test(cleanPhone);
-    }
-    // Generic: at least 7 digits
-    return /^\+?[\d\s-]{7,}$/.test(cleanPhone);
-  }
+    const clean = phone.replace(/\s|-/g, '');
+    if (locale === 'es-CR') return /^[245678]\d{7}$/.test(clean);
+    return /^\+?[\d\s-]{7,}$/.test(clean);
+  },
+
+  minLength: (value: string, min?: number): boolean => min === undefined || value.length >= min,
+
+  maxLength: (value: string, max?: number): boolean => max === undefined || value.length <= max,
+
+  matchesPattern: (value: string, pattern: RegExp): boolean => pattern.test(value),
+
+  isDate: (value: string): boolean => {
+    if (!value) return false;
+    const d = new Date(value);
+    return !isNaN(d.getTime());
+  },
+
+  isDateBefore: (value: string, max: string): boolean => new Date(value) < new Date(max),
+
+  isDateAfter: (value: string, min: string): boolean => new Date(value) > new Date(min),
 };

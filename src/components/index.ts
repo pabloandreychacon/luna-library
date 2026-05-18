@@ -17,4 +17,5 @@ export { default as Toast } from './Toast';
 export { default as MultiSelect } from './MultiSelect';
 export { default as Popconfirm } from './Popconfirm';
 export { default as QRCode } from './QRCode';
+export { default as Form } from './Form';
 
