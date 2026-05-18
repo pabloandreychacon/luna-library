@@ -1040,6 +1040,7 @@ type FieldRule = {
 };
 ```
 
+### useLocalStorage
 Syncs state with `localStorage` automatically.
 
 ```javascript

@@ -157,6 +157,10 @@ const Form = ({ form, onFinish, onFinishFailed, layout = 'vertical', children, c
   );
 };
 
+/**
+ * Attach Form.Item as a static property to the Form component for easy access when using the form. This allows you to use <Form.Item> in your JSX code to create form fields that are connected to the form context for value and error handling.
+ * @description Attach Form.Item as a static property to the Form component for easy access when using the form. This allows you to use <Form.Item> in your JSX code to create form fields that are connected to the form context for value and error handling.
+ */
 Form.Item = FormItem;
 
 export default Form;

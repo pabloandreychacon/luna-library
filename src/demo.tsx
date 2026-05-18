@@ -284,9 +284,14 @@ const FormExample = () => {
     },
   });
 
+  const onFinish = (values: any) => {
+    alert('Form submitted successfully!\n' + JSON.stringify(form.values, null, 2));
+    form.reset();
+  }
+
   return (
     <div className="space-y-8">
-      <Form form={form} layout="vertical" onFinish={(values) => alert(JSON.stringify(values, null, 2))} onFinishFailed={() => alert('Fix errors first')}>
+      <Form form={form} layout="vertical" onFinish={onFinish} onFinishFailed={() => alert('Fix errors first')}>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-x-6">
           <Form.Item name="name" label="Full Name" required>
             <Input id="form-name" placeholder="John Doe" inputSize="sm" />
